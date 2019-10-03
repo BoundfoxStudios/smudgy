@@ -1,0 +1,16 @@
+@mixin flex-default($flexOne: true) {
+  & {
+    display: flex;
+    flex-direction: column;
+
+    @if ($flexOne) {
+      flex: 1;
+    }
+  }
+}
+
+@mixin host($flexOne: true) {
+  :host {
+    @include flex-default($flexOne);
+  }
+}

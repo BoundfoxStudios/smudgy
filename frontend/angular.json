@@ -48,8 +48,13 @@
               "projects/smudgy/src/assets"
             ],
             "styles": [
-              "projects/smudgy/src/styles.scss"
+              "projects/smudgy/src/styles/global.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/smudgy/src/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
