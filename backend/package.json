@@ -4,7 +4,9 @@
   "description": "",
   "scripts": {
     "start": "nodemon --exec ts-node ./src/index.ts",
-    "build": "tslint --project . && tsc"
+    "build": "tslint --project . && tsc",
+    "build-prod": "tsc",
+    "docker-serve": "node index.js"
   },
   "keywords": [],
   "author": "",
