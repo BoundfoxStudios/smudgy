@@ -9,6 +9,8 @@ import { DrawComponent } from './components/game/draw/draw.component';
 import { GameComponent } from './components/game/game.component';
 import { UserListComponent } from './components/game/user-list/user-list.component';
 import { GuessComponent } from './components/game/guess/guess.component';
+import { SmudgyComponent } from './components/game/draw/smudgy/smudgy.component';
+import { MouseDirective } from './directives/mouse.directive';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { GuessComponent } from './components/game/guess/guess.component';
     GameComponent,
     UserListComponent,
     GuessComponent,
+    SmudgyComponent,
+    MouseDirective,
   ],
   imports: [
     BrowserModule,
