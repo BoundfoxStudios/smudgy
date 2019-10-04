@@ -48,8 +48,6 @@ export class DrawService implements OnDestroy {
     ).subscribe({
       complete: () => this.networkDrawService.stopDrawing(),
     });
-
-    this.networkDrawService.startDrawing();
   }
 
   stopDrawing(): void {

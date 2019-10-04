@@ -24,9 +24,6 @@ export class NetworkDrawService implements OnDestroy {
     this.drawStream.next(drawCommand);
   }
 
-  startDrawing(): void {
-  }
-
   stopDrawing(): void {
     this.stopStream.next();
   }
