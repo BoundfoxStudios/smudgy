@@ -31,6 +31,7 @@ export class MouseDirective {
   @HostListener('mouseup')
   mouseUp(): void {
     this.isDrawing = false;
+    this.drawService.stopDrawing();
   }
 
   @HostListener('mousemove', ['$event'])

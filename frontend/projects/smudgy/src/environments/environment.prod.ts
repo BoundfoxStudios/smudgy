@@ -4,6 +4,7 @@ export const environment: Environment = {
   production: true,
   gameConfiguration: {
     backendUrl: '',
-    canvasThrottleTime: 50,
+    canvasThrottleTime: 0,
+    networkDrawCommandBuffer: 10,
   },
 };

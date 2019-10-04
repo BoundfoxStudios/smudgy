@@ -11,6 +11,7 @@ import { UserListComponent } from './components/game/user-list/user-list.compone
 import { GuessComponent } from './components/game/guess/guess.component';
 import { SmudgyComponent } from './components/game/draw/smudgy/smudgy.component';
 import { MouseDirective } from './directives/mouse.directive';
+import { ToolbarComponent } from './components/game/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MouseDirective } from './directives/mouse.directive';
     GuessComponent,
     SmudgyComponent,
     MouseDirective,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,8 +7,9 @@ import { Environment } from './environment.model';
 export const environment: Environment = {
   production: false,
   gameConfiguration: {
-    canvasThrottleTime: 50,
+    canvasThrottleTime: 0,
     backendUrl: '',
+    networkDrawCommandBuffer: 10,
   },
 };
 
