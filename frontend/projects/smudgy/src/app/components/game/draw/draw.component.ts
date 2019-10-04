@@ -7,4 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrawComponent {
+  width = 800;
+  height = 600;
 }

@@ -14,6 +14,7 @@ import { MouseDirective } from './directives/mouse.directive';
 import { ToolbarComponent } from './components/game/toolbar/toolbar.component';
 import { BrushSelectorComponent } from './components/game/toolbar/brush-selector/brush-selector.component';
 import { ColorSelectorComponent } from './components/game/toolbar/color-selector/color-selector.component';
+import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ColorSelectorComponent } from './components/game/toolbar/color-selector
     ToolbarComponent,
     BrushSelectorComponent,
     ColorSelectorComponent,
+    CanvasRetinaDirective,
   ],
   imports: [
     BrowserModule,
