@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { BehaviorSubject, defer, Observable } from 'rxjs';
+import { share, timeout } from 'rxjs/operators';
 import * as io from 'socket.io-client';
 import { environment } from '../../environments/environment';
 import Socket = SocketIOClient.Socket;
@@ -47,7 +47,7 @@ export class SocketService {
     this.socket.connect();
   }
 
-  fromEvent<T>(name: string): Observable<T> {
+  fromEvent$<T>(name: string): Observable<T> {
     return new Observable<T>(observer => {
       this.socket.on(name, (data: T) => observer.next(data));
 
@@ -55,8 +55,24 @@ export class SocketService {
     }).pipe(share());
   }
 
-  send(event: string, ...payloadAndAck: any[]): void {
-    this.socket.emit(event, ...payloadAndAck);
+  send$(event: string, payload: object): Observable<void> {
+    return defer(() => {
+      this.socket.emit(event, payload);
+    });
+  }
+
+  sendAndReceive$<T>(event: string, payload?: object): Observable<T> {
+    return new Observable<T>(observer => {
+      this.socket.emit(event, payload, (error, result) => {
+        if (error) {
+          observer.error(error);
+          return;
+        }
+
+        observer.next(result);
+        observer.complete();
+      });
+    }).pipe(timeout(environment.gameConfiguration.connectionTimeout));
   }
 
   disconnect() {

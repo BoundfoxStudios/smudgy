@@ -7,25 +7,25 @@ import { NetworkDrawCommandSerializerService } from './network-draw-command-seri
 
 @Injectable()
 export class NetworkDrawService implements OnDestroy {
-  private readonly drawStream = new Subject<DrawCommand>();
-  private readonly stopStream = new Subject<void>();
+  private readonly drawStream$ = new Subject<DrawCommand>();
+  private readonly stopStream$ = new Subject<void>();
 
   constructor(private readonly networkDrawCommandSerializer: NetworkDrawCommandSerializerService) {
-    this.drawStream.pipe(
+    this.drawStream$.pipe(
       bufferWhen(() => merge(
-        this.stopStream,
-        this.drawStream.pipe(bufferCount(environment.gameConfiguration.networkDrawCommandBuffer)),
+        this.stopStream$,
+        this.drawStream$.pipe(bufferCount(environment.gameConfiguration.networkDrawCommandBuffer)),
       )),
       filter(drawCommands => !!drawCommands.length),
     ).subscribe(drawCommands => this.send(drawCommands));
   }
 
   draw(drawCommand: DrawCommand): void {
-    this.drawStream.next(drawCommand);
+    this.drawStream$.next(drawCommand);
   }
 
   stopDrawing(): void {
-    this.stopStream.next();
+    this.stopStream$.next();
   }
 
   ngOnDestroy(): void {

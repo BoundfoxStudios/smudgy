@@ -57,6 +57,6 @@
       "single"
     ],
     "trailing-comma": true,
-    "typedef": [true, "call-signature", "parameter", "member-variable-declaration"]
+    "typedef": [true, "call-signature", "parameter"]
   }
 }

@@ -1,16 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-game',
   template: '<router-outlet></router-outlet>',
   styleUrls: ['./game.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SessionService],
 })
-export class GameComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class GameComponent {
 }

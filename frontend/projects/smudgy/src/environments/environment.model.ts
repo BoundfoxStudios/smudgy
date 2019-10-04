@@ -13,6 +13,11 @@ export interface GameConfiguration {
    * The number of points to aggregate before sending them to the server.
    */
   networkDrawCommandBuffer: number;
+
+  /**
+   * Time in milliseconds when a connection will timeout.
+   */
+  connectionTimeout: number;
 }
 
 export interface Environment {

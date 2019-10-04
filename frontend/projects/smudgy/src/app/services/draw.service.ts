@@ -13,8 +13,8 @@ import { ToolbarService } from './toolbar.service';
 export class DrawService implements OnDestroy {
   private readonly canvas: HTMLCanvasElement;
   private readonly canvasContext: CanvasRenderingContext2D;
-  private readonly drawStream = new Subject<Point>();
-  private readonly stopStream = new Subject<void>();
+  private readonly drawStream$ = new Subject<Point>();
+  private readonly stopStream$ = new Subject<void>();
 
   constructor(
     elementRef: ElementRef<HTMLCanvasElement>,
@@ -32,7 +32,7 @@ export class DrawService implements OnDestroy {
   startDrawing(): void {
     this.stopDrawing();
 
-    this.drawStream.pipe(
+    this.drawStream$.pipe(
       distinctUntilChanged((a, b) => a.x === b.x && a.y === b.y),
       throttleTime(environment.gameConfiguration.canvasThrottleTime),
       map(point => (
@@ -44,18 +44,18 @@ export class DrawService implements OnDestroy {
         }) as DrawCommand),
       tap(drawCommand => this.internalDraw(drawCommand)),
       tap(drawCommand => this.networkDrawService.draw(drawCommand)),
-      takeUntil(this.stopStream),
+      takeUntil(this.stopStream$),
     ).subscribe({
       complete: () => this.networkDrawService.stopDrawing(),
     });
   }
 
   stopDrawing(): void {
-    this.stopStream.next();
+    this.stopStream$.next();
   }
 
   draw(point: Point): void {
-    this.drawStream.next(point);
+    this.drawStream$.next(point);
   }
 
   ngOnDestroy(): void {

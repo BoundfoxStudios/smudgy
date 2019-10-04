@@ -4,6 +4,9 @@ import * as restify from 'restify';
 import { Server } from 'restify';
 import * as restifyCorsMiddleware from 'restify-cors-middleware';
 import { Options } from 'restify-cors-middleware';
+import * as nodeDebug from 'debug';
+
+const debug = nodeDebug('smudgy:HttpServer');
 
 @injectable()
 export class HttpServer {
@@ -36,6 +39,6 @@ export class HttpServer {
 
   listen(): void {
     // TODO: dynamic port
-    this.server.listen(8080, () => console.log('server is up and running on port 8080'));
+    this.server.listen(8080, () => debug('Server is up and running on port %s', 8080));
   }
 }

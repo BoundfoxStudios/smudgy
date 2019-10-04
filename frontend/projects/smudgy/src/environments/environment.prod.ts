@@ -6,5 +6,6 @@ export const environment: Environment = {
     backendUrl: 'https://smudgy-dev.azurewebsites.net', // TODO: Correct URL
     canvasThrottleTime: 0,
     networkDrawCommandBuffer: 10,
+    connectionTimeout: 5000
   },
 };

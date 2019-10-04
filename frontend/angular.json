@@ -43,6 +43,7 @@
             "polyfills": "projects/smudgy/src/polyfills.ts",
             "tsConfig": "projects/smudgy/tsconfig.app.json",
             "aot": false,
+            "preserveSymlinks": true,
             "assets": [
               "projects/smudgy/src/favicon.ico",
               "projects/smudgy/src/assets"
