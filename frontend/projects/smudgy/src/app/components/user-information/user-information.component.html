@@ -1,0 +1,7 @@
+<form (ngSubmit)="submit()" #form="ngForm">
+  <label for="name" translate>USER_INFORMATION.PLAYER_NAME</label>
+  <input id="name" name="name" [(ngModel)]="name" required />
+  <button type="submit"
+          [disabled]="form.invalid"
+          translate>USER_INFORMATION.PLAY</button>
+</form>
