@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "module": "none",
+    "module": "commonjs",
     "target": "es2017",
     "sourceMap": true,
     "outDir": "dist",
-    "strict": true
+    "strictNullChecks": true,
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules"
