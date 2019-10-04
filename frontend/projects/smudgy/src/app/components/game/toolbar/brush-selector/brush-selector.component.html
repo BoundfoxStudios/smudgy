@@ -1,0 +1,3 @@
+<div class="brush-size" *ngFor="let brushSize of brushSizes" (click)="select(brushSize)">
+  <div class="brush" [style.width.px]="brushSize.size" [style.height.px]="brushSize.size"></div>
+</div>

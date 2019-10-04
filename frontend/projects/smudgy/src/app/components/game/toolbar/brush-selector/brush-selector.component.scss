@@ -1,0 +1,22 @@
+@import 'mixins';
+@import '../toolbar.component.variables';
+
+@include host(false);
+
+:host {
+  flex-direction: row;
+}
+
+.brush-size {
+  width: $square * 2;
+  height: $square * 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+.brush {
+  border-radius: 50%;
+  background-color: black;
+}

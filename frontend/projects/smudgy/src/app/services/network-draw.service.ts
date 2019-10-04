@@ -5,9 +5,7 @@ import { environment } from '../../environments/environment';
 import { DrawCommand } from '../models/draw-command';
 import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class NetworkDrawService implements OnDestroy {
   private readonly drawStream = new Subject<DrawCommand>();
   private readonly stopStream = new Subject<void>();

@@ -1,0 +1,18 @@
+@import 'mixins';
+@import '../toolbar.component.variables';
+
+@include host(false);
+
+:host {
+  flex-direction: row;
+}
+
+.selected-color {
+  width: $doubleSquare;
+  height: $doubleSquare;
+}
+
+.color {
+  width: $square;
+  height: $square;
+}

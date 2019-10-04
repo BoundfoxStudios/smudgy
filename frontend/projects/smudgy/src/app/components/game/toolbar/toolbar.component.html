@@ -1,7 +1,2 @@
-<div class="selected-color" [style.backgroundColor]="selectedColor.hex"></div>
-<div class="colors">
-  <div class="color"
-       *ngFor="let color of colors" [style.backgroundColor]="color.hex"
-       (click)="selectColor(color)">
-  </div>
-</div>
+<app-color-selector [selectedColor]="selectedColor" (selectColor)="selectColor($event)"></app-color-selector>
+<app-brush-selector [selectedBrushSize]="selectedBrushSize" (selectBrushSize)="selectBrushSize($event)"></app-brush-selector>

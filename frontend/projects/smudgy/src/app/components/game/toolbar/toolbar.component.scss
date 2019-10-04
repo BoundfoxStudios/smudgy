@@ -5,19 +5,3 @@
 :host {
   flex-direction: row;
 }
-
-$square: 30px;
-
-.selected-color {
-  width: $square * 2;
-  height: $square * 2;
-}
-
-.colors {
-  display: flex;
-}
-
-.color {
-  width: $square;
-  height: $square;
-}

@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Colors, colorToCSSHex } from '../../../models/colors';
+import { BrushSizes } from '../../../models/brush-sizes';
+import { Colors } from '../../../models/colors';
 import { ToolbarService } from '../../../services/toolbar.service';
-
-interface ColorViewModel {
-  color: Colors;
-  hex: string;
-}
 
 @Component({
   selector: 'app-toolbar',
@@ -14,17 +10,17 @@ interface ColorViewModel {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarComponent {
-  selectedColor: ColorViewModel = { color: this.toolbarService.color, hex: colorToCSSHex(this.toolbarService.color) };
-
-  colors: ColorViewModel[] = Object.keys(Colors)
-    .filter(key => !isNaN(Number(Colors[key])))
-    .map(key => ({ color: Colors[key], hex: colorToCSSHex(Colors[key]) }));
+  selectedColor: Colors = this.toolbarService.color;
+  selectedBrushSize: BrushSizes = this.toolbarService.brushSize;
 
   constructor(private readonly toolbarService: ToolbarService) {
   }
 
-  selectColor(colorViewModel: ColorViewModel) {
-    this.selectedColor = colorViewModel;
-    this.toolbarService.color = colorViewModel.color;
+  selectColor(color: Colors): void {
+    this.toolbarService.color = this.selectedColor = color;
+  }
+
+  selectBrushSize(brushSize: BrushSizes): void {
+    this.toolbarService.brushSize = this.selectedBrushSize = brushSize;
   }
 }

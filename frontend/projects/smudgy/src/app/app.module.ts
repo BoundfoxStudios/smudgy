@@ -12,6 +12,8 @@ import { GuessComponent } from './components/game/guess/guess.component';
 import { SmudgyComponent } from './components/game/draw/smudgy/smudgy.component';
 import { MouseDirective } from './directives/mouse.directive';
 import { ToolbarComponent } from './components/game/toolbar/toolbar.component';
+import { BrushSelectorComponent } from './components/game/toolbar/brush-selector/brush-selector.component';
+import { ColorSelectorComponent } from './components/game/toolbar/color-selector/color-selector.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { ToolbarComponent } from './components/game/toolbar/toolbar.component';
     SmudgyComponent,
     MouseDirective,
     ToolbarComponent,
+    BrushSelectorComponent,
+    ColorSelectorComponent,
   ],
   imports: [
     BrowserModule,
