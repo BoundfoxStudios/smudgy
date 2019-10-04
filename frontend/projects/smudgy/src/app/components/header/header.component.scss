@@ -1,3 +1,19 @@
 @import 'mixins';
 
 @include host(false);
+
+$height: 60px;
+
+:host {
+  height: $height;
+}
+
+header {
+  margin: 0 auto;
+}
+
+app-connection-state {
+  position: absolute;
+  right: 2rem;
+  height: $height;
+}

@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FooterComponent } from './components/footer/footer.component';
@@ -21,6 +22,8 @@ import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
 import { MouseDirective } from './directives/mouse.directive';
 import { TRANSLATIONS_DE } from './i18n/de';
 import { TRANSLATIONS_EN } from './i18n/en';
+import { socketServiceInitializerFactory, socketServiceInitializerFactoryDeps } from './services/socket-service.initializer';
+import { ConnectionStateComponent } from './components/connection-state/connection-state.component';
 
 @NgModule({
   declarations: [
@@ -40,14 +43,23 @@ import { TRANSLATIONS_EN } from './i18n/en';
     LobbyComponent,
     UserInformationComponent,
     GameComponent,
+    ConnectionStateComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     TranslateModule.forRoot(),
+    FontAwesomeModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: socketServiceInitializerFactory,
+      deps: socketServiceInitializerFactoryDeps,
+      multi: true,
+    },
+  ],
   bootstrap: [RootComponent],
 })
 export class AppModule {

@@ -1,0 +1,22 @@
+@import 'mixins';
+
+@include host(false);
+
+:host {
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep {
+  .connecting {
+    color: blue;
+  }
+
+  .connected {
+    color: green;
+  }
+
+  .disconnected {
+    color: red;
+  }
+}
