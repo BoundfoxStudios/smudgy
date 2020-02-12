@@ -42,7 +42,7 @@
             "main": "projects/smudgy/src/main.ts",
             "polyfills": "projects/smudgy/src/polyfills.ts",
             "tsConfig": "projects/smudgy/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "preserveSymlinks": true,
             "assets": [
               "projects/smudgy/src/favicon.ico",
@@ -71,7 +71,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
