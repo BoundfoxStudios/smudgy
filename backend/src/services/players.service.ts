@@ -45,9 +45,9 @@ export class PlayersService {
     socket.userData.playerId = player.id;
 
     this.players.set(player.id, player);
-    fn();
-
     debug('Registered new player %o', player);
+
+    fn();
   }
 
   playerDisconnected(socket: SocketWithUserData): void {
