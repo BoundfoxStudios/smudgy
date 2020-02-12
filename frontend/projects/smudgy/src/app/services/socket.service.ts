@@ -35,12 +35,12 @@ export class SocketService {
     if (!this.isInitialized) {
       this.socket.on('connect', () => this.stateSubject.next(SocketState.Connected));
       this.socket.on('reconnect', () => this.stateSubject.next(SocketState.Connected));
-      this.socket.on('connect_error', e => this.stateSubject.next(SocketState.Disconnected));
-      this.socket.on('connect_timeout', e => this.stateSubject.next(SocketState.Disconnected));
-      this.socket.on('disconnect', e => this.stateSubject.next(SocketState.Disconnected));
-      this.socket.on('reconnecting', e => this.stateSubject.next(SocketState.Connecting));
-      this.socket.on('reconnect_error', e => this.stateSubject.next(SocketState.Connecting));
-      this.socket.on('reconnect_failed', e => this.stateSubject.next(SocketState.Disconnected));
+      this.socket.on('connect_error', () => this.stateSubject.next(SocketState.Disconnected));
+      this.socket.on('connect_timeout', () => this.stateSubject.next(SocketState.Disconnected));
+      this.socket.on('disconnect', () => this.stateSubject.next(SocketState.Disconnected));
+      this.socket.on('reconnecting', () => this.stateSubject.next(SocketState.Connecting));
+      this.socket.on('reconnect_error', () => this.stateSubject.next(SocketState.Connecting));
+      this.socket.on('reconnect_failed', () => this.stateSubject.next(SocketState.Disconnected));
       this.isInitialized = true;
     }
 
