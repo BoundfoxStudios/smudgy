@@ -12,10 +12,10 @@ export class StorageService {
   }
 
   set$<T>(key: string, value: T): Observable<void> {
-    return defer(() => this.storage.setItem(key, JSON.stringify(value)));
+    return defer(() => of(this.storage.setItem(key, JSON.stringify(value))));
   }
 
   delete$(key: string): Observable<void> {
-    return defer(() => this.storage.removeItem(key));
+    return defer(() => of(this.storage.removeItem(key)));
   }
 }

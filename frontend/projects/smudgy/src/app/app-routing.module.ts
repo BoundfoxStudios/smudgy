@@ -4,6 +4,7 @@ import { GameComponent } from './components/game/game.component';
 import { LobbyComponent } from './components/game/lobby/lobby.component';
 import { PlayComponent } from './components/game/play/play.component';
 import { UserInformationComponent } from './components/user-information/user-information.component';
+import { AutoRegisterGuard } from './guards/auto-register.guard';
 
 const routes: Routes = [
   {
@@ -27,18 +28,20 @@ const routes: Routes = [
       {
         path: 'lobby',
         component: LobbyComponent,
+        canActivate: [ AutoRegisterGuard ],
       },
       {
         path: 'play',
         component: PlayComponent,
+        canActivate: [ AutoRegisterGuard ],
       },
     ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forRoot(routes) ],
+  exports: [ RouterModule ],
 })
 export class AppRoutingModule {
 }

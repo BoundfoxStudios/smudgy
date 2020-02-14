@@ -35,6 +35,14 @@ export class PlayersService {
       return;
     }
 
+    const existingPlayer = this.players.get(payload.id);
+
+    if (existingPlayer) {
+      debug('Player %s is already registered with this server');
+      fn();
+      return;
+    }
+
     const player: Player = {
       socketId: socket.id,
       id: payload.id,

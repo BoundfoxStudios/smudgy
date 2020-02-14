@@ -38,6 +38,8 @@ export class LobbyComponent implements OnInit {
         .pipe(switchMap(serverSessionId => {
           this.debug('Setting session id %s', serverSessionId);
 
+          this.joinSession(serverSessionId);
+
           return this.router.navigate([], {
             relativeTo: this.activatedRoute,
             queryParams: { sessionId: serverSessionId },
@@ -48,7 +50,10 @@ export class LobbyComponent implements OnInit {
       return;
     }
 
-    console.log('jetzt sin wir hier');
-    // TODO: Join existing session!
+    this.joinSession(sessionId);
+  }
+
+  private joinSession(sessionId: string): void {
+    this.sessionService.joinSession$(sessionId).subscribe();
   }
 }

@@ -14,4 +14,8 @@ export class SessionService {
   createSession$(sessionConfiguration: SessionConfiguration): Observable<string> {
     return this.socketService.sendAndReceive$(Events.CreateSession, sessionConfiguration);
   }
+
+  joinSession$(sessionId: string): Observable<SessionConfiguration> {
+    return this.socketService.sendAndReceive$(Events.JoinSession, { sessionId });
+  }
 }
