@@ -1,0 +1,37 @@
+@import 'mixins';
+@import 'variables';
+
+@include host();
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.input-group {
+  display: flex;
+}
+
+label {
+  margin-right: $gap;
+  color: $midnight-blue;
+}
+
+input {
+  color: $midnight-blue;
+  font-size: 100%;
+  outline: none;
+  flex: 1;
+}
+
+button {
+  border: none;
+  background-color: $midnight-blue;
+  color: $silver;
+  padding: $gap;
+  border-radius: $gap / 4;
+  font-weight: bold;
+  font-size: 100%;
+  margin: auto auto 0 auto;
+}
