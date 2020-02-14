@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "ci:shared": "rm -rf ./projects/smudgy/src/app/models/shared && mkdir ./projects/smudgy/src/app/models/shared && cp -r ../backend/src/models/shared/. ./projects/smudgy/src/app/models/shared",
     "build": "ng build",
     "build-prod": "ng build --prod",
     "test": "ng test",
