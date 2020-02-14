@@ -1,4 +1,5 @@
 @import 'mixins';
+@import 'variables';
 
 @include host(false);
 
@@ -9,14 +10,14 @@
 
 ::ng-deep {
   .connecting {
-    color: blue;
+    color: $peter-river;
   }
 
   .connected {
-    color: green;
+    color: $emerald;
   }
 
   .disconnected {
-    color: red;
+    color: $pomegranate;
   }
 }

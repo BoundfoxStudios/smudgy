@@ -53,7 +53,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/smudgy/src/styles"
+                "projects/smudgy/src/styles/core"
               ]
             },
             "scripts": []
