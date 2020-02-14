@@ -1,6 +1,14 @@
 import { Translations } from './base';
 
 export const TRANSLATIONS_DE: Translations = {
+  LOBBY: {
+    SETTINGS: {
+      TITLE: 'Einstellungen',
+    },
+    USER_LIST: {
+      TITLE: 'Mitspieler',
+    },
+  },
   WELCOME: {
     DESCRIPTION: `<p><strong>Smudgy</strong> ist ein kostenfreies Multiplayer <strong>Montagsmaler</strong> Spiel.
 Spiele es <strong>zusammen</strong> mit Deinen <strong>Freunden</strong>!
@@ -16,6 +24,6 @@ gebeten, um ein Wort zu <strong>malen</strong>, was von den anderen Mitspielern 
   },
   FOOTER: {
     A_GAME_BY: 'Smudgy ist ein Spiel von',
-    DISCLAIMER: 'Der Eigentümer der Seite ist nicht verantwortlich für spielergenerierter Inhalt (Zeichnungen, Nachrichten, Spielernamen)'
-  }
+    DISCLAIMER: 'Der Eigentümer der Seite ist nicht verantwortlich für spielergenerierter Inhalt (Zeichnungen, Nachrichten, Spielernamen)',
+  },
 };

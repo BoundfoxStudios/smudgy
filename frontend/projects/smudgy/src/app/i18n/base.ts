@@ -11,4 +11,12 @@ export interface Translations {
     A_GAME_BY: string;
     DISCLAIMER: string;
   };
+  LOBBY: {
+    SETTINGS: {
+      TITLE: string;
+    },
+    USER_LIST: {
+      TITLE: string;
+    }
+  };
 }

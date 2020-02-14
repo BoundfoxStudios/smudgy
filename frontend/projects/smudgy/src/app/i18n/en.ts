@@ -1,6 +1,14 @@
 import { Translations } from './base';
 
 export const TRANSLATIONS_EN: Translations = {
+  LOBBY: {
+    SETTINGS: {
+      TITLE: 'Settings',
+    },
+    USER_LIST: {
+      TITLE: 'Fellow players',
+    },
+  },
   WELCOME: {
     DESCRIPTION: `MISSING TRANSLATION`,
     TITLE: 'Welcome!',

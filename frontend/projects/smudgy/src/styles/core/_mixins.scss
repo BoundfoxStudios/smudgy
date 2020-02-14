@@ -1,7 +1,7 @@
-@mixin flex-default($flexOne: true) {
+@mixin flex-default($flexOne: true, $flexDirection: column) {
   & {
     display: flex;
-    flex-direction: column;
+    flex-direction: $flexDirection;
 
     @if ($flexOne) {
       flex: 1;

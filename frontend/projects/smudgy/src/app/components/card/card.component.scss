@@ -6,8 +6,9 @@
 :host {
   background-color: $silver;
   padding: $gap;
-
   border-radius: $gap;
+
+  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.3);
 
   header {
     margin-bottom: 2 * $gap;
