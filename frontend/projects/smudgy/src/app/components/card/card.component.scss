@@ -1,0 +1,25 @@
+@import 'variables';
+@import 'mixins';
+
+@include host();
+
+:host {
+  background-color: $silver;
+  padding: $gap;
+
+  border-radius: $gap;
+
+  header {
+    margin-bottom: 2 * $gap;
+  }
+
+  ::ng-deep {
+    h2 {
+      color: $midnight-blue;
+    }
+
+    p {
+      color: $midnight-blue;
+    }
+  }
+}

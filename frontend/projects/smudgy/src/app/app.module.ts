@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { DrawComponent } from './components/game/draw/draw.component';
@@ -24,6 +25,8 @@ import { TRANSLATIONS_DE } from './i18n/de';
 import { TRANSLATIONS_EN } from './i18n/en';
 import { socketServiceInitializerFactory, socketServiceInitializerFactoryDeps } from './services/socket-service.initializer';
 import { ConnectionStateComponent } from './components/connection-state/connection-state.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { CardComponent } from './components/card/card.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,8 @@ import { ConnectionStateComponent } from './components/connection-state/connecti
     UserInformationComponent,
     GameComponent,
     ConnectionStateComponent,
+    WelcomeComponent,
+    CardComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +73,6 @@ export class AppModule {
     translateService.setTranslation('de', TRANSLATIONS_DE);
 
     translateService.setDefaultLang('en');
-    translateService.use(translateService.getBrowserLang());
+    translateService.use(environment.production ? translateService.getBrowserLang() : 'de');
   }
 }

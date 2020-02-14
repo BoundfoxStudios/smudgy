@@ -1,0 +1,12 @@
+@import 'mixins';
+@import 'variables';
+
+@include host(false);
+
+:host {
+  flex-direction: row;
+
+  app-card + app-card {
+    margin-left: 2 * $gap;
+  }
+}

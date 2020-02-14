@@ -3,18 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from './components/game/game.component';
 import { LobbyComponent } from './components/game/lobby/lobby.component';
 import { PlayComponent } from './components/game/play/play.component';
-import { UserInformationComponent } from './components/user-information/user-information.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AutoRegisterGuard } from './guards/auto-register.guard';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'user-information', // TODO: change later to a start screen
+    redirectTo: 'welcome', // TODO: change later to a start screen
   },
   {
-    path: 'user-information',
-    component: UserInformationComponent,
+    path: 'welcome',
+    component: WelcomeComponent,
   },
   {
     path: 'game',

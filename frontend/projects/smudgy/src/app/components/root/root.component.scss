@@ -1,6 +1,12 @@
 @import 'mixins';
+@import 'variables';
 
 @include host();
+
+:host {
+  max-width: 1024px;
+  margin: 0 auto;
+}
 
 main {
   @include flex-default();
