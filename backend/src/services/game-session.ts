@@ -61,6 +61,7 @@ export class GameSession {
       return;
     }
 
+    this.session.configuration = payload;
     socket.in(this.sessionRoomKey).emit(Events.UpdateSessionConfiguration, payload);
 
     // TODO: validate new session configuration
