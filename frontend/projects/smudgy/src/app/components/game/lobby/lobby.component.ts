@@ -52,13 +52,13 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
           switchMap(serverSessionId => {
             this.debug('Setting session id %s', serverSessionId);
 
-            this.joinSession(serverSessionId);
-
-            return this.router.navigate([], {
-              relativeTo: this.activatedRoute,
-              queryParams: { sessionId: serverSessionId },
-              replaceUrl: true,
-            });
+            return this.router
+              .navigate([], {
+                relativeTo: this.activatedRoute,
+                queryParams: { sessionId: serverSessionId },
+                replaceUrl: true,
+              })
+              .then(() => this.joinSession(serverSessionId));
           }),
         )
         .subscribe();
@@ -68,15 +68,20 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
     this.joinSession(sessionId);
   }
 
-  copyToClipboardSource(): string {
-    return window.location.href;
-  }
-
   private joinSession(sessionId: string): void {
     this.inviteUrl = window.location.href;
 
     // TODO: Show a message before going back to the main menu
-    this.sessionService.joinSession$(sessionId).subscribe({ error: () => this.router.navigate(['/']) });
+    this.sessionService
+      .joinSession$(sessionId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        sessionConfiguration => {
+          this.debug('Joined session, got configuration %o', sessionConfiguration);
+          this.form.setValue(sessionConfiguration, { emitEvent: false });
+        },
+        () => this.router.navigate(['/']),
+      );
 
     this.form.valueChanges
       .pipe(
