@@ -28,20 +28,19 @@ const routes: Routes = [
       {
         path: 'lobby',
         component: LobbyComponent,
-        canActivate: [ AutoRegisterGuard ],
+        canActivate: [AutoRegisterGuard],
       },
       {
         path: 'play',
         component: PlayComponent,
-        canActivate: [ AutoRegisterGuard ],
+        canActivate: [AutoRegisterGuard],
       },
     ],
   },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

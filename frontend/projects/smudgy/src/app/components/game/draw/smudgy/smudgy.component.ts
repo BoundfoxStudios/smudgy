@@ -8,6 +8,4 @@ import { DrawService } from '../../../../services/draw.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DrawService],
 })
-export class SmudgyComponent {
-
-}
+export class SmudgyComponent {}

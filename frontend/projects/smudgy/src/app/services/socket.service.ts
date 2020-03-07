@@ -10,7 +10,7 @@ import { DebugService } from './debug.service';
 export enum SocketState {
   Disconnected = 'disconnected',
   Connecting = 'connecting',
-  Connected = 'connected'
+  Connected = 'connected',
 }
 
 let globalRequestId = 0;

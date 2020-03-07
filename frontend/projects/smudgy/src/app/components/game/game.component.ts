@@ -8,5 +8,4 @@ import { SessionService } from '../../services/session.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SessionService],
 })
-export class GameComponent {
-}
+export class GameComponent {}

@@ -9,8 +9,7 @@ const LEFT_MOUSE_BUTTON = 0;
 export class MouseDirective {
   private isDrawing: boolean;
 
-  constructor(private readonly drawService: DrawService) {
-  }
+  constructor(private readonly drawService: DrawService) {}
 
   @HostListener('contextmenu')
   contextMenu(): boolean {

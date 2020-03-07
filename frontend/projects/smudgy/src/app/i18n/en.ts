@@ -19,6 +19,6 @@ export const TRANSLATIONS_EN: Translations = {
   },
   FOOTER: {
     A_GAME_BY: 'Smudgy is a game by',
-    DISCLAIMER: 'The owner of this site is not responsible for any user generated content (drawings, messages, usernames)'
-  }
+    DISCLAIMER: 'The owner of this site is not responsible for any user generated content (drawings, messages, usernames)',
+  },
 };

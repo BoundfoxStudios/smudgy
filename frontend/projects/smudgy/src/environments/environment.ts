@@ -10,7 +10,7 @@ export const environment: Environment = {
     canvasThrottleTime: 0,
     backendUrl: 'http://localhost:8080',
     networkDrawCommandBuffer: 10,
-    connectionTimeout: 2000
+    connectionTimeout: 2000,
   },
 };
 

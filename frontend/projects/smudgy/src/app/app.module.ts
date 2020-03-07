@@ -50,13 +50,7 @@ import { CardComponent } from './components/card/card.component';
     WelcomeComponent,
     CardComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    TranslateModule.forRoot(),
-    FontAwesomeModule,
-  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, TranslateModule.forRoot(), FontAwesomeModule],
   providers: [
     {
       provide: APP_INITIALIZER,

@@ -7,18 +7,19 @@ import { PlayerService } from '../services/player.service';
   providedIn: 'root',
 })
 export class AutoRegisterGuard implements CanActivate, CanActivateChild {
-  constructor(private readonly playerService: PlayerService) {
-  }
+  constructor(private readonly playerService: PlayerService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot,
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.autoRegister$();
   }
 
   canActivateChild(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot,
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.autoRegister$();
   }
 

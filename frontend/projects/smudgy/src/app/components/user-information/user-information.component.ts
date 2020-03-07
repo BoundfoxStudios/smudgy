@@ -11,11 +11,7 @@ import { PlayerService } from '../../services/player.service';
 export class UserInformationComponent {
   name: string;
 
-  constructor(
-    private readonly playerService: PlayerService,
-    private readonly router: Router,
-  ) {
-  }
+  constructor(private readonly playerService: PlayerService, private readonly router: Router) {}
 
   submit(): void {
     this.playerService.register$(this.name).subscribe({

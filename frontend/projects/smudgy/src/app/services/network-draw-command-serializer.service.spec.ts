@@ -4,8 +4,7 @@ import { DrawCommand } from '../models/draw-command';
 import { Tools } from '../models/tools';
 import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
 
-function createDrawCommand(color: Colors, brushSize: BrushSizes, tool: Tools, x: number, y: number)
-  : DrawCommand {
+function createDrawCommand(color: Colors, brushSize: BrushSizes, tool: Tools, x: number, y: number): DrawCommand {
   return {
     color,
     brushSize,
@@ -30,16 +29,23 @@ describe('DrawCommandSerializerService', () => {
     });
 
     it('serializes an array with a single entry', () => {
-      expect(sut.serialize([createDrawCommand(Colors.Black, BrushSizes.XL, Tools.Fill, 1, 2)]))
-        .toEqual([Colors.Black, BrushSizes.XL, Tools.Fill, 1, 2]);
+      expect(sut.serialize([createDrawCommand(Colors.Black, BrushSizes.XL, Tools.Fill, 1, 2)])).toEqual([
+        Colors.Black,
+        BrushSizes.XL,
+        Tools.Fill,
+        1,
+        2,
+      ]);
     });
 
     it('serializes an array with multiple entries', () => {
-      expect(sut.serialize([
-        createDrawCommand(Colors.Black, BrushSizes.XL, Tools.Eraser, 1, 2),
-        createDrawCommand(Colors.Black, BrushSizes.XL, Tools.Eraser, 3, 4),
-        createDrawCommand(Colors.Black, BrushSizes.XL, Tools.Eraser, 5, 6),
-      ])).toEqual([Colors.Black, BrushSizes.XL, Tools.Eraser, 1, 2, 3, 4, 5, 6]);
+      expect(
+        sut.serialize([
+          createDrawCommand(Colors.Black, BrushSizes.XL, Tools.Eraser, 1, 2),
+          createDrawCommand(Colors.Black, BrushSizes.XL, Tools.Eraser, 3, 4),
+          createDrawCommand(Colors.Black, BrushSizes.XL, Tools.Eraser, 5, 6),
+        ]),
+      ).toEqual([Colors.Black, BrushSizes.XL, Tools.Eraser, 1, 2, 3, 4, 5, 6]);
     });
   });
 

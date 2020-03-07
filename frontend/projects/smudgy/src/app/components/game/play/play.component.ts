@@ -9,5 +9,4 @@ import { ToolbarService } from '../../../services/toolbar.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ToolbarService, NetworkDrawService],
 })
-export class PlayComponent {
-}
+export class PlayComponent {}

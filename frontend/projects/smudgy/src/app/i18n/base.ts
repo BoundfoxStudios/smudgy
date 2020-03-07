@@ -14,9 +14,9 @@ export interface Translations {
   LOBBY: {
     SETTINGS: {
       TITLE: string;
-    },
+    };
     USER_LIST: {
       TITLE: string;
-    }
+    };
   };
 }

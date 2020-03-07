@@ -15,8 +15,7 @@ export class ConnectionStateComponent implements OnInit {
   stateClass$: Observable<string[]>;
   readonly faWifi = faWifi;
 
-  constructor(private readonly socketService: SocketService) {
-  }
+  constructor(private readonly socketService: SocketService) {}
 
   ngOnInit() {
     this.state$ = this.socketService.state$;

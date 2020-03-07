@@ -11,13 +11,14 @@ export class NetworkDrawService implements OnDestroy {
   private readonly stopStream$ = new Subject<void>();
 
   constructor(private readonly networkDrawCommandSerializer: NetworkDrawCommandSerializerService) {
-    this.drawStream$.pipe(
-      bufferWhen(() => merge(
-        this.stopStream$,
-        this.drawStream$.pipe(bufferCount(environment.gameConfiguration.networkDrawCommandBuffer)),
-      )),
-      filter(drawCommands => !!drawCommands.length),
-    ).subscribe(drawCommands => this.send(drawCommands));
+    this.drawStream$
+      .pipe(
+        bufferWhen(() =>
+          merge(this.stopStream$, this.drawStream$.pipe(bufferCount(environment.gameConfiguration.networkDrawCommandBuffer))),
+        ),
+        filter(drawCommands => !!drawCommands.length),
+      )
+      .subscribe(drawCommands => this.send(drawCommands));
   }
 
   draw(drawCommand: DrawCommand): void {

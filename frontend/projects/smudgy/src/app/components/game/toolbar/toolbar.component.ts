@@ -13,8 +13,7 @@ export class ToolbarComponent {
   selectedColor: Colors = this.toolbarService.color;
   selectedBrushSize: BrushSizes = this.toolbarService.brushSize;
 
-  constructor(private readonly toolbarService: ToolbarService) {
-  }
+  constructor(private readonly toolbarService: ToolbarService) {}
 
   selectColor(color: Colors): void {
     this.toolbarService.color = this.selectedColor = color;

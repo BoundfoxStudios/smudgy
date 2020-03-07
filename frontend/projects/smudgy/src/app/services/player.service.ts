@@ -46,11 +46,8 @@ export class PlayerService {
       return of(true);
     }
 
-    return combineLatest([
-      this.storageService.get$(PLAYER_ID_STORAGE_KEY),
-      this.storageService.get$(PLAYER_NAME_STORAGE_KEY),
-    ]).pipe(
-      switchMap(([ id, name ]: [ string, string ]) => {
+    return combineLatest([this.storageService.get$(PLAYER_ID_STORAGE_KEY), this.storageService.get$(PLAYER_NAME_STORAGE_KEY)]).pipe(
+      switchMap(([id, name]: [string, string]) => {
         if (!id && !name) {
           return of(false);
         }

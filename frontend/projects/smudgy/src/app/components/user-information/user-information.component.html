@@ -1,10 +1,7 @@
 <form (ngSubmit)="submit()" #form="ngForm">
   <div class="input-group">
     <label for="name" translate>USER_INFORMATION.PLAYER_NAME</label>
-    <input id="name" name="name" [(ngModel)]="name" required/>
+    <input id="name" name="name" [(ngModel)]="name" required />
   </div>
-  <button type="submit"
-          [disabled]="form.invalid"
-          translate>USER_INFORMATION.PLAY
-  </button>
+  <button type="submit" [disabled]="form.invalid" translate>USER_INFORMATION.PLAY</button>
 </form>

@@ -9,7 +9,7 @@ import { SessionService } from '../../../services/session.service';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
-  styleUrls: [ './lobby.component.scss' ],
+  styleUrls: ['./lobby.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LobbyComponent implements OnInit {
@@ -34,18 +34,21 @@ export class LobbyComponent implements OnInit {
     const { sessionId } = this.activatedRoute.snapshot.queryParams;
 
     if (!sessionId) {
-      this.sessionService.createSession$(this.sessionConfiguration)
-        .pipe(switchMap(serverSessionId => {
-          this.debug('Setting session id %s', serverSessionId);
+      this.sessionService
+        .createSession$(this.sessionConfiguration)
+        .pipe(
+          switchMap(serverSessionId => {
+            this.debug('Setting session id %s', serverSessionId);
 
-          this.joinSession(serverSessionId);
+            this.joinSession(serverSessionId);
 
-          return this.router.navigate([], {
-            relativeTo: this.activatedRoute,
-            queryParams: { sessionId: serverSessionId },
-            replaceUrl: true,
-          });
-        }))
+            return this.router.navigate([], {
+              relativeTo: this.activatedRoute,
+              queryParams: { sessionId: serverSessionId },
+              replaceUrl: true,
+            });
+          }),
+        )
         .subscribe();
       return;
     }

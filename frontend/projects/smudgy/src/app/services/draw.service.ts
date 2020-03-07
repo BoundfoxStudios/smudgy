@@ -32,22 +32,26 @@ export class DrawService implements OnDestroy {
   startDrawing(): void {
     this.stopDrawing();
 
-    this.drawStream$.pipe(
-      distinctUntilChanged((a, b) => a.x === b.x && a.y === b.y),
-      throttleTime(environment.gameConfiguration.canvasThrottleTime),
-      map(point => (
-        {
-          point,
-          color: this.toolbarService.color,
-          brushSize: this.toolbarService.brushSize,
-          tool: this.toolbarService.tool,
-        }) as DrawCommand),
-      tap(drawCommand => this.internalDraw(drawCommand)),
-      tap(drawCommand => this.networkDrawService.draw(drawCommand)),
-      takeUntil(this.stopStream$),
-    ).subscribe({
-      complete: () => this.networkDrawService.stopDrawing(),
-    });
+    this.drawStream$
+      .pipe(
+        distinctUntilChanged((a, b) => a.x === b.x && a.y === b.y),
+        throttleTime(environment.gameConfiguration.canvasThrottleTime),
+        map(
+          point =>
+            ({
+              point,
+              color: this.toolbarService.color,
+              brushSize: this.toolbarService.brushSize,
+              tool: this.toolbarService.tool,
+            } as DrawCommand),
+        ),
+        tap(drawCommand => this.internalDraw(drawCommand)),
+        tap(drawCommand => this.networkDrawService.draw(drawCommand)),
+        takeUntil(this.stopStream$),
+      )
+      .subscribe({
+        complete: () => this.networkDrawService.stopDrawing(),
+      });
   }
 
   stopDrawing(): void {
