@@ -29,8 +29,6 @@ export class HttpServer {
     return this.server.server;
   }
 
-  async initialize(): Promise<void> {}
-
   listen(): void {
     // TODO: dynamic port
     this.server.listen(8080, () => debug('Server is up and running on port %s', 8080));

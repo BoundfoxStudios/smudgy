@@ -14,7 +14,7 @@ const debug = nodeDebug('smudgy:PlayersService');
 export class PlayersService {
   private readonly players = new Map<string, Player>();
 
-  async initialize(socketServer: SocketServer): Promise<void> {
+  initialize(socketServer: SocketServer): void {
     debug('Initializing');
 
     socketServer.on('connection', socket => this.playerConnected(socket));

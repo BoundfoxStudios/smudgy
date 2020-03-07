@@ -17,9 +17,9 @@ export class SocketServer {
     this.server = socketIo(this.httpServer.httpServer);
   }
 
-  async initialize(): Promise<void> {
-    await this.playersService.initialize(this);
-    await this.sessionsService.initialize(this);
+  initialize(): void {
+    this.playersService.initialize(this);
+    this.sessionsService.initialize(this);
   }
 
   on(event: string, listener: (socket: Socket) => void): void {

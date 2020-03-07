@@ -24,7 +24,7 @@ export class SessionsService {
     @inject(DiTypes.gameSessionFactory) private readonly gameSessionFactory: (session: Session) => GameSession,
   ) {}
 
-  async initialize(socketServer: SocketServer): Promise<void> {
+  initialize(socketServer: SocketServer): void {
     debug('Initializing');
 
     socketServer.on('connection', socket => this.playerConnected(socket as SocketWithUserData));

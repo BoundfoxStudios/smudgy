@@ -35,12 +35,11 @@ export class Application {
     this.container.bind<interfaces.Factory<GameSession>>(DiTypes.gameSessionFactory).toFactory(gameSessionFactory);
   }
 
-  async start(): Promise<void> {
+  start(): void {
     const httpServer = this.container.get<HttpServer>(HttpServer);
     const socketServer = this.container.get<SocketServer>(SocketServer);
 
-    await httpServer.initialize();
-    await socketServer.initialize();
+    socketServer.initialize();
 
     httpServer.listen();
   }

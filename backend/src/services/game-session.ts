@@ -7,13 +7,13 @@ import { PlayersService } from './players.service';
 
 const debug = nodeDebug('smudgy:GameSession');
 
-export function gameSessionFactory(context: interfaces.Context): (session: Session) => GameSession {
-  return (session: Session) => {
+export const gameSessionFactory = (context: interfaces.Context): ((session: Session) => GameSession) => {
+  return (session: Session): GameSession => {
     const playersService = context.container.get(PlayersService);
 
     return new GameSession(session, playersService);
   };
-}
+};
 
 export class GameSession {
   private readonly sessionRoomKey: string;

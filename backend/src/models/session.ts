@@ -1,4 +1,4 @@
-import { SessionConfiguration, SessionLanguage } from './shared/session-configuration';
+import { SessionConfiguration } from './shared/session-configuration';
 
 export interface Round {
   drawerPlayerId: string;
@@ -22,11 +22,11 @@ export interface Session {
   rounds: Round[];
 }
 
-export function createSession(id: string, configuration: SessionConfiguration): Session {
+export const createSession = (id: string, configuration: SessionConfiguration): Session => {
   return {
     id,
     playerIds: {},
     configuration,
     rounds: [],
   };
-}
+};
