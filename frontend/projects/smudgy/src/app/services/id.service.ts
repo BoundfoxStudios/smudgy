@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import * as uuid from 'uuid/v1';
+import { v4 as uuid } from 'uuid';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IdService {
   generate(): string {

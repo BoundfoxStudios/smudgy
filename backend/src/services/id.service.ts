@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import * as uuid from 'uuid/v1';
+import { v4 as uuid } from 'uuid';
 
 @injectable()
 export class IdService {
