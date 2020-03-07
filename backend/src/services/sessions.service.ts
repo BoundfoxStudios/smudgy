@@ -21,9 +21,8 @@ export class SessionsService {
   constructor(
     @inject(PlayersService) private readonly playersService: PlayersService,
     @inject(IdService) private readonly idService: IdService,
-    @inject(DiTypes.gameSessionFactory) private readonly  gameSessionFactory: (session: Session) => GameSession,
-  ) {
-  }
+    @inject(DiTypes.gameSessionFactory) private readonly gameSessionFactory: (session: Session) => GameSession,
+  ) {}
 
   async initialize(socketServer: SocketServer): Promise<void> {
     debug('Initializing');

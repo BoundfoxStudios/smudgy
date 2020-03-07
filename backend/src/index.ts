@@ -12,11 +12,26 @@ export class Application {
   private readonly container: Container = new Container({ autoBindInjectable: true });
 
   initialize(): void {
-    this.container.bind<HttpServer>(HttpServer).to(HttpServer).inSingletonScope();
-    this.container.bind<SocketServer>(SocketServer).to(SocketServer).inSingletonScope();
-    this.container.bind<IdService>(IdService).to(IdService).inSingletonScope();
-    this.container.bind<PlayersService>(PlayersService).to(PlayersService).inSingletonScope();
-    this.container.bind<SessionsService>(SessionsService).to(SessionsService).inSingletonScope();
+    this.container
+      .bind<HttpServer>(HttpServer)
+      .to(HttpServer)
+      .inSingletonScope();
+    this.container
+      .bind<SocketServer>(SocketServer)
+      .to(SocketServer)
+      .inSingletonScope();
+    this.container
+      .bind<IdService>(IdService)
+      .to(IdService)
+      .inSingletonScope();
+    this.container
+      .bind<PlayersService>(PlayersService)
+      .to(PlayersService)
+      .inSingletonScope();
+    this.container
+      .bind<SessionsService>(SessionsService)
+      .to(SessionsService)
+      .inSingletonScope();
     this.container.bind<interfaces.Factory<GameSession>>(DiTypes.gameSessionFactory).toFactory(gameSessionFactory);
   }
 

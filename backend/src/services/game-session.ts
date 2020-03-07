@@ -18,10 +18,7 @@ export function gameSessionFactory(context: interfaces.Context): (session: Sessi
 export class GameSession {
   private readonly sessionRoomKey: string;
 
-  constructor(
-    public readonly session: Session,
-    private readonly playersService: PlayersService,
-  ) {
+  constructor(public readonly session: Session, private readonly playersService: PlayersService) {
     this.sessionRoomKey = `session_${this.session.id}`;
   }
 
