@@ -18,7 +18,7 @@ import { AbstractDestroyable } from '../../abstract-destroyable';
 export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDestroy {
   form = this.formBuilder.group({
     language: [SessionLanguage.German],
-    roundTimeInSeconds: [30],
+    roundTimeInSeconds: [60],
     roundsToPlay: [5],
     maxPlayers: [5],
   });
