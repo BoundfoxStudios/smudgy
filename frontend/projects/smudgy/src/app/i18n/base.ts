@@ -14,6 +14,10 @@ export interface Translations {
   LOBBY: {
     SETTINGS: {
       TITLE: string;
+      LANGUAGE: string;
+      ROUND_TIME: string;
+      ROUNDS_TO_PLAY: string;
+      MAX_PLAYERS: string;
     };
     USER_LIST: {
       TITLE: string;

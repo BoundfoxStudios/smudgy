@@ -1,10 +1,42 @@
 <div class="top">
   <app-card>
     <h2 translate>LOBBY.SETTINGS.TITLE</h2>
-    <form>
+    <form [formGroup]="form">
       <div class="input-group">
-        <label translate for="language">LOBBY.SETTINGS.LANGUAGE</label>
-        <input id="language" />
+        <label translate for="language"><fa-icon [icon]="faFlag"></fa-icon> LOBBY.SETTINGS.LANGUAGE</label>
+        <select id="language" formControlName="language">
+          <option [ngValue]="SessionLanguage.German">Deutsch</option>
+          <option [ngValue]="SessionLanguage.English">English</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label translate for="roundTime"><fa-icon [icon]="faClock"></fa-icon> LOBBY.SETTINGS.ROUND_TIME</label>
+        <select id="roundTime" formControlName="roundTimeInSeconds">
+          <option [ngValue]="30">30</option>
+          <option [ngValue]="30">60</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label translate for="roundsToPlay"><fa-icon [icon]="faHistory"></fa-icon> LOBBY.SETTINGS.ROUNDS_TO_PLAY</label>
+        <select id="roundsToPlay" formControlName="roundsToPlay">
+          <option [ngValue]="3">3</option>
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label translate for="maxPlayers"><fa-icon [icon]="faUsers"></fa-icon> LOBBY.SETTINGS.MAX_PLAYERS</label>
+        <select id="maxPlayers" formControlName="maxPlayers">
+          <option [ngValue]="2">2</option>
+          <option [ngValue]="3">3</option>
+          <option [ngValue]="4">4</option>
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="6">6</option>
+          <option [ngValue]="7">7</option>
+          <option [ngValue]="8">8</option>
+          <option [ngValue]="9">9</option>
+          <option [ngValue]="10">10</option>
+        </select>
       </div>
     </form>
   </app-card>

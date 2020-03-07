@@ -40,7 +40,7 @@ export class SessionsService {
   sessionCreated(socket: SocketWithUserData, payload: SessionConfiguration, fn: ResultFn<string>): void {
     debug('Creating session for player %s', socket.userData.playerId);
 
-    const gameSession = this.gameSessionFactory(createSession(this.idService.generate(), payload));
+    const gameSession = this.gameSessionFactory(createSession(this.idService.generate(), socket.userData.playerId, payload));
 
     this.sessions.set(gameSession.session.id, gameSession);
 

@@ -29,11 +29,19 @@ label {
   color: $midnight-blue;
 }
 
-input {
+input,
+select {
   color: $midnight-blue;
   font-size: 100%;
   outline: none;
   flex: 1;
+  text-align: right;
+  max-width: 50%;
+  margin-left: auto;
+}
+
+fa-icon {
+  margin-right: $gap / 2;
 }
 
 button {

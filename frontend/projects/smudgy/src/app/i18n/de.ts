@@ -4,6 +4,10 @@ export const TRANSLATIONS_DE: Translations = {
   LOBBY: {
     SETTINGS: {
       TITLE: 'Einstellungen',
+      LANGUAGE: 'Sprache',
+      MAX_PLAYERS: 'Max. Spieleranzahl',
+      ROUND_TIME: 'Zeit pro Runde',
+      ROUNDS_TO_PLAY: 'Anzahl Runden',
     },
     USER_LIST: {
       TITLE: 'Mitspieler',

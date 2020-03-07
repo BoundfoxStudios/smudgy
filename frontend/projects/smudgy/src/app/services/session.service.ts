@@ -15,4 +15,12 @@ export class SessionService {
   joinSession$(sessionId: string): Observable<SessionConfiguration> {
     return this.socketService.sendAndReceive$(Events.JoinSession, { sessionId });
   }
+
+  updateSessionConfiguration$(sessionConfiguration: SessionConfiguration): Observable<void> {
+    return this.socketService.sendAndReceive$(Events.UpdateSessionConfiguration, sessionConfiguration);
+  }
+
+  sessionConfiguration$(): Observable<SessionConfiguration> {
+    return this.socketService.fromEvent$(Events.UpdateSessionConfiguration);
+  }
 }

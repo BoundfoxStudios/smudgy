@@ -17,14 +17,16 @@ export interface SessionPlayers {
 
 export interface Session {
   id: string;
+  hostPlayerId: string;
   configuration: SessionConfiguration;
   playerIds: SessionPlayers;
   rounds: Round[];
 }
 
-export const createSession = (id: string, configuration: SessionConfiguration): Session => {
+export const createSession = (id: string, hostPlayerId: string, configuration: SessionConfiguration): Session => {
   return {
     id,
+    hostPlayerId,
     playerIds: {},
     configuration,
     rounds: [],

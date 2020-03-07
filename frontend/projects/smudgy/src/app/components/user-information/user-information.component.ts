@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { filter, take } from 'rxjs/operators';
 import { PlayerService } from '../../services/player.service';
 
 @Component({
@@ -10,23 +10,20 @@ import { PlayerService } from '../../services/player.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserInformationComponent implements OnInit {
-  name: string;
+  form = this.formBuilder.group({
+    name: ['', Validators.required],
+  });
 
-  constructor(private readonly playerService: PlayerService, private readonly router: Router) {}
+  constructor(private readonly playerService: PlayerService, private readonly router: Router, private readonly formBuilder: FormBuilder) {}
 
   submit(): void {
-    this.playerService.register$(this.name).subscribe({
+    this.playerService.register$(this.form.value.name).subscribe({
       error: error => console.log('scheißdreck', error),
       complete: () => this.router.navigate(['/game/lobby']),
     });
   }
 
   ngOnInit(): void {
-    this.playerService.playerName$
-      .pipe(
-        take(1),
-        filter(name => !!name),
-      )
-      .subscribe(name => (this.name = name!));
+    this.playerService.playerName$.subscribe(name => this.form.patchValue({ name }));
   }
 }

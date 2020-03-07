@@ -3,4 +3,5 @@ export enum Events {
   CreateSession = 'create-session',
   JoinSession = 'join-session',
   PlayerLeaveSession = 'player-leave-session',
+  UpdateSessionConfiguration = 'update-session-configuration',
 }
