@@ -4,7 +4,7 @@
 @include host();
 
 :host {
-  background-color: $silver;
+  background-color: $card-background-color;
   padding: $gap;
   border-radius: $gap;
 

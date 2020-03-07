@@ -23,6 +23,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
     maxPlayers: [5],
   });
 
+  inviteUrl: string;
   readonly SessionLanguage = SessionLanguage;
   readonly faFlag = faFlag;
   readonly faClock = faClock;
@@ -67,7 +68,13 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
     this.joinSession(sessionId);
   }
 
+  copyToClipboardSource(): string {
+    return window.location.href;
+  }
+
   private joinSession(sessionId: string): void {
+    this.inviteUrl = window.location.href;
+
     // TODO: Show a message before going back to the main menu
     this.sessionService.joinSession$(sessionId).subscribe({ error: () => this.router.navigate(['/']) });
 

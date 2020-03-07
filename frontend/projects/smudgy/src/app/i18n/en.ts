@@ -12,6 +12,11 @@ export const TRANSLATIONS_EN: Translations = {
     USER_LIST: {
       TITLE: 'Fellow players',
     },
+    INVITE: {
+      TITLE: 'Invite your friends',
+      COPY: 'Copy',
+      HOVER_TO_SEE_LINK: 'Hover over this text to reveal the URL',
+    },
   },
   WELCOME: {
     DESCRIPTION: `MISSING TRANSLATION`,

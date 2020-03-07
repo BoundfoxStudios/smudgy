@@ -47,6 +47,13 @@
   </app-card>
 </div>
 
-<div class="invite">
-  bla
-</div>
+<app-card class="invite">
+  <h2 translate>LOBBY.INVITE.TITLE</h2>
+  <div class="url-container">
+    <div class="url">
+      {{ inviteUrl }}
+      <div class="overlay" translate>LOBBY.INVITE.HOVER_TO_SEE_LINK</div>
+    </div>
+    <button [cdkCopyToClipboard]="inviteUrl" translate>LOBBY.INVITE.COPY</button>
+  </div>
+</app-card>

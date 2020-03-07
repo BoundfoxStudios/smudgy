@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -50,7 +51,7 @@ import { CardComponent } from './components/card/card.component';
     WelcomeComponent,
     CardComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, TranslateModule.forRoot(), FontAwesomeModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, TranslateModule.forRoot(), FontAwesomeModule, ClipboardModule],
   providers: [
     {
       provide: APP_INITIALIZER,

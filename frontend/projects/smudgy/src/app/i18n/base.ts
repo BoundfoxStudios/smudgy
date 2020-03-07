@@ -22,5 +22,10 @@ export interface Translations {
     USER_LIST: {
       TITLE: string;
     };
+    INVITE: {
+      TITLE: string;
+      HOVER_TO_SEE_LINK: string;
+      COPY: string;
+    };
   };
 }

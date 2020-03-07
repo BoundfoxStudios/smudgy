@@ -12,6 +12,37 @@ app-card + app-card {
 }
 
 .invite {
+  margin-top: 2 * $gap;
+  flex-grow: 0;
+
+  .url-container {
+    display: flex;
+
+    .url {
+      position: relative;
+      flex: 1;
+
+      .overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $card-background-color;
+        pointer-events: none;
+      }
+
+      &:hover {
+        .overlay {
+          display: none;
+        }
+      }
+    }
+
+    button {
+      padding: $gap / 2;
+    }
+  }
 }
 
 form {
