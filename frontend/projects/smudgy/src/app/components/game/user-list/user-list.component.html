@@ -1,1 +1,3 @@
-<p>user-list works!</p>
+<ul *ngFor="let player of players$ | async">
+  <li>{{ player.name }}</li>
+</ul>

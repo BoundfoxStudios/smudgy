@@ -2,8 +2,9 @@ import * as nodeDebug from 'debug';
 import { injectable } from 'inversify';
 import { Socket } from 'socket.io';
 import { ResultFn, socketOn } from '../helpers/socket-on';
-import { Player } from '../models/player';
+import { BackendPlayer } from '../models/backend-player';
 import { Events } from '../models/shared/events';
+import { Player } from '../models/shared/player';
 import { PlayerRegister } from '../models/shared/player-register';
 import { SocketWithUserData } from '../models/socket-with-user-data';
 import { SocketServer } from '../servers/socket-server';
@@ -12,12 +13,16 @@ const debug = nodeDebug('smudgy:PlayersService');
 
 @injectable()
 export class PlayersService {
-  private readonly players = new Map<string, Player>();
+  private readonly players = new Map<string, BackendPlayer>();
 
   initialize(socketServer: SocketServer): void {
     debug('Initializing');
 
     socketServer.on('connection', socket => this.playerConnected(socket));
+  }
+
+  getPlayer(id: string): Player | undefined {
+    return this.players.get(id);
   }
 
   playerConnected(socket: Socket): void {
@@ -43,7 +48,7 @@ export class PlayersService {
       return;
     }
 
-    const player: Player = {
+    const player: BackendPlayer = {
       socketId: socket.id,
       id: payload.id,
       name: payload.name,

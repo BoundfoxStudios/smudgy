@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faClock, faFlag, faHistory, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { IDebugger } from 'debug';
+import { BehaviorSubject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { SessionLanguage } from '../../../models/shared/session-configuration';
 import { DebugService } from '../../../services/debug.service';
@@ -23,6 +24,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
     maxPlayers: [5],
   });
 
+  readonly sessionJoined$ = new BehaviorSubject<boolean>(false);
   inviteUrl: string;
   readonly SessionLanguage = SessionLanguage;
   readonly faFlag = faFlag;
@@ -78,6 +80,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
       .subscribe(
         sessionConfiguration => {
           this.debug('Joined session, got configuration %o', sessionConfiguration);
+          this.sessionJoined$.next(true);
           this.form.setValue(sessionConfiguration, { emitEvent: false });
         },
         () => this.router.navigate(['/']),

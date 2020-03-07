@@ -43,11 +43,11 @@
 
   <app-card>
     <h2 translate>LOBBY.USER_LIST.TITLE</h2>
-    <app-user-list></app-user-list>
+    <app-user-list *ngIf="sessionJoined$ | async"></app-user-list>
   </app-card>
 </div>
 
-<app-card class="invite">
+<app-card class="invite" *ngIf="sessionJoined$ | async">
   <h2 translate>LOBBY.INVITE.TITLE</h2>
   <div class="url-container">
     <div class="url">

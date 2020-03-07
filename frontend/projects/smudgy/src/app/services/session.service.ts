@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { merge, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Events } from '../models/shared/events';
+import { Player } from '../models/shared/player';
 import { SessionConfiguration } from '../models/shared/session-configuration';
 import { SocketService } from './socket.service';
 
@@ -22,5 +24,43 @@ export class SessionService {
 
   sessionConfiguration$(): Observable<SessionConfiguration> {
     return this.socketService.fromEvent$(Events.UpdateSessionConfiguration);
+  }
+
+  playerEnter$(): Observable<Player> {
+    return this.socketService.fromEvent$(Events.PlayerJoinSession);
+  }
+
+  playerLeave$(): Observable<string> {
+    return this.socketService.fromEvent$(Events.PlayerLeaveSession);
+  }
+
+  players$(): Observable<Player[]> {
+    return this.socketService.sendAndReceive$<Player[]>(Events.PlayerList).pipe(
+      switchMap(playerList =>
+        merge(
+          of(playerList),
+          this.playerEnter$().pipe(
+            map(player => {
+              if (!playerList.find(p => p.id === player.id)) {
+                playerList.push(player);
+              }
+
+              return playerList;
+            }),
+          ),
+          this.playerLeave$().pipe(
+            map(playerId => {
+              const index = playerList.findIndex(p => p.id === playerId);
+
+              if (index !== -1) {
+                playerList.splice(index, 1);
+              }
+
+              return playerList;
+            }),
+          ),
+        ),
+      ),
+    );
   }
 }
