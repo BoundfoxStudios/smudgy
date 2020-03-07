@@ -17,7 +17,6 @@
     <TypeScriptCodeStyleSettings version="0">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
       <option name="FIELD_PREFIX" value="" />
-      <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACKETS" value="true" />
       <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
       <option name="PREFER_AS_TYPE_CAST" value="true" />
       <option name="USE_DOUBLE_QUOTES" value="false" />

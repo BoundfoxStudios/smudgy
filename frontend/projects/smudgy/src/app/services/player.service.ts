@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IDebugger } from 'debug';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
-import { map, mapTo, switchMap, tap } from 'rxjs/operators';
+import { map, mapTo, switchMap } from 'rxjs/operators';
 import { Events } from '../models/shared/events';
 import { PlayerRegister } from '../models/shared/player-register';
 import { DebugService } from './debug.service';
@@ -30,6 +30,10 @@ export class PlayerService {
 
   get isRegistered(): boolean {
     return this.playerIsRegistered;
+  }
+
+  get playerName$(): Observable<string | null> {
+    return this.storageService.get$(PLAYER_NAME_STORAGE_KEY);
   }
 
   /**
