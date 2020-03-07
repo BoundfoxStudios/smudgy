@@ -3,7 +3,7 @@ import { DrawCommand } from '../models/draw-command';
 
 /**
  * Per game play mechanic, within a draw command array, there can only be one tool,
- * changing the tool means a complete a draw command array.
+ * changing the tool means a complete new draw command array.
  * With that definition, we simply can strip out all color and tool information except the first one.
  * And vice versa for deserializing.
  */
@@ -16,7 +16,7 @@ export class NetworkDrawCommandSerializerService {
       return [];
     }
 
-    const result = [];
+    const result: number[] = [];
 
     const [first, ...otherDrawCommands] = drawCommands;
 

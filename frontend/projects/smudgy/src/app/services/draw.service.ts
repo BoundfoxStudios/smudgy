@@ -22,7 +22,14 @@ export class DrawService implements OnDestroy {
     private readonly toolbarService: ToolbarService,
   ) {
     this.canvas = elementRef.nativeElement;
-    this.canvasContext = this.canvas.getContext('2d');
+
+    const canvasContext = this.canvas.getContext('2d');
+
+    if (!canvasContext) {
+      throw new Error('Error getting 2D context!');
+    }
+
+    this.canvasContext = canvasContext;
   }
 
   get context(): CanvasRenderingContext2D {

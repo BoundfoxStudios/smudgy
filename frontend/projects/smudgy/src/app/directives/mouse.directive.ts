@@ -17,8 +17,8 @@ export class MouseDirective {
   }
 
   @HostListener('mousedown', ['$event'])
-  mouseDown(event: MouseEvent) {
-    if (event.button !== LEFT_MOUSE_BUTTON) {
+  mouseDown({ button }: MouseEvent): void {
+    if (button !== LEFT_MOUSE_BUTTON) {
       this.isDrawing = false;
       return;
     }
@@ -34,7 +34,7 @@ export class MouseDirective {
   }
 
   @HostListener('mousemove', ['$event'])
-  mouseMove({ offsetX: x, offsetY: y }: MouseEvent): boolean {
+  mouseMove({ offsetX: x, offsetY: y }: MouseEvent): void {
     if (!this.isDrawing) {
       return;
     }

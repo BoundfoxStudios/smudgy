@@ -24,7 +24,7 @@ export class ColorSelectorComponent {
     this.colorViewModel = { color, hex: colorToCSSHex(color) };
   }
 
-  select(colorViewModel: ColorViewModel) {
+  select(colorViewModel: ColorViewModel): void {
     this.selectColor.next(colorViewModel.color);
   }
 }

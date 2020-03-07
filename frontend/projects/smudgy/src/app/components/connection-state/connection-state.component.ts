@@ -17,7 +17,7 @@ export class ConnectionStateComponent implements OnInit {
 
   constructor(private readonly socketService: SocketService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.state$ = this.socketService.state$;
     this.stateClass$ = this.state$.pipe(map(state => [state]));
   }

@@ -33,7 +33,7 @@ export class NetworkDrawService implements OnDestroy {
     this.stopDrawing();
   }
 
-  private send(drawCommands: DrawCommand[]) {
+  private send(drawCommands: DrawCommand[]): void {
     const serializedDrawCommands = this.networkDrawCommandSerializer.serialize(drawCommands);
     // TODO: Set via network
   }

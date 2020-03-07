@@ -75,7 +75,7 @@ export class PlayerService {
       map(id => ({ name, id } as PlayerRegister)),
       switchMap(payload => this.socketService.sendAndReceive$(Events.Register, payload)),
       switchMap(() => this.storageService.set$(PLAYER_NAME_STORAGE_KEY, name)),
-      tap(() => {
+      map(() => {
         this.debug('Player successfully registered');
         this.playerIsRegistered = true;
       }),

@@ -89,7 +89,7 @@ export class SocketService {
     }).pipe(timeout(environment.gameConfiguration.connectionTimeout));
   }
 
-  disconnect() {
+  disconnect(): void {
     this.socket.disconnect();
   }
 }

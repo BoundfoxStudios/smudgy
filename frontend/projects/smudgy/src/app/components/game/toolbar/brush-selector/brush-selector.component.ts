@@ -24,7 +24,7 @@ export class BrushSelectorComponent {
     this.brushSizeViewModel = { brushSize, size: brushSizeToNumber(brushSize) };
   }
 
-  select(brushSizeViewModel: BrushSizeViewModel) {
+  select(brushSizeViewModel: BrushSizeViewModel): void {
     this.selectBrushSize.next(brushSizeViewModel.brushSize);
   }
 }
