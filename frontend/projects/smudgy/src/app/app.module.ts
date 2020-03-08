@@ -28,6 +28,7 @@ import { socketServiceInitializerFactory, socketServiceInitializerFactoryDeps } 
 import { ConnectionStateComponent } from './components/connection-state/connection-state.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { CardComponent } from './components/card/card.component';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { CardComponent } from './components/card/card.component';
     ConnectionStateComponent,
     WelcomeComponent,
     CardComponent,
+    ButtonComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, TranslateModule.forRoot(), FontAwesomeModule, ClipboardModule],
   providers: [

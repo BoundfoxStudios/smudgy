@@ -1,0 +1,26 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  border: none;
+  background-color: $midnight-blue;
+  color: $silver;
+  padding: $gap;
+  border-radius: $gap / 4;
+  font-weight: bold;
+  font-size: 100%;
+  margin: auto auto 0 auto;
+  cursor: pointer;
+
+  @include neumorphism-drop-shadow($midnight-blue, 2px);
+
+  &:hover {
+    @include neumorphism-inset-shadow($midnight-blue, 2px);
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}
