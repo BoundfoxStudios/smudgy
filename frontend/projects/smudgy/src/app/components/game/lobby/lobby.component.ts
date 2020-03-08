@@ -48,30 +48,22 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
     const { sessionId } = this.activatedRoute.snapshot.queryParams;
 
     if (!sessionId) {
-      this.sessionService
-        .createSession$(this.form.value)
-        .pipe(
-          switchMap(serverSessionId => {
-            this.debug('Setting session id %s', serverSessionId);
-
-            return this.router
-              .navigate([], {
-                relativeTo: this.activatedRoute,
-                queryParams: { sessionId: serverSessionId },
-                replaceUrl: true,
-              })
-              .then(() => this.joinSession(serverSessionId));
-          }),
-        )
-        .subscribe();
+      this.debug('No session found, creating a new one.');
+      this.sessionService.createSession$(this.form.value).subscribe(serverSessionId => this.joinSession(serverSessionId));
       return;
     }
+
+    void this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {},
+      replaceUrl: true,
+    });
 
     this.joinSession(sessionId);
   }
 
   private joinSession(sessionId: string): void {
-    this.inviteUrl = window.location.href;
+    this.inviteUrl = `${window.location.origin}/game/lobby?sessionId=${sessionId}`;
 
     // TODO: Show a message before going back to the main menu
     this.sessionService
