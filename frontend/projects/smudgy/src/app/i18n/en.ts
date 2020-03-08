@@ -17,10 +17,14 @@ export const TRANSLATIONS_EN: Translations = {
       COPY: 'Copy',
       HOVER_TO_SEE_LINK: 'Hover over this text to reveal the URL',
     },
+    START: 'Start',
   },
   WELCOME: {
     DESCRIPTION: `MISSING TRANSLATION`,
     TITLE: 'Welcome!',
+    USER_INFORMATION: {
+      TITLE: 'Play',
+    },
   },
   USER_INFORMATION: {
     PLAYER_NAME: 'Player name',

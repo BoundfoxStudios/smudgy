@@ -53,6 +53,10 @@ form {
   display: flex;
   flex-direction: column;
   flex: 1;
+
+  button[type='submit'] {
+    margin: $gap auto 0 auto;
+  }
 }
 
 .input-group {

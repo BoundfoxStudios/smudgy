@@ -17,6 +17,7 @@ export const TRANSLATIONS_DE: Translations = {
       COPY: 'Kopieren',
       HOVER_TO_SEE_LINK: 'Fahre mit der Maus über diesen Text um die URL zu sehen',
     },
+    START: 'Starten',
   },
   WELCOME: {
     DESCRIPTION: `<p><strong>Smudgy</strong> ist ein kostenfreies Multiplayer <strong>Montagsmaler</strong> Spiel.
@@ -26,6 +27,9 @@ gebeten, um ein Wort zu <strong>malen</strong>, was von den anderen Mitspielern 
 
 <p>Wer als erstes errät, bekommt die meisten Punkte. Am Ende <strong>gewinnt</strong>, wer die <strong>meisten</strong> Punkte hat!</p>`,
     TITLE: 'Willkommen!',
+    USER_INFORMATION: {
+      TITLE: 'Spielen',
+    },
   },
   USER_INFORMATION: {
     PLAYER_NAME: 'Spielername',

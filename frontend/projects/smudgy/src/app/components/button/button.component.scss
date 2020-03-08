@@ -2,20 +2,19 @@
 @import 'mixins';
 
 :host {
+  @include neumorphism-drop-shadow($page-background-color, 9px, 15px);
+
   border: none;
-  background-color: $midnight-blue;
-  color: $silver;
+  background-color: $page-background-color;
+  color: $font-color;
   padding: $gap;
   border-radius: $gap / 4;
   font-weight: bold;
   font-size: 100%;
   margin: auto auto 0 auto;
-  cursor: pointer;
-
-  @include neumorphism-drop-shadow($midnight-blue, 2px);
 
   &:hover {
-    @include neumorphism-inset-shadow($midnight-blue, 2px);
+    @include neumorphism-inset-shadow($page-background-color, 5px, 8px);
   }
 
   &:active,

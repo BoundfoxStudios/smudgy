@@ -22,14 +22,14 @@ input {
   font-size: 100%;
   outline: none;
   flex: 1;
-  background-color: $midnight-blue;
+  background-color: $page-background-color;
   border: none;
-  color: $clouds;
   padding: $gap / 2 $gap;
+  border-radius: $gap;
 
   &::placeholder {
-    color: $silver;
+    color: $asbestos;
   }
 
-  @include neumorphism-inset-shadow($midnight-blue, 2px);
+  @include neumorphism-inset-shadow($page-background-color, 5px, 8px);
 }

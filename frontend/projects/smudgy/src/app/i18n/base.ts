@@ -6,6 +6,9 @@ export interface Translations {
   WELCOME: {
     TITLE: string;
     DESCRIPTION: string;
+    USER_INFORMATION: {
+      TITLE: string;
+    };
   };
   FOOTER: {
     A_GAME_BY: string;
@@ -27,5 +30,6 @@ export interface Translations {
       HOVER_TO_SEE_LINK: string;
       COPY: string;
     };
+    START: string;
   };
 }
