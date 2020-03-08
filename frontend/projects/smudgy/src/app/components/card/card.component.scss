@@ -4,23 +4,13 @@
 @include host();
 
 :host {
-  background-color: $card-background-color;
+  background-color: $page-background-color;
   padding: $gap;
   border-radius: $gap;
 
-  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.3);
+  @include neumorphism-drop-shadow($page-background-color);
 
   header {
     margin-bottom: 2 * $gap;
-  }
-
-  ::ng-deep {
-    h2 {
-      color: $midnight-blue;
-    }
-
-    p {
-      color: $midnight-blue;
-    }
   }
 }

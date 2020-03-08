@@ -14,3 +14,13 @@
     @include flex-default($flexOne);
   }
 }
+
+@mixin neumorphism-drop-shadow($base-color, $distance: 4px) {
+  box-shadow: $distance $distance ($distance * 2) adjust_color($base-color, $lightness: -15%),
+    (-$distance) (-$distance) ($distance * 2) adjust_color($base-color, $lightness: 15%);
+}
+
+@mixin neumorphism-inset-shadow($base-color, $distance: 4px) {
+  box-shadow: inset $distance $distance ($distance * 2) adjust_color($base-color, $lightness: -15%),
+    inset (-$distance) (-$distance) ($distance * 2) adjust_color($base-color, $lightness: 15%);
+}

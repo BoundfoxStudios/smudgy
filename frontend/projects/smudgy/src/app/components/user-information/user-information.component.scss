@@ -15,14 +15,23 @@ form {
 
 label {
   margin-right: $gap;
-  color: $midnight-blue;
+  display: none;
 }
 
 input {
-  color: $midnight-blue;
   font-size: 100%;
   outline: none;
   flex: 1;
+  background-color: $midnight-blue;
+  border: none;
+  color: $clouds;
+  padding: $gap / 2 $gap;
+
+  &::placeholder {
+    color: $silver;
+  }
+
+  @include neumorphism-inset-shadow($midnight-blue, 2px);
 }
 
 button {
@@ -34,4 +43,11 @@ button {
   font-weight: bold;
   font-size: 100%;
   margin: auto auto 0 auto;
+  cursor: pointer;
+
+  @include neumorphism-drop-shadow($midnight-blue, 2px);
+
+  &:hover {
+    @include neumorphism-inset-shadow($midnight-blue, 2px);
+  }
 }
