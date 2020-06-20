@@ -49,7 +49,10 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
 
     if (!sessionId) {
       this.debug('No session found, creating a new one.');
-      this.sessionService.createSession$(this.form.value).subscribe(serverSessionId => this.joinSession(serverSessionId));
+      this.sessionService
+        .createSession$(this.form.value)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(serverSessionId => this.joinSession(serverSessionId));
       return;
     }
 
@@ -60,6 +63,13 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
     });
 
     this.joinSession(sessionId);
+  }
+
+  startGame(): void {
+    this.sessionService
+      .startGame$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 
   private joinSession(sessionId: string): void {
@@ -89,5 +99,9 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
       .sessionConfiguration$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(sessionConfiguration => this.form.setValue(sessionConfiguration, { emitEvent: false }));
+
+    this.sessionService.gameStarted$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.router.navigate(['/game/play']));
   }
 }

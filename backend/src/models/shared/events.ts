@@ -6,4 +6,5 @@ export enum Events {
   PlayerJoinSession = 'player-join-session',
   UpdateSessionConfiguration = 'update-session-configuration',
   PlayerList = 'player-list',
+  StartGame = 'start-game',
 }

@@ -2,7 +2,7 @@ import * as nodeDebug from 'debug';
 import { IDebugger } from 'debug';
 import { interfaces } from 'inversify';
 import { ResultFn, socketOn } from '../helpers/socket-on';
-import { Session } from '../models/session';
+import { Session, SessionState } from '../models/session';
 import { Events } from '../models/shared/events';
 import { Player } from '../models/shared/player';
 import { SessionConfiguration } from '../models/shared/session-configuration';
@@ -47,6 +47,7 @@ export class GameSession {
 
     socketOn(socket, Events.UpdateSessionConfiguration, this.updateSessionConfiguration.bind(this));
     socketOn(socket, Events.PlayerList, this.playerList.bind(this));
+    socketOn(socket, Events.StartGame, this.startGame.bind(this));
 
     socket.in(this.sessionRoomKey).emit(Events.PlayerJoinSession, this.playersService.getPlayer(playerId));
   }
@@ -89,6 +90,16 @@ export class GameSession {
     socket.in(this.sessionRoomKey).emit(Events.UpdateSessionConfiguration, payload);
 
     // TODO: validate new session configuration
+    fn();
+  }
+
+  private startGame(socket: SocketWithUserData, payload: void, fn: ResultFn): void {
+    debug('%s started the game', socket.userData.playerId);
+
+    this.session.state = SessionState.Playing;
+
+    socket.server.in(this.sessionRoomKey).emit(Events.StartGame, this.session);
+
     fn();
   }
 }

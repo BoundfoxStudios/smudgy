@@ -12,6 +12,7 @@
   font-weight: bold;
   font-size: 100%;
   margin: auto auto 0 auto;
+  cursor: pointer;
 
   &:hover {
     @include neumorphism-inset-shadow($page-background-color, 5px, 8px);

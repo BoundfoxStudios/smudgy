@@ -61,7 +61,7 @@ export class SocketService {
     }).pipe(share());
   }
 
-  send$(event: string, payload: object): Observable<void> {
+  send$(event: string, payload?: object): Observable<void> {
     return defer(() => {
       this.debug('[Request # %d] Sending event %s with payload %o', ++globalRequestId, event, payload);
 

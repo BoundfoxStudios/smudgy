@@ -1,5 +1,10 @@
 import { SessionConfiguration } from './shared/session-configuration';
 
+export enum SessionState {
+  Lobby,
+  Playing
+}
+
 export interface Round {
   drawerPlayerId: string;
   wordToDraw: string;
@@ -21,6 +26,7 @@ export interface Session {
   configuration: SessionConfiguration;
   playerIds: SessionPlayers;
   rounds: Round[];
+  state: SessionState,
 }
 
 export const createSession = (id: string, hostPlayerId: string, configuration: SessionConfiguration): Session => {
@@ -30,5 +36,6 @@ export const createSession = (id: string, hostPlayerId: string, configuration: S
     playerIds: {},
     configuration,
     rounds: [],
+    state: SessionState.Lobby,
   };
 };

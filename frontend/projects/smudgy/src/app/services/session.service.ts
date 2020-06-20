@@ -8,7 +8,8 @@ import { SocketService } from './socket.service';
 
 @Injectable()
 export class SessionService {
-  constructor(private readonly socketService: SocketService) {}
+  constructor(private readonly socketService: SocketService) {
+  }
 
   createSession$(sessionConfiguration: SessionConfiguration): Observable<string> {
     return this.socketService.sendAndReceive$(Events.CreateSession, sessionConfiguration);
@@ -32,6 +33,14 @@ export class SessionService {
 
   playerLeave$(): Observable<string> {
     return this.socketService.fromEvent$(Events.PlayerLeaveSession);
+  }
+
+  startGame$(): Observable<void> {
+    return this.socketService.send$(Events.StartGame);
+  }
+
+  gameStarted$(): Observable<void> {
+    return this.socketService.fromEvent$(Events.StartGame);
   }
 
   players$(): Observable<Player[]> {

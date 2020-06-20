@@ -1,7 +1,7 @@
 <div class="top">
   <app-card>
     <h2 translate>LOBBY.SETTINGS.TITLE</h2>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="startGame()">
       <div class="input-group">
         <label translate for="language"><fa-icon [icon]="faFlag"></fa-icon> LOBBY.SETTINGS.LANGUAGE</label>
         <select id="language" formControlName="language">
