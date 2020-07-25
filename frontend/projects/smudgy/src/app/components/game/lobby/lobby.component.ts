@@ -100,7 +100,8 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
       .pipe(takeUntil(this.destroy$))
       .subscribe(sessionConfiguration => this.form.setValue(sessionConfiguration, { emitEvent: false }));
 
-    this.sessionService.gameStarted$()
+    this.sessionService
+      .gameStarted$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.router.navigate(['/game/play']));
   }
