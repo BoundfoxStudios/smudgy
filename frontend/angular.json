@@ -49,7 +49,8 @@
             "stylePreprocessorOptions": {
               "includePaths": ["projects/smudgy/src/styles/core"]
             },
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["debug", "socket.io-client", "socket.io-parser"]
           },
           "configurations": {
             "production": {
