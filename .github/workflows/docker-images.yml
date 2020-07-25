@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Docker API
-      run: |
-        docker build . --tag boundfoxstudios/smudgy-api:$GITHUB_RUN_NUMBER
-        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u boundfoxstudios --password-stdin
-        docker push boundfoxstudios/smudgy-api
+    - name: Docker Login
+      run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u boundfoxstudios --password-stdin
+    - name: Build API
+      run: docker build . --tag boundfoxstudios/smudgy-api:$GITHUB_RUN_NUMBER
       working-directory: backend
-    - name: Docker Web
-      run: | 
-        docker build . --tag boundfoxstudios/smudgy-web:$GITHUB_RUN_NUMBER
-        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u boundfoxstudios --password-stdin
-        docker push boundfoxstudios/smudgy-api
+    - name: Build Web
+      run: docker build . --tag boundfoxstudios/smudgy-web:$GITHUB_RUN_NUMBER
       working-directory: frontend
+    - name: Push images
+      run: |
+        docker push boundfoxstudios/smudgy-api
+        docker push boundfoxstudios/smudgy-web
