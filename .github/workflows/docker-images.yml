@@ -11,11 +11,13 @@ jobs:
     - uses: actions/checkout@v2
     - name: Docker API
       run: |
-        docker build . --file backend/Dockerfile --tag boundfoxstudios/smudgy-api:$GITHUB_RUN_NUMBER
+        docker build . --tag boundfoxstudios/smudgy-api:$GITHUB_RUN_NUMBER
         echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u boundfoxstudios --password-stdin
         docker push boundfoxstudios/smudgy-api
+      working-directory: backend
     - name: Docker Web
       run: | 
-        docker build . --file frontend/Dockerfile --tag boundfoxstudios/smudgy-web:$GITHUB_RUN_NUMBER
+        docker build . --tag boundfoxstudios/smudgy-web:$GITHUB_RUN_NUMBER
         echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u boundfoxstudios --password-stdin
         docker push boundfoxstudios/smudgy-api
+      working-directory: frontend
