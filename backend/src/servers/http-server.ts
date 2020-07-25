@@ -16,7 +16,7 @@ export class HttpServer {
     this.server = restify.createServer();
 
     const corsMiddleware = restifyCorsMiddleware({
-      origins: ['http://localhost:4200', 'https://smudgy-dev.azurewebsites.net', 'https://smudgy.azurewebsites.net'],
+      origins: ['http://localhost:4200', 'https://smudgy-web.herokuapp.com/'],
     } as Options);
     this.server.pre(corsMiddleware.preflight);
     this.server.use(corsMiddleware.actual);
