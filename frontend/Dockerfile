@@ -10,7 +10,7 @@ RUN npm i
 COPY projects ./projects
 COPY config ./config
 COPY angular.json ./
-COPY tsconfig.json ./
+COPY tsconfig.base.json ./
 COPY tslint.json ./
 
 RUN npm run build-prod
