@@ -27,10 +27,10 @@ jobs:
       working-directory: frontend
     - name: Push images
       run: |
-        docker tag boundfoxstudios/smudgy-api:$GITHUB_RUN_NUMBER registry.heroku.com/smudgy-api/web:$GITHUB_RUN_NUMBER
-        docker tag boundfoxstudios/smudgy-web:$GITHUB_RUN_NUMBER registry.heroku.com/smudgy-web/web:$GITHUB_RUN_NUMBER
-        docker push registry.heroku.com/smudgy-api/web:$GITHUB_RUN_NUMBER
-        docker push registry.heroku.com/smudgy-web/web:$GITHUB_RUN_NUMBER
+        docker tag boundfoxstudios/smudgy-api:$GITHUB_RUN_NUMBER registry.heroku.com/smudgy-api/web
+        docker tag boundfoxstudios/smudgy-web:$GITHUB_RUN_NUMBER registry.heroku.com/smudgy-web/web
+        docker push registry.heroku.com/smudgy-api/web
+        docker push registry.heroku.com/smudgy-web/web
     - name: Release images
       env:
         HEROKU_API_KEY: "${{ secrets.HEROKU_API_TOKEN }}"
