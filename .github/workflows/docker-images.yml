@@ -15,7 +15,7 @@ jobs:
         node-version: 14.x 
     - name: Heroku Login
       env: 
-        HEROKU_USER_NAME: ${{ secrets.HEROKU_USER_NAME }}
+        HEROKU_USER_NAME: "${{ secrets.HEROKU_USER_NAME }}"
       run: bash -c 'echo ${{ secrets.HEROKU_API_KEY }} | docker login -u $HEROKU_USER_NAME --password-stdin registry.heroku.com'
     - name: Build API
       run: docker build . --tag boundfoxstudios/smudgy-api:$GITHUB_RUN_NUMBER
