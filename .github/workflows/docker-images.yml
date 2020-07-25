@@ -32,6 +32,9 @@ jobs:
         docker push registry.heroku.com/smudgy-api/web:$GITHUB_RUN_NUMBER
         docker push registry.heroku.com/smudgy-web/web:$GITHUB_RUN_NUMBER
     - name: Release images
+      env:
+        kHEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
       run: |
+        heroku container:login
         heroku container:release -a smudgy-api web
         heroku container:release -a smudgy-web web
