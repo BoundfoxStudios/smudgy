@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker API
+      run: |
+        docker build . --file backend/Dockerfile --tag boundfoxstudios/smudgy-api:$GITHUB_RUN_NUMBER
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u boundfoxstudios --password-stdin
+        docker push boundfoxstudios/smudgy-api
+    - name: Docker Web
+      run: | 
+        docker build . --file frontend/Dockerfile --tag boundfoxstudios/smudgy-web:$GITHUB_RUN_NUMBER
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u boundfoxstudios --password-stdin
+        docker push boundfoxstudios/smudgy-api
