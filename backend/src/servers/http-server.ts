@@ -30,7 +30,7 @@ export class HttpServer {
   }
 
   listen(): void {
-    // TODO: dynamic port
-    this.server.listen(8080, () => debug('Server is up and running on port %s', 8080));
+    const port = process.env.PORT || 8080;
+    this.server.listen(port, () => debug('Server is up and running on port %s', port));
   }
 }
