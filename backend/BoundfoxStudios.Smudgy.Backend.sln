@@ -5,6 +5,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Additional Files", "Additional Files", "{EF3F85C6-CF35-4804-9AEA-FDC0530B0B11}"
 ProjectSection(SolutionItems) = preProject
 	..\.gitignore = ..\.gitignore
+	.editorconfig = .editorconfig
 EndProjectSection
 EndProject
 Global
