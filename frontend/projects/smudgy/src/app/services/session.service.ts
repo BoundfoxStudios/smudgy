@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Events } from '../models/shared/events';
-import { Player } from '../models/shared/player';
-import { SessionConfiguration } from '../models/shared/session-configuration';
+import { Events } from '../models/network/events';
+import { Player } from '../models/network/player';
+import { SessionConfiguration } from '../models/network/session-configuration';
 import { SocketService } from './socket.service';
 
 @Injectable()

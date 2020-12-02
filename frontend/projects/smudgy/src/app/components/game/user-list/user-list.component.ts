@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Player } from '../../../models/shared/player';
+import { Player } from '../../../models/network/player';
 import { SessionService } from '../../../services/session.service';
 
 @Component({
