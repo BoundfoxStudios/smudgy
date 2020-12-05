@@ -1,0 +1,56 @@
+[2020-12-05 13:20:48.788 +01:00 INF] Microsoft.EntityFrameworkCore.Infrastructure Entity Framework Core 5.0.0 initialized 'SmudgyContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+[2020-12-05 13:20:48.994 +01:00 INF] Microsoft.EntityFrameworkCore.Database.Command Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+[2020-12-05 13:20:49.006 +01:00 INF] Microsoft.EntityFrameworkCore.Database.Command Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+[2020-12-05 13:20:49.022 +01:00 INF] Microsoft.EntityFrameworkCore.Database.Command Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+[2020-12-05 13:20:49.043 +01:00 INF] Microsoft.EntityFrameworkCore.Migrations No migrations were applied. The database is already up to date.
+[2020-12-05 13:20:49.060 +01:00 INF] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager User profile is available. Using '/Users/manuelrauber/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+[2020-12-05 13:20:49.259 +01:00 INF] Microsoft.Hosting.Lifetime Now listening on: https://localhost:5001
+[2020-12-05 13:20:49.259 +01:00 INF] Microsoft.Hosting.Lifetime Now listening on: http://localhost:5000
+[2020-12-05 13:20:49.262 +01:00 INF] Microsoft.Hosting.Lifetime Application started. Press Ctrl+C to shut down.
+[2020-12-05 13:20:49.263 +01:00 INF] Microsoft.Hosting.Lifetime Hosting environment: Development
+[2020-12-05 13:20:49.263 +01:00 INF] Microsoft.Hosting.Lifetime Content root path: /Users/manuelrauber/projects/private/smudgy/backend/BoundfoxStudios.Smudgy.Host
+[2020-12-05 13:20:49.711 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 OPTIONS http://localhost:5000/hubs/player/negotiate?negotiateVersion=1 - -
+[2020-12-05 13:20:49.716 +01:00 INF] Microsoft.AspNetCore.Cors.Infrastructure.CorsService CORS policy execution successful.
+[2020-12-05 13:20:49.719 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 OPTIONS http://localhost:5000/hubs/player/negotiate?negotiateVersion=1 - - - 204 - - 10.0510ms
+[2020-12-05 13:20:49.723 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 POST http://localhost:5000/hubs/player/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+[2020-12-05 13:20:49.723 +01:00 INF] Microsoft.AspNetCore.Cors.Infrastructure.CorsService CORS policy execution successful.
+[2020-12-05 13:20:49.758 +01:00 INF] Microsoft.AspNetCore.Routing.EndpointMiddleware Executing endpoint '/hubs/player/negotiate'
+[2020-12-05 13:20:49.779 +01:00 INF] Microsoft.AspNetCore.Routing.EndpointMiddleware Executed endpoint '/hubs/player/negotiate'
+[2020-12-05 13:20:49.780 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 POST http://localhost:5000/hubs/player/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0 - 200 316 application/json 56.6033ms
+[2020-12-05 13:20:49.785 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 GET http://localhost:5000/hubs/player?id=Og4vJFbRWo62dFq_6j0MAA - -
+[2020-12-05 13:20:49.786 +01:00 INF] Microsoft.AspNetCore.Cors.Infrastructure.CorsService CORS policy execution successful.
+[2020-12-05 13:20:49.786 +01:00 INF] Microsoft.AspNetCore.Routing.EndpointMiddleware Executing endpoint '/hubs/player'
+[2020-12-05 13:20:49.817 +01:00 INF] BoundfoxStudios.Smudgy.Hubs.Hubs.PlayerHub Socket connected: 1e32jKrebrJVN1ModViIfQ
+[2020-12-05 13:21:04.777 +01:00 INF] Microsoft.AspNetCore.Routing.EndpointMiddleware Executed endpoint '/hubs/player'
+[2020-12-05 13:21:04.781 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 GET http://localhost:5000/hubs/player?id=Og4vJFbRWo62dFq_6j0MAA - - - 101 - - 14996.0854ms
+[2020-12-05 13:21:05.049 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 OPTIONS http://localhost:5000/hubs/player/negotiate?negotiateVersion=1 - -
+[2020-12-05 13:21:05.050 +01:00 INF] Microsoft.AspNetCore.Cors.Infrastructure.CorsService CORS policy execution successful.
+[2020-12-05 13:21:05.050 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 OPTIONS http://localhost:5000/hubs/player/negotiate?negotiateVersion=1 - - - 204 - - 0.5931ms
+[2020-12-05 13:21:05.052 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 POST http://localhost:5000/hubs/player/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+[2020-12-05 13:21:05.053 +01:00 INF] Microsoft.AspNetCore.Cors.Infrastructure.CorsService CORS policy execution successful.
+[2020-12-05 13:21:05.053 +01:00 INF] Microsoft.AspNetCore.Routing.EndpointMiddleware Executing endpoint '/hubs/player/negotiate'
+[2020-12-05 13:21:05.053 +01:00 INF] Microsoft.AspNetCore.Routing.EndpointMiddleware Executed endpoint '/hubs/player/negotiate'
+[2020-12-05 13:21:05.054 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 POST http://localhost:5000/hubs/player/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0 - 200 316 application/json 1.3152ms
+[2020-12-05 13:21:05.068 +01:00 INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 GET http://localhost:5000/hubs/player?id=v3xnWFpDf97m_-QbJvmhbg - -
+[2020-12-05 13:21:05.069 +01:00 INF] Microsoft.AspNetCore.Cors.Infrastructure.CorsService CORS policy execution successful.
+[2020-12-05 13:21:05.069 +01:00 INF] Microsoft.AspNetCore.Routing.EndpointMiddleware Executing endpoint '/hubs/player'
+[2020-12-05 13:21:05.076 +01:00 INF] BoundfoxStudios.Smudgy.Hubs.Hubs.PlayerHub Socket connected: rwjK7ZnS0Aa3F9EsacWEZw
+[2020-12-05 13:21:06.315 +01:00 INF] BoundfoxStudios.Smudgy.Hubs.Hubs.PlayerHub [rwjK7ZnS0Aa3F9EsacWEZw] Registering player Manu ("155f6ae8-d36f-465a-953a-49a49f8d9b8e")
+[2020-12-05 13:21:06.355 +01:00 INF] Microsoft.EntityFrameworkCore.Infrastructure Entity Framework Core 5.0.0 initialized 'SmudgyContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+[2020-12-05 13:21:06.592 +01:00 INF] Microsoft.EntityFrameworkCore.Database.Command Executed DbCommand (3ms) [Parameters=[@__id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ClusterId", "p"."CreatedAt", "p"."Id", "p"."Name", "p"."SocketId", "p"."UpdatedAt"
+FROM "Players" AS "p"
+WHERE "p"."Id" = @__id_0
+LIMIT 2
+[2020-12-05 13:21:06.778 +01:00 INF] Microsoft.EntityFrameworkCore.Database.Command Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?', @p2='?' (Size = 4), @p3='?' (Size = 22), @p4='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Players" ("CreatedAt", "Id", "Name", "SocketId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT "ClusterId"
+FROM "Players"
+WHERE changes() = 1 AND "rowid" = last_insert_rowid();
+[2020-12-05 13:21:06.823 +01:00 INF] BoundfoxStudios.Smudgy.Services.PlayerService Registered new player {"Name":"Manu","SocketId":"rwjK7ZnS0Aa3F9EsacWEZw","Id":"155f6ae8-d36f-465a-953a-49a49f8d9b8e","CreatedAt":"2020-12-05T12:21:06.7087950Z","UpdatedAt":"2020-12-05T12:21:06.7088810Z","$type":"Player"}

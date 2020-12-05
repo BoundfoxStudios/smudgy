@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using BoundfoxStudios.Smudgy.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -22,6 +24,12 @@ namespace BoundfoxStudios.Smudgy.Host
       {
         var host = CreateHostBuilder(args).Build();
 
+        using (var scope = host.Services.CreateScope())
+        {
+          var migrator = scope.ServiceProvider.GetRequiredService<DatabaseMigrator>();
+          await migrator.MigrateAsync();
+        }
+
         await host.RunAsync();
       }
       finally
@@ -32,6 +40,7 @@ namespace BoundfoxStudios.Smudgy.Host
 
     private static IHostBuilder CreateHostBuilder(string[] args) =>
       Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+        .UseSerilog()
         .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
   }
 }

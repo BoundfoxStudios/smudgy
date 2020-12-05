@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { faWifi } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SocketService, SocketState } from '../../services/socket.service';
+import { ConnectionState } from '../../services/hubs/base-hub.service';
+import { PlayerHubService } from '../../services/hubs/player-hub.service';
 
 @Component({
   selector: 'app-connection-state',
@@ -11,14 +12,14 @@ import { SocketService, SocketState } from '../../services/socket.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConnectionStateComponent implements OnInit {
-  state$: Observable<SocketState>;
+  state$: Observable<ConnectionState>;
   stateClass$: Observable<string[]>;
   readonly faWifi = faWifi;
 
-  constructor(private readonly socketService: SocketService) {}
+  constructor(private readonly playerHubService: PlayerHubService) {}
 
   ngOnInit(): void {
-    this.state$ = this.socketService.state$;
+    this.state$ = this.playerHubService.state$;
     this.stateClass$ = this.state$.pipe(map(state => [state]));
   }
 }

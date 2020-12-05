@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IDebugger } from 'debug';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
-import { map, mapTo, switchMap } from 'rxjs/operators';
+import { map, mapTo, switchMap, tap } from 'rxjs/operators';
 import { Events } from '../models/network/events';
 import { PlayerRegister } from '../models/network/player-register';
 import { DebugService } from './debug.service';
+import { PlayerHubService } from './hubs/player-hub.service';
 import { IdService } from './id.service';
 import { SocketService } from './socket.service';
 import { StorageService } from './storage.service';
@@ -21,6 +22,7 @@ export class PlayerService {
 
   constructor(
     private readonly socketService: SocketService,
+    private readonly playerHubService: PlayerHubService,
     private readonly idService: IdService,
     private readonly storageService: StorageService,
     debugService: DebugService,
@@ -67,7 +69,7 @@ export class PlayerService {
       return EMPTY;
     }
 
-    return this.storageService.get$(PLAYER_ID_STORAGE_KEY).pipe(
+    return this.storageService.get$<string>(PLAYER_ID_STORAGE_KEY).pipe(
       switchMap(playerId => {
         if (!playerId) {
           playerId = this.idService.generate();
@@ -76,8 +78,12 @@ export class PlayerService {
 
         return of(playerId);
       }),
-      map(id => ({ name, id } as PlayerRegister)),
-      switchMap(payload => this.socketService.sendAndReceive$(Events.Register, payload)),
+      switchMap(id => this.playerHubService.register$(id, name)),
+      tap(registrationSuccessful => {
+        if (!registrationSuccessful) {
+          throw new Error('Registration was not successful');
+        }
+      }),
       switchMap(() => this.storageService.set$(PLAYER_NAME_STORAGE_KEY, name)),
       map(() => {
         this.debug('Player successfully registered');

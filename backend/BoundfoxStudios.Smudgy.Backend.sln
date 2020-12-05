@@ -6,7 +6,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Additional Files", "Additio
 ProjectSection(SolutionItems) = preProject
 	..\.gitignore = ..\.gitignore
 	.editorconfig = .editorconfig
+	add-migration.sh = add-migration.sh
 EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI", "CI", "{7BC24F66-240E-41D6-9DDA-4BAC889B9AB0}"
+ProjectSection(SolutionItems) = preProject
+	Dockerfile = Dockerfile
+	.dockerignore = .dockerignore
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundfoxStudios.Smudgy.Hubs", "BoundfoxStudios.Smudgy.Hubs\BoundfoxStudios.Smudgy.Hubs.csproj", "{97824460-3F35-4DC9-877A-60B17E90FDDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundfoxStudios.Smudgy.Data", "BoundfoxStudios.Smudgy.Data\BoundfoxStudios.Smudgy.Data.csproj", "{6535B61F-DE58-4B11-B2FF-66B84F2C16F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundfoxStudios.Smudgy.Services", "BoundfoxStudios.Smudgy.Services\BoundfoxStudios.Smudgy.Services.csproj", "{C5A43B1B-6401-42F3-923F-37B991098699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +31,17 @@ Global
 		{4ACF7CC5-19EB-4AFD-AE71-12854C208CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ACF7CC5-19EB-4AFD-AE71-12854C208CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4ACF7CC5-19EB-4AFD-AE71-12854C208CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97824460-3F35-4DC9-877A-60B17E90FDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97824460-3F35-4DC9-877A-60B17E90FDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97824460-3F35-4DC9-877A-60B17E90FDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97824460-3F35-4DC9-877A-60B17E90FDDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6535B61F-DE58-4B11-B2FF-66B84F2C16F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6535B61F-DE58-4B11-B2FF-66B84F2C16F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6535B61F-DE58-4B11-B2FF-66B84F2C16F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6535B61F-DE58-4B11-B2FF-66B84F2C16F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5A43B1B-6401-42F3-923F-37B991098699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A43B1B-6401-42F3-923F-37B991098699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5A43B1B-6401-42F3-923F-37B991098699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A43B1B-6401-42F3-923F-37B991098699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
