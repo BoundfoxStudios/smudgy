@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
 namespace BoundfoxStudios.Smudgy.Host
@@ -18,6 +19,7 @@ namespace BoundfoxStudios.Smudgy.Host
         .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day,
           outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u3}] {SourceContext:l} {Message:lj}{NewLine}{Exception}")
         .Enrich.FromLogContext()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
         .CreateLogger();
 
       try

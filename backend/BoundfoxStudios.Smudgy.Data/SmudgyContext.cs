@@ -3,14 +3,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using BoundfoxStudios.Smudgy.Data.Models;
+using BoundfoxStudios.Smudgy.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoundfoxStudios.Smudgy.Data
 {
   public class SmudgyContext : DbContext
   {
-    public DbSet<Player> Players { get; set; }
+    public DbSet<PlayerEntity> Players { get; set; }
 
     public SmudgyContext(DbContextOptions<SmudgyContext> options)
       : base(options)

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BoundfoxStudios.Smudgy.Data.Models
+namespace BoundfoxStudios.Smudgy.Data.Entities
 {
   public abstract class BaseEntityTypeConfiguration<T> : IEntityTypeConfiguration<T>
     where T : BaseEntity

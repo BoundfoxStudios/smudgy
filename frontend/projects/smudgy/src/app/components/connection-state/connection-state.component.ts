@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { faWifi } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConnectionState } from '../../services/hubs/base-hub.service';
-import { PlayerHubService } from '../../services/hubs/player-hub.service';
+import { ConnectionState, HubService } from '../../services/hubs/hub.service';
 
 @Component({
   selector: 'app-connection-state',
@@ -16,10 +15,10 @@ export class ConnectionStateComponent implements OnInit {
   stateClass$: Observable<string[]>;
   readonly faWifi = faWifi;
 
-  constructor(private readonly playerHubService: PlayerHubService) {}
+  constructor(private readonly hubService: HubService) {}
 
   ngOnInit(): void {
-    this.state$ = this.playerHubService.state$;
+    this.state$ = this.hubService.state$;
     this.stateClass$ = this.state$.pipe(map(state => [state]));
   }
 }

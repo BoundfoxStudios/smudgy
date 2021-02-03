@@ -2,12 +2,9 @@ import { Injectable } from '@angular/core';
 import { IDebugger } from 'debug';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { map, mapTo, switchMap, tap } from 'rxjs/operators';
-import { Events } from '../models/network/events';
-import { PlayerRegister } from '../models/network/player-register';
 import { DebugService } from './debug.service';
-import { PlayerHubService } from './hubs/player-hub.service';
+import { HubService } from './hubs/hub.service';
 import { IdService } from './id.service';
-import { SocketService } from './socket.service';
 import { StorageService } from './storage.service';
 
 const PLAYER_ID_STORAGE_KEY = 'player-id';
@@ -21,8 +18,7 @@ export class PlayerService {
   private playerIsRegistered: boolean;
 
   constructor(
-    private readonly socketService: SocketService,
-    private readonly playerHubService: PlayerHubService,
+    private readonly hubService: HubService,
     private readonly idService: IdService,
     private readonly storageService: StorageService,
     debugService: DebugService,
@@ -78,7 +74,7 @@ export class PlayerService {
 
         return of(playerId);
       }),
-      switchMap(id => this.playerHubService.register$(id, name)),
+      switchMap(id => this.hubService.invoke('Register', id, name)),
       tap(registrationSuccessful => {
         if (!registrationSuccessful) {
           throw new Error('Registration was not successful');

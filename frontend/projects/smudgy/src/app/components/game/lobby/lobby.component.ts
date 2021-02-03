@@ -5,10 +5,10 @@ import { faClock, faFlag, faHistory, faUsers } from '@fortawesome/free-solid-svg
 import { IDebugger } from 'debug';
 import { BehaviorSubject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
+import { SessionLanguage } from '../../../models/network/session-configuration';
 import { DebugService } from '../../../services/debug.service';
 import { SessionService } from '../../../services/session.service';
 import { AbstractDestroyable } from '../../abstract-destroyable';
-import { SessionLanguage } from '../../../models/network/session-configuration';
 
 @Component({
   selector: 'app-lobby',

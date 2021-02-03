@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundfoxStudios.Smudgy.Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundfoxStudios.Smudgy.Services", "BoundfoxStudios.Smudgy.Services\BoundfoxStudios.Smudgy.Services.csproj", "{C5A43B1B-6401-42F3-923F-37B991098699}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundfoxStudios.Smudgy.Contracts", "BoundfoxStudios.Smudgy.Contracts\BoundfoxStudios.Smudgy.Contracts.csproj", "{7165C86F-FB75-44DB-83CC-0AD1B47422DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,5 +45,9 @@ Global
 		{C5A43B1B-6401-42F3-923F-37B991098699}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5A43B1B-6401-42F3-923F-37B991098699}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5A43B1B-6401-42F3-923F-37B991098699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7165C86F-FB75-44DB-83CC-0AD1B47422DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7165C86F-FB75-44DB-83CC-0AD1B47422DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7165C86F-FB75-44DB-83CC-0AD1B47422DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7165C86F-FB75-44DB-83CC-0AD1B47422DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

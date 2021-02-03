@@ -1,23 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using BoundfoxStudios.Smudgy.Services;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace BoundfoxStudios.Smudgy.Hubs.Hubs
 {
-  public class PlayerHub : Hub
+  public partial class GameHub : Hub
   {
-    private readonly ILogger<PlayerHub> _logger;
-    private readonly PlayerService _playerService;
-
-    public PlayerHub(ILogger<PlayerHub> logger, PlayerService playerService)
-    {
-      _logger = logger;
-      _playerService = playerService;
-    }
-
     [UsedImplicitly]
     public async Task<bool> Register(Guid id, string name)
     {
@@ -29,7 +19,9 @@ namespace BoundfoxStudios.Smudgy.Hubs.Hubs
         return false;
       }
 
-      return await _playerService.RegisterPlayerAsync(id, name, Context.ConnectionId, Context.ConnectionAborted);
+      await _playerService.RegisterPlayerAsync(id, name, Context.ConnectionId, Context.ConnectionAborted);
+
+      return true;
     }
 
     public override Task OnConnectedAsync()
@@ -37,7 +29,15 @@ namespace BoundfoxStudios.Smudgy.Hubs.Hubs
       _logger.LogInformation("Socket connected: {ConnectionId}", Context.ConnectionId);
 
       return base.OnConnectedAsync();
+    }
 
+    public override Task OnDisconnectedAsync(Exception exception)
+    {
+      _logger.LogInformation("Socket disconnected: {ConnectionId}", Context.ConnectionId);
+
+      _playerService.PlayerDisconnected(Context.ConnectionId);
+
+      return base.OnDisconnectedAsync(exception);
     }
   }
 }

@@ -28,8 +28,8 @@ import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
 import { MouseDirective } from './directives/mouse.directive';
 import { TRANSLATIONS_DE } from './i18n/de';
 import { TRANSLATIONS_EN } from './i18n/en';
-import { PlayerHubService } from './services/hubs/player-hub.service';
-import { Initializable, initializableInitializerFactory, initializableInitializerFactoryDeps } from './services/initializable';
+import { HubService } from './services/hubs/hub.service';
+import { INITIALIZABLE, initializableInitializerFactory, initializableInitializerFactoryDeps } from './services/initializable';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,7 @@ import { Initializable, initializableInitializerFactory, initializableInitialize
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, TranslateModule.forRoot(), FontAwesomeModule, ClipboardModule],
   providers: [
-    { provide: Initializable, useExisting: PlayerHubService, multi: true },
+    { provide: INITIALIZABLE, useExisting: HubService, multi: true },
     { provide: APP_INITIALIZER, useFactory: initializableInitializerFactory, deps: initializableInitializerFactoryDeps, multi: true },
   ],
   bootstrap: [RootComponent],

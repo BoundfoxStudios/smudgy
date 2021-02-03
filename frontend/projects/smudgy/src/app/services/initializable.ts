@@ -10,7 +10,7 @@ export function implementsInitializable(input: any): input is Initializable {
   return !!(input as Initializable).initialize$;
 }
 
-export const Initializable = new InjectionToken<Initializable>('service to initialize');
+export const INITIALIZABLE = new InjectionToken<Initializable>('service to initialize');
 
 export function initializableInitializerFactory(initializables: Initializable[]): () => Promise<boolean> {
   return () =>
@@ -19,4 +19,4 @@ export function initializableInitializerFactory(initializables: Initializable[])
       .toPromise();
 }
 
-export const initializableInitializerFactoryDeps = [Initializable];
+export const initializableInitializerFactoryDeps = [INITIALIZABLE];

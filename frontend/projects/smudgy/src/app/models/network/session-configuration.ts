@@ -1,6 +1,6 @@
 export enum SessionLanguage {
-  German = 'german',
-  English = 'english',
+  German = 'German',
+  English = 'English',
 }
 
 export interface SessionConfiguration {
