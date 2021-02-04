@@ -7,7 +7,7 @@ import { ConnectionState, HubService } from '../../services/hubs/hub.service';
 @Component({
   selector: 'app-connection-state',
   templateUrl: './connection-state.component.html',
-  styleUrls: ['./connection-state.component.scss'],
+  styleUrls: ['./connection-state.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConnectionStateComponent implements OnInit {
@@ -19,6 +19,6 @@ export class ConnectionStateComponent implements OnInit {
 
   ngOnInit(): void {
     this.state$ = this.hubService.state$;
-    this.stateClass$ = this.state$.pipe(map(state => [state]));
+    this.stateClass$ = this.state$.pipe(map((state) => [state]));
   }
 }

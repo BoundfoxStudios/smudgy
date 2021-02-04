@@ -6,7 +6,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { ButtonComponent } from './components/button/button.component';
 import { CardComponent } from './components/card/card.component';
 import { ConnectionStateComponent } from './components/connection-state/connection-state.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -26,6 +25,10 @@ import { UserInformationComponent } from './components/user-information/user-inf
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
 import { MouseDirective } from './directives/mouse.directive';
+import { ButtonDirective } from './directives/styles/button.directive';
+import { InputGroupDirective } from './directives/styles/input-group.directive';
+import { InputDirective } from './directives/styles/input.directive';
+import { LabelDirective } from './directives/styles/label.directive';
 import { TRANSLATIONS_DE } from './i18n/de';
 import { TRANSLATIONS_EN } from './i18n/en';
 import { HubService } from './services/hubs/hub.service';
@@ -52,7 +55,10 @@ import { INITIALIZABLE, initializableInitializerFactory, initializableInitialize
     ConnectionStateComponent,
     WelcomeComponent,
     CardComponent,
-    ButtonComponent,
+    LabelDirective,
+    InputGroupDirective,
+    InputDirective,
+    ButtonDirective,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, TranslateModule.forRoot(), FontAwesomeModule, ClipboardModule],
   providers: [
