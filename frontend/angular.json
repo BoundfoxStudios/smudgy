@@ -35,9 +35,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "extraWebpackConfig": "webpack.config.js",
             "outputPath": "dist/smudgy",
             "index": "projects/smudgy/src/index.html",
             "main": "projects/smudgy/src/main.ts",
@@ -81,9 +80,8 @@
           }
         },
         "serve": {
-          "builder": "ngx-build-plus:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "extraWebpackConfig": "webpack.config.js",
             "browserTarget": "smudgy:build"
           },
           "configurations": {
@@ -99,9 +97,8 @@
           }
         },
         "test": {
-          "builder": "ngx-build-plus:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "extraWebpackConfig": "webpack.config.js",
             "main": "projects/smudgy/src/test.ts",
             "polyfills": "projects/smudgy/src/polyfills.ts",
             "tsConfig": "projects/smudgy/tsconfig.spec.json",
