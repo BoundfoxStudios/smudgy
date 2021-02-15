@@ -16,8 +16,10 @@ module.exports = {
           'elevation-3': '#6368A2',
           red: '#F13752',
           white: '#FACACF',
-        }
-      }
+          green: '#3AC66A',
+          blue: '#3D62FF',
+        },
+      },
     },
   },
   variants: {
