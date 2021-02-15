@@ -1,31 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
+import { Store } from '@ngrx/store';
 import { IDebugger } from 'debug';
 import { BehaviorSubject, defer, EMPTY, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { DebugService } from '../../services/debug.service';
 import { isDefined } from '../../utils/is-defined';
-import { DebugService } from '../debug.service';
-import { Initializable } from '../initializable';
 import { HubConnectionBuilderService } from './hub-connection-builder.service';
+import { changeConnectionState } from '../store/connection.actions';
+import { ConnectionState } from '../store/connection.state';
 
-export type ConnectionState = HubConnectionState.Disconnected | HubConnectionState.Connecting | HubConnectionState.Connected;
+export type NetworkState = HubConnectionState.Disconnected | HubConnectionState.Connecting | HubConnectionState.Connected;
 
 @Injectable({
   providedIn: 'root',
 })
-export class HubService implements Initializable {
+export class HubService {
   private hubConnection = new BehaviorSubject<HubConnection | undefined>(undefined);
-  hubConnection$ = this.hubConnection.asObservable().pipe(filter(isDefined));
+  private readonly hubConnection$ = this.hubConnection.asObservable().pipe(filter(isDefined));
 
-  private state = new BehaviorSubject<ConnectionState>(HubConnectionState.Disconnected);
-  state$ = this.state.asObservable();
   private readonly debug: IDebugger;
 
-  protected constructor(private readonly hubConnectionBuilderService: HubConnectionBuilderService, debugService: DebugService) {
+  protected constructor(
+    private readonly hubConnectionBuilderService: HubConnectionBuilderService,
+    private readonly store: Store<ConnectionState>,
+    debugService: DebugService,
+  ) {
     this.debug = debugService.derive('HubService');
   }
 
-  initialize$(): Observable<void> {
+  initialize(): Observable<void> {
     if (this.hubConnection.getValue()) {
       return EMPTY;
     }
@@ -81,7 +85,7 @@ export class HubService implements Initializable {
     return defer(() => this.hubConnection$).pipe(take(1));
   }
 
-  private propagateStateChange(state: ConnectionState): void {
-    this.state.next(state);
+  private propagateStateChange(state: NetworkState): void {
+    this.store.dispatch(changeConnectionState({ state }));
   }
 }

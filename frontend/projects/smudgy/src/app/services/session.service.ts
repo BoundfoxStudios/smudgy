@@ -3,7 +3,7 @@ import { merge, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Player } from '../models/network/player';
 import { SessionConfiguration } from '../models/network/session-configuration';
-import { HubService } from './hubs/hub.service';
+import { HubService } from '../connection/services/hub.service';
 
 @Injectable()
 export class SessionService {

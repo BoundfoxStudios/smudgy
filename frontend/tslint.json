@@ -43,6 +43,7 @@
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
-    "typedef": [true, "call-signature", "parameter", "property-declaration"]
+    "typedef": [true, "call-signature", "parameter", "property-declaration"],
+    "prefer-readonly": true
   }
 }

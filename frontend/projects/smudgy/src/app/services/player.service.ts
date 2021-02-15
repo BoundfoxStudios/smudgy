@@ -3,7 +3,7 @@ import { IDebugger } from 'debug';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { map, mapTo, switchMap, tap } from 'rxjs/operators';
 import { DebugService } from './debug.service';
-import { HubService } from './hubs/hub.service';
+import { HubService } from '../connection/services/hub.service';
 import { IdService } from './id.service';
 import { StorageService } from './storage.service';
 

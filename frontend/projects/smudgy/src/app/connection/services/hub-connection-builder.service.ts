@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { IDebugger } from 'debug';
-import { environment } from '../../../environments/environment';
-import { DebugService } from '../debug.service';
+import { DebugService } from '../../services/debug.service';
+import { CONFIGURATION, ConnectionModuleConfiguration } from '../connection-module.configuration';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { DebugService } from '../debug.service';
 export class HubConnectionBuilderService {
   private readonly debug: IDebugger;
 
-  constructor(debugService: DebugService) {
+  constructor(@Inject(CONFIGURATION) private readonly configuration: ConnectionModuleConfiguration, debugService: DebugService) {
     this.debug = debugService.derive('HubConnectionBuilderService');
   }
 
@@ -19,8 +19,8 @@ export class HubConnectionBuilderService {
       .configureLogging({
         log: (logLevel, message) => this.debug(message),
       })
-      .withUrl(`${environment.gameConfiguration.hubsBaseUrl}${hubName}`)
-      .withAutomaticReconnect([1000, 5000, 10000, 15000, 30000])
+      .withUrl(`${this.configuration.hubUrl}${hubName}`)
+      .withAutomaticReconnect(this.configuration.reconnectRetryDelays ?? [1000, 5000, 10000, 15000, 30000])
       .build();
   }
 }

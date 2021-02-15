@@ -18,12 +18,12 @@ export class UserInformationComponent implements OnInit {
 
   submit(): void {
     this.playerService.register$(this.form.value.name).subscribe({
-      error: (error) => console.log('scheißdreck', error),
+      error: error => console.log('scheißdreck', error),
       complete: () => this.router.navigate(['/game/lobby']),
     });
   }
 
   ngOnInit(): void {
-    this.playerService.playerName$.subscribe((name) => this.form.patchValue({ name }));
+    this.playerService.playerName$.subscribe(name => this.form.patchValue({ name }));
   }
 }
