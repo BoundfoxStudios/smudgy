@@ -1,11 +1,13 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { CardComponent } from './components/card/card.component';
+import { ConnectionStateComponent } from './components/connection-state/connection-state.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DrawComponent } from './components/game/draw/draw.component';
 import { SmudgyComponent } from './components/game/draw/smudgy/smudgy.component';
@@ -20,15 +22,17 @@ import { UserListComponent } from './components/game/user-list/user-list.compone
 import { HeaderComponent } from './components/header/header.component';
 import { RootComponent } from './components/root/root.component';
 import { UserInformationComponent } from './components/user-information/user-information.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
 import { MouseDirective } from './directives/mouse.directive';
+import { ButtonDirective } from './directives/styles/button.directive';
+import { InputGroupDirective } from './directives/styles/input-group.directive';
+import { InputDirective } from './directives/styles/input.directive';
+import { LabelDirective } from './directives/styles/label.directive';
 import { TRANSLATIONS_DE } from './i18n/de';
 import { TRANSLATIONS_EN } from './i18n/en';
-import { socketServiceInitializerFactory, socketServiceInitializerFactoryDeps } from './services/socket-service.initializer';
-import { ConnectionStateComponent } from './components/connection-state/connection-state.component';
-import { WelcomeComponent } from './components/welcome/welcome.component';
-import { CardComponent } from './components/card/card.component';
-import { ButtonComponent } from './components/button/button.component';
+import { HubService } from './services/hubs/hub.service';
+import { INITIALIZABLE, initializableInitializerFactory, initializableInitializerFactoryDeps } from './services/initializable';
 
 @NgModule({
   declarations: [
@@ -51,16 +55,15 @@ import { ButtonComponent } from './components/button/button.component';
     ConnectionStateComponent,
     WelcomeComponent,
     CardComponent,
-    ButtonComponent,
+    LabelDirective,
+    InputGroupDirective,
+    InputDirective,
+    ButtonDirective,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, TranslateModule.forRoot(), FontAwesomeModule, ClipboardModule],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: socketServiceInitializerFactory,
-      deps: socketServiceInitializerFactoryDeps,
-      multi: true,
-    },
+    { provide: INITIALIZABLE, useExisting: HubService, multi: true },
+    { provide: APP_INITIALIZER, useFactory: initializableInitializerFactory, deps: initializableInitializerFactoryDeps, multi: true },
   ],
   bootstrap: [RootComponent],
 })

@@ -1,0 +1,11 @@
+:host {
+  @apply flex flex-col bg-smudgy-elevation-2 rounded-3xl p-7 shadow-xl;
+}
+
+::ng-deep header > * {
+  @apply text-3xl font-bold;
+}
+
+header {
+  @apply mb-4;
+}

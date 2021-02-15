@@ -2,7 +2,7 @@ export interface GameConfiguration {
   /**
    * URL of the socket.io backend.
    */
-  backendUrl: string;
+  hubsBaseUrl: string;
 
   /**
    * Throttle time between draw commands.

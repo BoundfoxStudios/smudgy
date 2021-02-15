@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { IDebugger } from 'debug';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
-import { map, mapTo, switchMap } from 'rxjs/operators';
-import { Events } from '../models/shared/events';
-import { PlayerRegister } from '../models/shared/player-register';
+import { map, mapTo, switchMap, tap } from 'rxjs/operators';
 import { DebugService } from './debug.service';
+import { HubService } from './hubs/hub.service';
 import { IdService } from './id.service';
-import { SocketService } from './socket.service';
 import { StorageService } from './storage.service';
 
 const PLAYER_ID_STORAGE_KEY = 'player-id';
@@ -20,7 +18,7 @@ export class PlayerService {
   private playerIsRegistered: boolean;
 
   constructor(
-    private readonly socketService: SocketService,
+    private readonly hubService: HubService,
     private readonly idService: IdService,
     private readonly storageService: StorageService,
     debugService: DebugService,
@@ -67,7 +65,7 @@ export class PlayerService {
       return EMPTY;
     }
 
-    return this.storageService.get$(PLAYER_ID_STORAGE_KEY).pipe(
+    return this.storageService.get$<string>(PLAYER_ID_STORAGE_KEY).pipe(
       switchMap(playerId => {
         if (!playerId) {
           playerId = this.idService.generate();
@@ -76,8 +74,12 @@ export class PlayerService {
 
         return of(playerId);
       }),
-      map(id => ({ name, id } as PlayerRegister)),
-      switchMap(payload => this.socketService.sendAndReceive$(Events.Register, payload)),
+      switchMap(id => this.hubService.invoke('Register', id, name)),
+      tap(registrationSuccessful => {
+        if (!registrationSuccessful) {
+          throw new Error('Registration was not successful');
+        }
+      }),
       switchMap(() => this.storageService.set$(PLAYER_NAME_STORAGE_KEY, name)),
       map(() => {
         this.debug('Player successfully registered');

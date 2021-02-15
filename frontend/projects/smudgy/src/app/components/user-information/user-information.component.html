@@ -1,7 +1,7 @@
-<form (ngSubmit)="submit()" [formGroup]="form">
-  <div class="input-group">
-    <label for="name" translate>USER_INFORMATION.PLAYER_NAME</label>
-    <input id="name" name="name" [placeholder]="'USER_INFORMATION.PLAYER_NAME' | translate" formControlName="name" required />
+<form (ngSubmit)="submit()" [formGroup]="form" class="flex flex-col">
+  <div appInputGroup>
+    <label appLabel for="name" translate>USER_INFORMATION.PLAYER_NAME</label>
+    <input appInput id="name" name="name" [placeholder]="'USER_INFORMATION.PLAYER_NAME' | translate" formControlName="name" required />
   </div>
-  <button appButton type="submit" [disabled]="form.invalid" translate>USER_INFORMATION.PLAY</button>
+  <button appButton class="mt-3 ml-auto" type="submit" [disabled]="form.invalid" translate>USER_INFORMATION.PLAY</button>
 </form>

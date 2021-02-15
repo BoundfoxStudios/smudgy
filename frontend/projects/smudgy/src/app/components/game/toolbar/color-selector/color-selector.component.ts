@@ -9,16 +9,16 @@ interface ColorViewModel {
 @Component({
   selector: 'app-color-selector',
   templateUrl: './color-selector.component.html',
-  styleUrls: ['./color-selector.component.scss'],
+  styleUrls: ['./color-selector.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColorSelectorComponent {
   @Output() selectColor = new EventEmitter<Colors>();
   colorViewModel: ColorViewModel;
   colors: ColorViewModel[] = Object.keys(Colors)
-    .filter(key => !isNaN(Number(Colors[key])))
-    .map(key => Colors[key])
-    .map(color => ({ color, hex: colorToCSSHex(color) } as ColorViewModel));
+    .filter((key) => !isNaN(Number(Colors[key])))
+    .map((key) => Colors[key])
+    .map((color) => ({ color, hex: colorToCSSHex(color) } as ColorViewModel));
 
   @Input() set selectedColor(color: Colors) {
     this.colorViewModel = { color, hex: colorToCSSHex(color) };

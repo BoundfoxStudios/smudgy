@@ -1,0 +1,15 @@
+.Connected {
+  @apply text-gray-400;
+}
+
+::ng-deep .Connecting {
+  @apply text-smudgy-blue;
+}
+
+::ng-deep .Connected {
+  @apply text-smudgy-green;
+}
+
+::ng-deep .Disconnected {
+  @apply text-smudgy-red;
+}

@@ -1,49 +1,48 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Events } from '../models/shared/events';
-import { Player } from '../models/shared/player';
-import { SessionConfiguration } from '../models/shared/session-configuration';
-import { SocketService } from './socket.service';
+import { Player } from '../models/network/player';
+import { SessionConfiguration } from '../models/network/session-configuration';
+import { HubService } from './hubs/hub.service';
 
 @Injectable()
 export class SessionService {
-  constructor(private readonly socketService: SocketService) {}
+  constructor(private readonly hubService: HubService) {}
 
   createSession$(sessionConfiguration: SessionConfiguration): Observable<string> {
-    return this.socketService.sendAndReceive$(Events.CreateSession, sessionConfiguration);
+    return this.hubService.invoke('CreateSession', sessionConfiguration);
   }
 
   joinSession$(sessionId: string): Observable<SessionConfiguration> {
-    return this.socketService.sendAndReceive$(Events.JoinSession, { sessionId });
+    return this.hubService.invoke('JoinSession', sessionId);
   }
 
   updateSessionConfiguration$(sessionConfiguration: SessionConfiguration): Observable<void> {
-    return this.socketService.sendAndReceive$(Events.UpdateSessionConfiguration, sessionConfiguration);
+    return this.hubService.invoke('UpdateSessionConfiguration', sessionConfiguration);
   }
 
   sessionConfiguration$(): Observable<SessionConfiguration> {
-    return this.socketService.fromEvent$(Events.UpdateSessionConfiguration);
+    return this.hubService.on('updateSessionConfiguration');
   }
 
   playerEnter$(): Observable<Player> {
-    return this.socketService.fromEvent$(Events.PlayerJoinSession);
+    return this.hubService.on('playerJoinSession');
   }
 
   playerLeave$(): Observable<string> {
-    return this.socketService.fromEvent$(Events.PlayerLeaveSession);
+    return this.hubService.on('playerLeaveSession');
   }
 
   startGame$(): Observable<void> {
-    return this.socketService.send$(Events.StartGame);
+    return this.hubService.invoke('StartGame');
   }
 
   gameStarted$(): Observable<void> {
-    return this.socketService.fromEvent$(Events.StartGame);
+    return this.hubService.on('startGame');
   }
 
   players$(): Observable<Player[]> {
-    return this.socketService.sendAndReceive$<Player[]>(Events.PlayerList).pipe(
+    return this.hubService.invoke<Player[]>('PlayerList').pipe(
       switchMap(playerList =>
         merge(
           of(playerList),

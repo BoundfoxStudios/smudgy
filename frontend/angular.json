@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss",
+          "style": "css",
           "skipTests": true,
           "changeDetection": "OnPush"
         },
@@ -45,12 +45,9 @@
             "aot": true,
             "preserveSymlinks": true,
             "assets": ["projects/smudgy/src/favicon.ico", "projects/smudgy/src/assets"],
-            "styles": ["projects/smudgy/src/styles/global.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["projects/smudgy/src/styles/core"]
-            },
+            "styles": ["projects/smudgy/src/styles.css"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["debug", "socket.io-client", "socket.io-parser"]
+            "allowedCommonJsDependencies": ["debug"]
           },
           "configurations": {
             "production": {
@@ -63,7 +60,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -108,7 +104,7 @@
             "tsConfig": "projects/smudgy/tsconfig.spec.json",
             "karmaConfig": "projects/smudgy/karma.conf.js",
             "assets": ["projects/smudgy/src/favicon.ico", "projects/smudgy/src/assets"],
-            "styles": ["projects/smudgy/src/styles/global.scss"],
+            "styles": ["projects/smudgy/src/styles.css"],
             "stylePreprocessorOptions": {
               "includePaths": ["projects/smudgy/src/styles"]
             },

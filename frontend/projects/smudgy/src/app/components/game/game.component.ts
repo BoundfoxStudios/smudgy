@@ -4,7 +4,7 @@ import { SessionService } from '../../services/session.service';
 @Component({
   selector: 'app-game',
   template: '<router-outlet></router-outlet>',
-  styleUrls: ['./game.component.scss'],
+  styleUrls: ['./game.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SessionService],
 })

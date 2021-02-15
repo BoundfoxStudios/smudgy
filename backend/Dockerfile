@@ -1,26 +1,21 @@
-# build env
-FROM node:alpine as build-env
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
 WORKDIR /app
 
-COPY package.json ./
-COPY package-lock.json ./
+COPY *.sln ./
+COPY BoundfoxStudios.Smudgy.Host/*.csproj ./BoundfoxStudios.Smudgy.Host/
+COPY BoundfoxStudios.Smudgy.Hubs/*.csproj ./BoundfoxStudios.Smudgy.Hubs/
 
-RUN npm i
+RUN dotnet restore
 
-COPY src ./src
-COPY tsconfig.json ./
+COPY BoundfoxStudios.Smudgy.Host/. ./BoundfoxStudios.Smudgy.Host/
+COPY BoundfoxStudios.Smudgy.Hubs/. ./BoundfoxStudios.Smudgy.Hubs/
 
-RUN npm run build-prod
+WORKDIR /app/BoundfoxStudios.Smudgy.Host
+RUN dotnet publish -c Release -o out
 
-# runtime env
-FROM node:alpine
-
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
-COPY package.json ./
-COPY package-lock.json ./
-
-RUN npm i --production
-
-COPY --from=build-env /app/dist ./
-
-CMD ["npm", "run", "docker-serve"]
+COPY --from=build-env /app/BoundfoxStudios.Smudgy.Host/out .
+ENTRYPOINT ["dotnet", "BoundfoxStudios.Smudgy.Host.dll"]
