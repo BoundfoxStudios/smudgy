@@ -4,7 +4,6 @@ import { GameComponent } from './components/game/game.component';
 import { LobbyComponent } from './components/game/lobby/lobby.component';
 import { PlayComponent } from './components/game/play/play.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { AutoRegisterGuard } from './guards/auto-register.guard';
 
 const routes: Routes = [
   {
@@ -28,12 +27,10 @@ const routes: Routes = [
       {
         path: 'lobby',
         component: LobbyComponent,
-        canActivate: [AutoRegisterGuard],
       },
       {
         path: 'play',
         component: PlayComponent,
-        canActivate: [AutoRegisterGuard],
       },
     ],
   },

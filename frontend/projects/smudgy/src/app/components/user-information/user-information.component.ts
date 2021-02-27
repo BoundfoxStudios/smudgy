@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { PlayerService } from '../../services/player.service';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { playerRegister } from '../../player/state/player.actions';
+import { selectPlayerName } from '../../player/state/player.selectors';
 
 @Component({
   selector: 'app-user-information',
@@ -9,21 +11,24 @@ import { PlayerService } from '../../services/player.service';
   styleUrls: ['./user-information.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserInformationComponent implements OnInit {
+export class UserInformationComponent implements OnInit, OnDestroy {
   form = this.formBuilder.group({
     name: ['', Validators.required],
   });
 
-  constructor(private readonly playerService: PlayerService, private readonly router: Router, private readonly formBuilder: FormBuilder) {}
+  private playerNameSubscription = Subscription.EMPTY;
+
+  constructor(private readonly store: Store, private readonly formBuilder: FormBuilder) {}
 
   submit(): void {
-    this.playerService.register$(this.form.value.name).subscribe({
-      error: error => console.log('scheißdreck', error),
-      complete: () => this.router.navigate(['/game/lobby']),
-    });
+    this.store.dispatch(playerRegister({ name: this.form.value.name }));
   }
 
   ngOnInit(): void {
-    this.playerService.playerName$.subscribe(name => this.form.patchValue({ name }));
+    this.playerNameSubscription = this.store.select(selectPlayerName).subscribe(name => this.form.patchValue({ name }));
+  }
+
+  ngOnDestroy(): void {
+    this.playerNameSubscription.unsubscribe();
   }
 }

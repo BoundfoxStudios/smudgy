@@ -7,8 +7,8 @@ import { defer, Observable, of } from 'rxjs';
 export class StorageService {
   private storage: Storage = window.localStorage;
 
-  get$<T>(key: string): Observable<T | null> {
-    return defer(() => of(JSON.parse(this.storage.getItem(key)!)));
+  get$<T>(key: string): Observable<T | undefined> {
+    return defer(() => of(JSON.parse(this.storage.getItem(key)!) ?? undefined));
   }
 
   set$<T>(key: string, value: T): Observable<void> {

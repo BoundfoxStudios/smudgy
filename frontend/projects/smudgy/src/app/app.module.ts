@@ -34,6 +34,7 @@ import { InputDirective } from './directives/styles/input.directive';
 import { LabelDirective } from './directives/styles/label.directive';
 import { TRANSLATIONS_DE } from './i18n/de';
 import { TRANSLATIONS_EN } from './i18n/en';
+import { PlayerModule } from './player/player.module';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { TRANSLATIONS_EN } from './i18n/en';
     ConnectionModule.forRoot({
       hubUrl: environment.gameConfiguration.hubsBaseUrl,
     }),
+    PlayerModule.forRoot({ startGameUrl: '/game' }),
     environment.production ? [] : StoreDevtoolsModule.instrument(),
   ],
   bootstrap: [RootComponent],

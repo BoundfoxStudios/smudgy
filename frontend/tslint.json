@@ -44,6 +44,7 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "typedef": [true, "call-signature", "parameter", "property-declaration"],
-    "prefer-readonly": true
+    "prefer-readonly": true,
+    "no-unused-expression": true
   }
 }
