@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { IDebugger } from 'debug';
 import { BehaviorSubject, defer, EMPTY, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { DebugService } from '../../services/debug.service';
+import { DebugService } from '../../debug/debug.service';
 import { isDefined } from '../../utils/is-defined';
 import { HubConnectionBuilderService } from './hub-connection-builder.service';
 import { changeConnectionState } from '../store/connection.actions';

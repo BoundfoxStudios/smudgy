@@ -6,7 +6,7 @@ import { IDebugger } from 'debug';
 import { BehaviorSubject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { SessionLanguage } from '../../../models/network/session-configuration';
-import { DebugService } from '../../../services/debug.service';
+import { DebugService } from '../../../debug/debug.service';
 import { SessionService } from '../../../services/session.service';
 import { AbstractDestroyable } from '../../abstract-destroyable';
 
@@ -52,7 +52,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
       this.sessionService
         .createSession$(this.form.value)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((serverSessionId) => this.joinSession(serverSessionId));
+        .subscribe(serverSessionId => this.joinSession(serverSessionId));
       return;
     }
 
@@ -77,7 +77,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
       .joinSession$(sessionId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (sessionConfiguration) => {
+        sessionConfiguration => {
           this.debug('Joined session, got configuration %o', sessionConfiguration);
           this.sessionJoined$.next(true);
           this.form.setValue(sessionConfiguration, { emitEvent: false });
@@ -87,7 +87,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
 
     this.form.valueChanges
       .pipe(
-        switchMap((sessionConfiguration) => this.sessionService.updateSessionConfiguration$(sessionConfiguration)),
+        switchMap(sessionConfiguration => this.sessionService.updateSessionConfiguration$(sessionConfiguration)),
         takeUntil(this.destroy$),
       )
       .subscribe();
@@ -95,7 +95,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit, OnDes
     this.sessionService
       .sessionConfiguration$()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((sessionConfiguration) => this.form.setValue(sessionConfiguration, { emitEvent: false }));
+      .subscribe(sessionConfiguration => this.form.setValue(sessionConfiguration, { emitEvent: false }));
 
     this.sessionService
       .gameStarted$()

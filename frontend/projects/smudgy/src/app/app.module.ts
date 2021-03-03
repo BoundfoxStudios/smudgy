@@ -25,6 +25,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { RootComponent } from './components/root/root.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { ConnectionModule } from './connection/connection.module';
+import { DebugModule } from './debug/debug.module';
 import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
 import { MouseDirective } from './directives/mouse.directive';
 import { ButtonDirective } from './directives/styles/button.directive';
@@ -66,6 +67,7 @@ import { PlayerModule } from './player/player.module';
     TranslateModule.forRoot(),
     FontAwesomeModule,
     ClipboardModule,
+    DebugModule.forRoot({ baseNamespace: 'smudgy' }),
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
     ConnectionModule.forRoot({

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { IDebugger } from 'debug';
-import { DebugService } from '../../services/debug.service';
+import { DebugService } from '../../debug/debug.service';
 import { CONFIGURATION, ConnectionModuleConfiguration } from '../connection-module.configuration';
 
 @Injectable({
