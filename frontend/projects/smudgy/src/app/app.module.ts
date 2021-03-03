@@ -23,7 +23,6 @@ import { ToolbarComponent } from './components/game/toolbar/toolbar.component';
 import { UserListComponent } from './components/game/user-list/user-list.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RootComponent } from './components/root/root.component';
-import { UserInformationComponent } from './components/user-information/user-information.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { ConnectionModule } from './connection/connection.module';
 import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
@@ -52,7 +51,6 @@ import { PlayerModule } from './player/player.module';
     ColorSelectorComponent,
     CanvasRetinaDirective,
     LobbyComponent,
-    UserInformationComponent,
     GameComponent,
     WelcomeComponent,
     CardComponent,

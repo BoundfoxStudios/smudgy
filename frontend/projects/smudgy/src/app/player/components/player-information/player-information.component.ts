@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { playerRegister } from '../../player/state/player.actions';
-import { selectPlayerName } from '../../player/state/player.selectors';
+import { playerRegister } from '../../state/player.actions';
+import { selectPlayerName } from '../../state/player.selectors';
 
 @Component({
-  selector: 'app-user-information',
-  templateUrl: './user-information.component.html',
-  styleUrls: ['./user-information.component.css'],
+  selector: 'app-player-information',
+  templateUrl: './player-information.component.html',
+  styleUrls: ['./player-information.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserInformationComponent implements OnInit, OnDestroy {
+export class PlayerInformationComponent implements OnInit, OnDestroy {
   form = this.formBuilder.group({
     name: ['', Validators.required],
   });
