@@ -28,13 +28,10 @@ import { ConnectionModule } from './connection/connection.module';
 import { DebugModule } from './debug/debug.module';
 import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
 import { MouseDirective } from './directives/mouse.directive';
-import { ButtonDirective } from './directives/styles/button.directive';
-import { InputGroupDirective } from './directives/styles/input-group.directive';
-import { InputDirective } from './directives/styles/input.directive';
-import { LabelDirective } from './directives/styles/label.directive';
 import { TRANSLATIONS_DE } from './i18n/de';
 import { TRANSLATIONS_EN } from './i18n/en';
 import { PlayerModule } from './player/player.module';
+import { UiModule } from './ui/ui.module';
 
 @NgModule({
   declarations: [
@@ -55,12 +52,9 @@ import { PlayerModule } from './player/player.module';
     GameComponent,
     WelcomeComponent,
     CardComponent,
-    LabelDirective,
-    InputGroupDirective,
-    InputDirective,
-    ButtonDirective,
   ],
   imports: [
+    UiModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

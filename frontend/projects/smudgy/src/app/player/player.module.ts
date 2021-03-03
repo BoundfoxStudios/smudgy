@@ -3,6 +3,8 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { UiModule } from '../ui/ui.module';
 import { PlayerInformationComponent } from './components/player-information/player-information.component';
 import { CONFIGURATION, PlayerModuleConfiguration } from './player-module.configuration';
 import { PlayerService } from './services/player.service';
@@ -16,6 +18,8 @@ import { playerFeatureKey } from './state/player.selectors';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    UiModule,
+    TranslateModule,
     StoreModule.forFeature(playerFeatureKey, playerReducer),
     EffectsModule.forFeature([PlayerEffects]),
   ],
