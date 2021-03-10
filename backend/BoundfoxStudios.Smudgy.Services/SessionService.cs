@@ -1,11 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using BoundfoxStudios.Smudgy.Data;
+using BoundfoxStudios.Smudgy.Data.DTOs;
+using BoundfoxStudios.Smudgy.Data.Entities;
 using BoundfoxStudios.Smudgy.Data.Models;
-using BoundfoxStudios.Smudgy.Data.Models.Runtime;
-using BoundfoxStudios.Smudgy.Data.RuntimeCaches;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BoundfoxStudios.Smudgy.Services
@@ -14,52 +16,60 @@ namespace BoundfoxStudios.Smudgy.Services
   {
     private readonly IGroupManager _groupManager;
     private readonly ILogger<SessionService> _logger;
-    private readonly ISessionCache _sessionCache;
-    private readonly IPlayerCache _playerCache;
+    private readonly SmudgyContext _context;
     private readonly IHubClients _clients;
 
     public SessionService(
       IGroupManager groupManager,
       IHubClients clients,
       ILogger<SessionService> logger,
-      ISessionCache sessionCache,
-      IPlayerCache playerCache
+      SmudgyContext context
     )
     {
       _groupManager = groupManager;
       _logger = logger;
-      _sessionCache = sessionCache;
-      _playerCache = playerCache;
+      _context = context;
       _clients = clients;
     }
 
-    public async Task<Guid> CreateSessionAsync(SessionConfiguration configuration, string hostPlayerId)
+    public async Task<Guid> CreateSessionAsync(SessionConfiguration configuration, string hostPlayerConnectionId,
+      CancellationToken cancellationToken = default)
     {
-      _logger.LogInformation("Creating new session for {PlayerId}", hostPlayerId);
+      _logger.LogInformation("Creating new session for {PlayerId}", hostPlayerConnectionId);
 
-      var hostPlayer = _playerCache.GetByConnectionId(hostPlayerId);
+      var hostPlayer = await _context.Players.SingleOrDefaultAsync(p => p.SocketId == hostPlayerConnectionId, cancellationToken);
+
+      if (hostPlayer == null)
+      {
+        // TODO: Error handling
+        throw new Exception("host player not found");
+      }
 
       var session = new Session()
       {
         Id = Guid.NewGuid(),
         HostPlayerId = hostPlayer.Id,
-        Configuration = configuration,
+        Language = configuration.Language,
         State = SessionState.Lobby,
+        MaxPlayers = configuration.MaxPlayers,
+        RoundsToPlay = configuration.RoundsToPlay,
+        RoundTimeInSeconds = configuration.RoundTimeInSeconds
       };
 
-      _sessionCache.Set(session.Id, session);
+      await _context.Sessions.AddAsync(session, cancellationToken);
+      await _context.SaveChangesAsync(cancellationToken);
 
-      await JoinSessionAsync(hostPlayerId, session.Id);
+      await JoinSessionAsync(hostPlayerConnectionId, session.Id, cancellationToken);
 
       return session.Id;
     }
 
-    public async Task<SessionConfiguration> JoinSessionAsync(string playerId, Guid sessionId)
+    public async Task<SessionConfiguration> JoinSessionAsync(string playerId, Guid sessionId, CancellationToken cancellationToken = default)
     {
       _logger.LogInformation("Player {Player} wants to join session {Session}", playerId, sessionId);
 
-      var session = _sessionCache.Get(sessionId);
-      var player = _playerCache.GetByConnectionId(playerId);
+      var session = await _context.Sessions.Include(p => p.Players).SingleOrDefaultAsync(p => p.Id == sessionId, cancellationToken);
+      var player = await _context.Players.SingleOrDefaultAsync(p => p.SocketId == playerId, cancellationToken);
 
       if (session == null || player == null)
       {
@@ -68,55 +78,51 @@ namespace BoundfoxStudios.Smudgy.Services
         return null;
       }
 
-      await _groupManager.AddToGroupAsync(playerId, session.Id.ToString());
+      if (session.Players.All(p => p.Id != player.Id))
+      {
+        session.Players.Add(player);
+        await _context.SaveChangesAsync(cancellationToken);
+      }
 
-      session.Players.TryAdd(player.Id, new SessionPlayerInformation());
+      await _groupManager.AddToGroupAsync(playerId, session.Id.ToString(), cancellationToken);
+      await _clients.Group(session.Id.ToString()).SendAsync("playerJoinSession", new PlayerListItem() { Id = player.Id, Name = player.Name }, cancellationToken);
 
-      await _clients.Group(session.Id.ToString()).SendAsync("playerJoinSession", player);
-
-      return session.Configuration;
+      return new SessionConfiguration()
+      {
+        RoundsToPlay = session.RoundsToPlay,
+        Language = session.Language,
+        MaxPlayers = session.MaxPlayers,
+        RoundTimeInSeconds = session.RoundTimeInSeconds
+      };
     }
 
-    public PlayerListItem[] PlayerList(string playerId)
+    public async Task<PlayerListItem[]> PlayerListAsync(string playerId, CancellationToken cancellationToken = default)
     {
-      var player = _playerCache.GetByConnectionId(playerId);
+      var player = await _context.Players.SingleOrDefaultAsync(p => p.SocketId == playerId, cancellationToken);
+      var players = await _context.Sessions.Include(p => p.Players)
+        .Where(p => p.Players.Any(sessionPlayer => sessionPlayer.Id == player.Id))
+        .SelectMany(p => p.Players)
+        .Select(p => new PlayerListItem() { Id = p.Id, Name = p.Name })
+        .ToArrayAsync(cancellationToken);
 
-      if (player == null)
-      {
-        return new PlayerListItem[0];
-      }
-
-      var session = _sessionCache.GetByHostPlayerId(player.Id);
-
-      if (session == null)
-      {
-        return new PlayerListItem[0];
-      }
-
-      return session.Players.Select(p => new PlayerListItem()
-      {
-        Id = p.Key,
-        Name = _playerCache.Get(p.Key).Name
-      }).ToArray();
+      return players;
     }
 
-    public async Task UpdateSessionConfigurationAsync(string playerId, SessionConfiguration sessionConfiguration)
+    public async Task UpdateSessionConfigurationAsync(string playerId, SessionConfiguration sessionConfiguration,
+      CancellationToken cancellationToken = default)
     {
       _logger.LogInformation("Receiving new session configuration from {Player} for {Session}: {@SessionConfiguration}", playerId, playerId,
         sessionConfiguration);
 
-      var player = _playerCache.GetByConnectionId(playerId);
-      var session = _sessionCache.GetByHostPlayerId(player.Id);
+      var player = await _context.Players.SingleOrDefaultAsync(p => p.SocketId == playerId, cancellationToken);
+      var session = await _context.Sessions.SingleOrDefaultAsync(p => p.HostPlayerId == player.Id, cancellationToken);
 
-      if (session == null)
-      {
-        _logger.LogInformation("Can not set session configuration. It was not send by the host");
-        return;
-      }
+      session.Language = sessionConfiguration.Language;
+      session.RoundsToPlay = sessionConfiguration.RoundsToPlay;
+      session.RoundTimeInSeconds = sessionConfiguration.RoundTimeInSeconds;
+      session.MaxPlayers = sessionConfiguration.MaxPlayers;
 
-      session.Configuration = sessionConfiguration;
-
-      await _clients.Group(session.Id.ToString()).SendAsync("updateSessionConfiguration", sessionConfiguration);
+      await _context.SaveChangesAsync(cancellationToken);
     }
   }
 }

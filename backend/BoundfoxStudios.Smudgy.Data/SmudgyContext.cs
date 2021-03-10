@@ -10,7 +10,8 @@ namespace BoundfoxStudios.Smudgy.Data
 {
   public class SmudgyContext : DbContext
   {
-    public DbSet<PlayerEntity> Players { get; set; }
+    public DbSet<Player> Players { get; set; }
+    public DbSet<Session> Sessions { get; set; }
 
     public SmudgyContext(DbContextOptions<SmudgyContext> options)
       : base(options)

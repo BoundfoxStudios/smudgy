@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Player } from '../models/network/player';
-import { SessionConfiguration } from '../models/network/session-configuration';
 import { HubService } from '../connection/services/hub.service';
+import { SessionConfiguration } from '../session/session.model';
 
 @Injectable()
 export class SessionService {

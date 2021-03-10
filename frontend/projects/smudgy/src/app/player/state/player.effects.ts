@@ -30,7 +30,7 @@ export class PlayerEffects implements OnInitEffects {
 
   readonly login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(playerLogin),
+      ofType(playerLogin, playerLoadSuccess),
       switchMap(({ player }) => this.playerService.login(player)),
       map(loginSuccessful => (loginSuccessful ? playerLoginSuccess() : playerLoginFail())),
     ),

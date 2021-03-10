@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoundfoxStudios.Smudgy.Contracts\BoundfoxStudios.Smudgy.Contracts.csproj" />
     <ProjectReference Include="..\BoundfoxStudios.Smudgy.Data\BoundfoxStudios.Smudgy.Data.csproj" />
   </ItemGroup>
 

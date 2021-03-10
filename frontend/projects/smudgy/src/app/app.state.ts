@@ -6,4 +6,5 @@ import { PlayerState } from './player/state/player.state';
 export interface AppState {
   [connectionFeatureKey]: ConnectionState;
   [playerFeatureKey]: PlayerState;
+  // [sessionFeatureKey]: SessionState;
 }

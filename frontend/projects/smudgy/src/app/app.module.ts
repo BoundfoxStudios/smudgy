@@ -9,18 +9,19 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { CardComponent } from './components/card/card.component';
+import { AppState } from './app.state';
+import { CardComponent } from './ui/components/card/card.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DrawComponent } from './components/game/draw/draw.component';
 import { SmudgyComponent } from './components/game/draw/smudgy/smudgy.component';
 import { GameComponent } from './components/game/game.component';
 import { GuessComponent } from './components/game/guess/guess.component';
-import { LobbyComponent } from './components/game/lobby/lobby.component';
+import { LobbyComponent } from './session/components/lobby/lobby.component';
 import { PlayComponent } from './components/game/play/play.component';
 import { BrushSelectorComponent } from './components/game/toolbar/brush-selector/brush-selector.component';
 import { ColorSelectorComponent } from './components/game/toolbar/color-selector/color-selector.component';
 import { ToolbarComponent } from './components/game/toolbar/toolbar.component';
-import { UserListComponent } from './components/game/user-list/user-list.component';
+import { UserListComponent } from './session/components/user-list/user-list.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RootComponent } from './components/root/root.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
@@ -31,6 +32,7 @@ import { MouseDirective } from './directives/mouse.directive';
 import { TRANSLATIONS_DE } from './i18n/de';
 import { TRANSLATIONS_EN } from './i18n/en';
 import { PlayerModule } from './player/player.module';
+import { SessionModule } from './session/session.module';
 import { UiModule } from './ui/ui.module';
 
 @NgModule({
@@ -40,7 +42,6 @@ import { UiModule } from './ui/ui.module';
     FooterComponent,
     DrawComponent,
     PlayComponent,
-    UserListComponent,
     GuessComponent,
     SmudgyComponent,
     MouseDirective,
@@ -48,10 +49,8 @@ import { UiModule } from './ui/ui.module';
     BrushSelectorComponent,
     ColorSelectorComponent,
     CanvasRetinaDirective,
-    LobbyComponent,
     GameComponent,
     WelcomeComponent,
-    CardComponent,
   ],
   imports: [
     UiModule,
@@ -60,9 +59,9 @@ import { UiModule } from './ui/ui.module';
     ReactiveFormsModule,
     TranslateModule.forRoot(),
     FontAwesomeModule,
-    ClipboardModule,
+    SessionModule,
     DebugModule.forRoot({ baseNamespace: 'smudgy' }),
-    StoreModule.forRoot({}),
+    StoreModule.forRoot<AppState>({} as any), // TODO: can we make this better?
     EffectsModule.forRoot(),
     ConnectionModule.forRoot({
       hubUrl: environment.gameConfiguration.hubsBaseUrl,

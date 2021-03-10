@@ -3,14 +3,16 @@ using System;
 using BoundfoxStudios.Smudgy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BoundfoxStudios.Smudgy.Data.Migrations
 {
     [DbContext(typeof(SmudgyContext))]
-    partial class SmudgyContextModelSnapshot : ModelSnapshot
+    [Migration("20210310205451_AddSessionRoundAndGuessers")]
+    partial class AddSessionRoundAndGuessers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace BoundfoxStudios.Smudgy.Data.Migrations
                         .HasMaxLength(16)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SocketId")
+                    b.Property<Guid?>("SocketId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -83,7 +85,7 @@ namespace BoundfoxStudios.Smudgy.Data.Migrations
 
                     b.HasIndex("HostPlayerId");
 
-                    b.ToTable("Sessions");
+                    b.ToTable("Session");
                 });
 
             modelBuilder.Entity("BoundfoxStudios.Smudgy.Data.Entities.SessionRound", b =>
@@ -160,25 +162,10 @@ namespace BoundfoxStudios.Smudgy.Data.Migrations
                     b.ToTable("SessionRoundGuesser");
                 });
 
-            modelBuilder.Entity("PlayerSession", b =>
-                {
-                    b.Property<int>("PlayersClusterId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SessionsClusterId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PlayersClusterId", "SessionsClusterId");
-
-                    b.HasIndex("SessionsClusterId");
-
-                    b.ToTable("PlayerSession");
-                });
-
             modelBuilder.Entity("BoundfoxStudios.Smudgy.Data.Entities.Session", b =>
                 {
                     b.HasOne("BoundfoxStudios.Smudgy.Data.Entities.Player", "HostPlayer")
-                        .WithMany()
+                        .WithMany("Sessions")
                         .HasForeignKey("HostPlayerId")
                         .HasPrincipalKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -227,19 +214,9 @@ namespace BoundfoxStudios.Smudgy.Data.Migrations
                     b.Navigation("Round");
                 });
 
-            modelBuilder.Entity("PlayerSession", b =>
+            modelBuilder.Entity("BoundfoxStudios.Smudgy.Data.Entities.Player", b =>
                 {
-                    b.HasOne("BoundfoxStudios.Smudgy.Data.Entities.Player", null)
-                        .WithMany()
-                        .HasForeignKey("PlayersClusterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BoundfoxStudios.Smudgy.Data.Entities.Session", null)
-                        .WithMany()
-                        .HasForeignKey("SessionsClusterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("BoundfoxStudios.Smudgy.Data.Entities.Session", b =>

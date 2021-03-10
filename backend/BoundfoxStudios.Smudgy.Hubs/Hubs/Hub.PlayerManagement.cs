@@ -15,7 +15,7 @@ namespace BoundfoxStudios.Smudgy.Hubs.Hubs
 
       if (id == Guid.Empty || string.IsNullOrWhiteSpace(name))
       {
-        _logger.LogWarning("Missing id or name.");
+        _logger.LogWarning("Missing id or name");
         return false;
       }
 
@@ -31,13 +31,13 @@ namespace BoundfoxStudios.Smudgy.Hubs.Hubs
       return base.OnConnectedAsync();
     }
 
-    public override Task OnDisconnectedAsync(Exception exception)
+    public override async Task OnDisconnectedAsync(Exception exception)
     {
       _logger.LogInformation("Socket disconnected: {ConnectionId}", Context.ConnectionId);
 
-      _playerService.PlayerDisconnected(Context.ConnectionId);
+      await _playerService.PlayerDisconnectedAsync(Context.ConnectionId);
 
-      return base.OnDisconnectedAsync(exception);
+      await base.OnDisconnectedAsync(exception);
     }
   }
 }

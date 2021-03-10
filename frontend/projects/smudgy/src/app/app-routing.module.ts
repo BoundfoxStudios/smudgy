@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GameComponent } from './components/game/game.component';
-import { LobbyComponent } from './components/game/lobby/lobby.component';
 import { PlayComponent } from './components/game/play/play.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { LobbyComponent } from './session/components/lobby/lobby.component';
+import { SessionComponent } from './session/components/session/session.component';
+import { HasPlayerGuard } from './session/guards/has-player.guard';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
   },
   {
     path: 'game',
-    component: GameComponent,
+    component: SessionComponent,
+    canActivate: [HasPlayerGuard],
     children: [
       {
         path: '',
@@ -37,7 +39,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

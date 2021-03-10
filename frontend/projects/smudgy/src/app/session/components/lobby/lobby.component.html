@@ -45,11 +45,11 @@
 
   <app-card class="flex-1">
     <h2 translate>LOBBY.USER_LIST.TITLE</h2>
-    <app-user-list *ngIf="sessionJoined$ | async"></app-user-list>
+    <app-user-list [players]="players$ | async"></app-user-list>
   </app-card>
 </div>
 
-<app-card *ngIf="sessionJoined$ | async" class="mt-8">
+<app-card *ngIf="inviteUrl$ | async as inviteUrl" class="mt-8">
   <h2 translate>LOBBY.INVITE.TITLE</h2>
   <div class="flex">
     <div class="url-container">
