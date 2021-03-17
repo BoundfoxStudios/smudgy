@@ -34,7 +34,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit {
   }
 
   startGame(): void {
-    // this.sessionService.startGame$().pipe(takeUntil(this.destroy$)).subscribe();
+    // TODO: Start game
   }
 
   ngOnInit(): void {
@@ -45,5 +45,14 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit {
     this.form.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(sessionConfiguration => this.sessionStore.changeSessionConfiguration(sessionConfiguration));
+
+    this.sessionStore.isHost$.pipe(takeUntil(this.destroy$)).subscribe(isHost => {
+      if (isHost) {
+        this.form.enable();
+        return;
+      }
+
+      this.form.disable();
+    });
   }
 }

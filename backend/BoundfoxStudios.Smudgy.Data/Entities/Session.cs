@@ -16,5 +16,6 @@ namespace BoundfoxStudios.Smudgy.Data.Entities
 
     public ICollection<SessionRound> Rounds { get; set; }
     public ICollection<Player> Players { get; set; }
+    public List<SessionPlayer> SessionPlayers { get; set; }
   }
 }

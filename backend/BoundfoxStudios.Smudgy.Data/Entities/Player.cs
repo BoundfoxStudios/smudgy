@@ -9,5 +9,6 @@ namespace BoundfoxStudios.Smudgy.Data.Entities
     public string? SocketId { get; set; }
 
     public ICollection<Session> Sessions { get; set; }
+    public List<SessionPlayer> SessionPlayers { get; set; }
   }
 }

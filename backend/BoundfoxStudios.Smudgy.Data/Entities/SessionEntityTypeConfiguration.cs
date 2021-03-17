@@ -21,7 +21,22 @@ namespace BoundfoxStudios.Smudgy.Data.Entities
         .HasPrincipalKey(p => p.Id);
 
       builder.HasMany(p => p.Players)
-        .WithMany(p => p.Sessions);
+        .WithMany(p => p.Sessions)
+        .UsingEntity<SessionPlayer>(
+          j => j
+            .HasOne(p => p.Player)
+            .WithMany(p => p.SessionPlayers)
+            .HasForeignKey(p => p.PlayerId)
+            .HasPrincipalKey(p => p.Id)
+            .OnDelete(DeleteBehavior.Cascade),
+          j => j
+            .HasOne(p => p.Session)
+            .WithMany(p => p.SessionPlayers)
+            .HasForeignKey(p => p.SessionId)
+            .HasPrincipalKey(p => p.Id)
+            .OnDelete(DeleteBehavior.Cascade),
+          j => j.HasKey(p => new { p.PlayerId, p.SessionId })
+        );
     }
   }
 }

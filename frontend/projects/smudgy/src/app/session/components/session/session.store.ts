@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, zip } from 'rxjs';
+import { filter, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { HubService } from '../../../connection/services/hub.service';
 import { isDefined } from '../../../utils/is-defined';
 import { SessionConfiguration, SessionLanguage } from '../../session.model';
@@ -16,6 +16,7 @@ export interface SessionState {
   configuration?: SessionConfiguration;
   inviteUrl?: string;
   players?: Player[];
+  isHost?: boolean;
 }
 
 const defaultConfiguration: SessionConfiguration = {
@@ -35,6 +36,7 @@ export class SessionStore extends ComponentStore<SessionState> {
           id: sessionId,
           inviteUrl: this.createInviteUrl(sessionId),
           configuration: { ...defaultConfiguration },
+          isHost: true,
         })),
       ),
       tap((sessionId: string) => this.joinSession(sessionId)),
@@ -43,27 +45,31 @@ export class SessionStore extends ComponentStore<SessionState> {
 
   readonly joinSession = this.effect((sessionId$: Observable<string>) =>
     sessionId$.pipe(
-      switchMap(sessionId => this.hubService.invoke<SessionConfiguration>('JoinSession', sessionId)),
-      tap((sessionConfiguration: SessionConfiguration) => {
+      switchMap(sessionId => zip(of(sessionId), this.hubService.invoke<SessionConfiguration>('JoinSession', sessionId))),
+      tap(([sessionId, sessionConfiguration]) => {
         this.updateSessionConfiguration(sessionConfiguration);
         this.receiveConfigurationUpdates();
-        this.requestPlayerList();
+        this.requestPlayerList(sessionId);
         this.receivePlayerJoinSession();
+        this.receivePlayerLeaveSession();
       }),
     ),
   );
 
   readonly changeSessionConfiguration = this.effect((configuration$: Observable<SessionConfiguration>) =>
     configuration$.pipe(
-      switchMap(configuration =>
-        this.hubService.invoke('UpdateSessionConfiguration', configuration).pipe(tap(() => this.updateSessionConfiguration(configuration))),
+      withLatestFrom(this.select(state => state.id)),
+      switchMap(([configuration, id]) =>
+        this.hubService
+          .invoke('UpdateSessionConfiguration', id, configuration)
+          .pipe(tap(() => this.updateSessionConfiguration(configuration))),
       ),
     ),
   );
 
-  private readonly requestPlayerList = this.effect((stream$: Observable<void>) =>
+  private readonly requestPlayerList = this.effect((stream$: Observable<string>) =>
     stream$.pipe(
-      switchMap(() => this.hubService.invoke<Player[]>('PlayerList')),
+      switchMap(sessionId => this.hubService.invoke<Player[]>('PlayerList', sessionId)),
       tap((players: Player[]) => this.patchState({ players })),
     ),
   );
@@ -72,6 +78,13 @@ export class SessionStore extends ComponentStore<SessionState> {
     stream$.pipe(
       switchMap(() => this.hubService.on<Player>('playerJoinSession')),
       tap((player: Player) => this.patchState(state => ({ ...state, players: [...state.players!, player] }))),
+    ),
+  );
+
+  private readonly receivePlayerLeaveSession = this.effect((stream$: Observable<void>) =>
+    stream$.pipe(
+      switchMap(() => this.hubService.on<Player>('playerLeaveSession')),
+      tap((player: Player) => this.patchState(state => ({ ...state, players: state.players!.filter(p => p.id !== player.id) }))),
     ),
   );
 
@@ -85,6 +98,7 @@ export class SessionStore extends ComponentStore<SessionState> {
   readonly configuration$ = this.select(state => state.configuration).pipe(filter(isDefined));
   readonly inviteUrl$ = this.select(state => state.inviteUrl).pipe(filter(isDefined));
   readonly players$ = this.select(state => state.players).pipe(filter(isDefined));
+  readonly isHost$ = this.select(state => state.isHost);
 
   private readonly updateSessionConfiguration = this.updater((state, sessionConfiguration: SessionConfiguration) => ({
     ...state,

@@ -3,14 +3,16 @@ using System;
 using BoundfoxStudios.Smudgy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BoundfoxStudios.Smudgy.Data.Migrations
 {
     [DbContext(typeof(SmudgyContext))]
-    partial class SmudgyContextModelSnapshot : ModelSnapshot
+    [Migration("20210317194720_ConfigureJoinTable")]
+    partial class ConfigureJoinTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

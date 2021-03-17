@@ -59,7 +59,7 @@ namespace BoundfoxStudios.Smudgy.Services
       await _context.Sessions.AddAsync(session, cancellationToken);
       await _context.SaveChangesAsync(cancellationToken);
 
-      await JoinSessionAsync(hostPlayerConnectionId, session.Id, cancellationToken);
+      _logger.LogInformation("Created new session {id} for {PlayerId}", session.Id, hostPlayerConnectionId);
 
       return session.Id;
     }
@@ -85,7 +85,8 @@ namespace BoundfoxStudios.Smudgy.Services
       }
 
       await _groupManager.AddToGroupAsync(playerId, session.Id.ToString(), cancellationToken);
-      await _clients.Group(session.Id.ToString()).SendAsync("playerJoinSession", new PlayerListItem() { Id = player.Id, Name = player.Name }, cancellationToken);
+      await _clients.Group(session.Id.ToString()).SendAsync("playerJoinSession",
+        new PlayerListItem() { Id = player.Id, Name = player.Name }, cancellationToken);
 
       return new SessionConfiguration()
       {
@@ -96,26 +97,27 @@ namespace BoundfoxStudios.Smudgy.Services
       };
     }
 
-    public async Task<PlayerListItem[]> PlayerListAsync(string playerId, CancellationToken cancellationToken = default)
+    public async Task<PlayerListItem[]> PlayerListAsync(Guid sessionId, CancellationToken cancellationToken = default)
     {
-      var player = await _context.Players.SingleOrDefaultAsync(p => p.SocketId == playerId, cancellationToken);
-      var players = await _context.Sessions.Include(p => p.Players)
-        .Where(p => p.Players.Any(sessionPlayer => sessionPlayer.Id == player.Id))
-        .SelectMany(p => p.Players)
+      return await _context.Sessions.Where(p => p.Id == sessionId).SelectMany(p => p.Players)
         .Select(p => new PlayerListItem() { Id = p.Id, Name = p.Name })
         .ToArrayAsync(cancellationToken);
-
-      return players;
     }
 
-    public async Task UpdateSessionConfigurationAsync(string playerId, SessionConfiguration sessionConfiguration,
+    public async Task UpdateSessionConfigurationAsync(Guid sessionId, string playerId, SessionConfiguration sessionConfiguration,
       CancellationToken cancellationToken = default)
     {
       _logger.LogInformation("Receiving new session configuration from {Player} for {Session}: {@SessionConfiguration}", playerId, playerId,
         sessionConfiguration);
 
       var player = await _context.Players.SingleOrDefaultAsync(p => p.SocketId == playerId, cancellationToken);
-      var session = await _context.Sessions.SingleOrDefaultAsync(p => p.HostPlayerId == player.Id, cancellationToken);
+      var session = await _context.Sessions.SingleOrDefaultAsync(p => p.HostPlayerId == player.Id && p.Id == sessionId, cancellationToken);
+
+      if (session == null)
+      {
+        _logger.LogWarning("Session {Session} not found for player {Player}", sessionId, player.Id);
+        return;
+      }
 
       session.Language = sessionConfiguration.Language;
       session.RoundsToPlay = sessionConfiguration.RoundsToPlay;
@@ -123,6 +125,14 @@ namespace BoundfoxStudios.Smudgy.Services
       session.MaxPlayers = sessionConfiguration.MaxPlayers;
 
       await _context.SaveChangesAsync(cancellationToken);
+
+      await _clients.Group(sessionId.ToString()).SendAsync("updateSessionConfiguration", new SessionConfiguration()
+      {
+        Language = session.Language,
+        MaxPlayers = session.MaxPlayers,
+        RoundsToPlay = session.RoundsToPlay,
+        RoundTimeInSeconds = session.RoundTimeInSeconds
+      }, cancellationToken);
     }
   }
 }

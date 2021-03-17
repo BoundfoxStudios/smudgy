@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BoundfoxStudios.Smudgy.Data;
+using BoundfoxStudios.Smudgy.Data.DTOs;
 using BoundfoxStudios.Smudgy.Data.Entities;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -13,11 +15,15 @@ namespace BoundfoxStudios.Smudgy.Services
   {
     private readonly ILogger<PlayerService> _logger;
     private readonly SmudgyContext _context;
+    private readonly IHubClients _clients;
+    private readonly IGroupManager _groupManager;
 
-    public PlayerService(ILogger<PlayerService> logger, SmudgyContext context)
+    public PlayerService(ILogger<PlayerService> logger, SmudgyContext context, IHubClients clients, IGroupManager groupManager)
     {
       _logger = logger;
       _context = context;
+      _clients = clients;
+      _groupManager = groupManager;
     }
 
     public async Task RegisterPlayerAsync(Guid id, string name, string connectionId, CancellationToken cancellationToken = default)
@@ -58,8 +64,22 @@ namespace BoundfoxStudios.Smudgy.Services
 
       player.SocketId = null;
 
-      var sessions = await _context.Sessions.Where(p => p.HostPlayerId == player.Id).ToListAsync(cancellationToken);
-      _context.Sessions.RemoveRange(sessions);
+      var hostSessions = await _context.Sessions.Where(p => p.HostPlayerId == player.Id).ToListAsync(cancellationToken);
+      _context.Sessions.RemoveRange(hostSessions);
+
+      var playerSessions = await _context.Sessions
+        .Include(p => p.Players)
+        .Where(session => session.Players.Any(sessionPlayer => sessionPlayer.Id == player.Id))
+        .ToListAsync(cancellationToken);
+
+      foreach (var session in playerSessions)
+      {
+        var sessionPlayer = session.Players.Single(p => p.Id == player.Id);
+        session.Players.Remove(sessionPlayer);
+
+        await _clients.Group(session.Id.ToString()).SendAsync("playerLeaveSession",
+          new PlayerListItem() { Id = player.Id, Name = player.Name }, cancellationToken);
+      }
 
       await _context.SaveChangesAsync(cancellationToken);
     }
