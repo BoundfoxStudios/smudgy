@@ -3,7 +3,6 @@ import { ComponentStore } from '@ngrx/component-store';
 import { Observable, of, zip } from 'rxjs';
 import { filter, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { HubService } from '../../../connection/services/hub.service';
-import { isDefined } from '../../../utils/is-defined';
 import { SessionConfiguration, SessionLanguage } from '../../session.model';
 
 export interface Player {
@@ -12,11 +11,11 @@ export interface Player {
 }
 
 export interface SessionState {
-  id?: string;
-  configuration?: SessionConfiguration;
-  inviteUrl?: string;
-  players?: Player[];
-  isHost?: boolean;
+  id: string;
+  configuration: SessionConfiguration;
+  inviteUrl: string;
+  players: Player[];
+  isHost: boolean;
 }
 
 const defaultConfiguration: SessionConfiguration = {
@@ -36,6 +35,7 @@ export class SessionStore extends ComponentStore<SessionState> {
           id: sessionId,
           inviteUrl: this.createInviteUrl(sessionId),
           configuration: { ...defaultConfiguration },
+          players: [],
           isHost: true,
         })),
       ),
@@ -48,8 +48,8 @@ export class SessionStore extends ComponentStore<SessionState> {
       switchMap(sessionId => zip(of(sessionId), this.hubService.invoke<SessionConfiguration>('JoinSession', sessionId))),
       tap(([sessionId, sessionConfiguration]) => {
         this.updateSessionConfiguration(sessionConfiguration);
-        this.receiveConfigurationUpdates();
         this.requestPlayerList(sessionId);
+        this.receiveConfigurationUpdates();
         this.receivePlayerJoinSession();
         this.receivePlayerLeaveSession();
       }),
@@ -77,14 +77,14 @@ export class SessionStore extends ComponentStore<SessionState> {
   private readonly receivePlayerJoinSession = this.effect((stream$: Observable<void>) =>
     stream$.pipe(
       switchMap(() => this.hubService.on<Player>('playerJoinSession')),
-      tap((player: Player) => this.patchState(state => ({ ...state, players: [...state.players!, player] }))),
+      tap((player: Player) => this.patchState(state => ({ ...state, players: [...state.players, player] }))),
     ),
   );
 
   private readonly receivePlayerLeaveSession = this.effect((stream$: Observable<void>) =>
     stream$.pipe(
       switchMap(() => this.hubService.on<Player>('playerLeaveSession')),
-      tap((player: Player) => this.patchState(state => ({ ...state, players: state.players!.filter(p => p.id !== player.id) }))),
+      tap((player: Player) => this.patchState(state => ({ ...state, players: state.players.filter(p => p.id !== player.id) }))),
     ),
   );
 
@@ -95,9 +95,9 @@ export class SessionStore extends ComponentStore<SessionState> {
     ),
   );
 
-  readonly configuration$ = this.select(state => state.configuration).pipe(filter(isDefined));
-  readonly inviteUrl$ = this.select(state => state.inviteUrl).pipe(filter(isDefined));
-  readonly players$ = this.select(state => state.players).pipe(filter(isDefined));
+  readonly configuration$ = this.select(state => state.configuration);
+  readonly inviteUrl$ = this.select(state => state.inviteUrl);
+  readonly players$ = this.select(state => state.players);
   readonly isHost$ = this.select(state => state.isHost);
 
   private readonly updateSessionConfiguration = this.updater((state, sessionConfiguration: SessionConfiguration) => ({
@@ -106,7 +106,7 @@ export class SessionStore extends ComponentStore<SessionState> {
   }));
 
   constructor(private readonly hubService: HubService) {
-    super({});
+    super();
   }
 
   private createInviteUrl(sessionId: string): string {
