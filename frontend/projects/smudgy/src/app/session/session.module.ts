@@ -9,9 +9,10 @@ import { UiModule } from '../ui/ui.module';
 import { LobbyComponent } from './components/lobby/lobby.component';
 import { SessionComponent } from './components/session/session.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { InviteComponent } from './components/invite/invite.component';
 
 @NgModule({
-  declarations: [LobbyComponent, UserListComponent, SessionComponent],
+  declarations: [LobbyComponent, UserListComponent, SessionComponent, InviteComponent],
   exports: [LobbyComponent, UserListComponent],
   imports: [
     CommonModule,

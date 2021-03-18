@@ -49,13 +49,4 @@
   </app-card>
 </div>
 
-<app-card *ngIf="inviteUrl$ | async as inviteUrl" class="mt-8">
-  <h2 translate>LOBBY.INVITE.TITLE</h2>
-  <div class="flex">
-    <div class="url-container">
-      {{ inviteUrl }}
-      <div class="overlay" translate>LOBBY.INVITE.HOVER_TO_SEE_LINK</div>
-    </div>
-    <button appButton [cdkCopyToClipboard]="inviteUrl" translate>LOBBY.INVITE.COPY</button>
-  </div>
-</app-card>
+<app-invite [inviteUrl]="inviteUrl$ | async" class="mt-8"></app-invite>

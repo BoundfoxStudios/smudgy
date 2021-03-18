@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable, of, zip } from 'rxjs';
-import { filter, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { HubService } from '../../../connection/services/hub.service';
 import { SessionConfiguration, SessionLanguage } from '../../session.model';
 
@@ -31,13 +31,13 @@ export class SessionStore extends ComponentStore<SessionState> {
     stream$.pipe(
       switchMap(() => this.hubService.invoke<string>('CreateSession', defaultConfiguration)),
       tap((sessionId: string) =>
-        this.setState(() => ({
+        this.setState({
           id: sessionId,
           inviteUrl: this.createInviteUrl(sessionId),
           configuration: { ...defaultConfiguration },
           players: [],
           isHost: true,
-        })),
+        }),
       ),
       tap((sessionId: string) => this.joinSession(sessionId)),
     ),
