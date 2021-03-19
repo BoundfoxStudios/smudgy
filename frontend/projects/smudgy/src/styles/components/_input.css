@@ -1,0 +1,9 @@
+@layer components {
+  input, select {
+    @apply mt-2 p-2 px-4 bg-smudgy-elevation-0 rounded-2xl outline-none;
+  }
+
+  select {
+    @apply appearance-none;
+  }
+}

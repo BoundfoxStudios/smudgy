@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CardComponent } from './components/card/card.component';
-import { ButtonDirective } from './directives/button.directive';
-import { InputGroupDirective } from './directives/input-group.directive';
-import { InputDirective } from './directives/input.directive';
-import { LabelDirective } from './directives/label.directive';
+import { InputGroupComponent } from './components/input-group/input-group.component';
 
 @NgModule({
-  declarations: [CardComponent, LabelDirective, InputGroupDirective, InputDirective, ButtonDirective],
-  exports: [CardComponent, LabelDirective, InputGroupDirective, InputDirective, ButtonDirective],
+  declarations: [CardComponent, InputGroupComponent],
+  exports: [CardComponent, InputGroupComponent],
 })
 export class UiModule {}
