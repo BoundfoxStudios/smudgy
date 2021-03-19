@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faClock, faFlag, faHistory, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractDestroyable } from '../../../components/abstract-destroyable';
-import { SessionLanguage } from '../../session.model';
+import { SessionConfiguration } from '../../session.model';
 import { SessionStore } from '../session/session.store';
 
 @Component({
@@ -14,22 +12,13 @@ import { SessionStore } from '../session/session.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LobbyComponent extends AbstractDestroyable implements OnInit {
-  form = this.formBuilder.group({
-    language: [],
-    roundTimeInSeconds: [],
-    roundsToPlay: [],
-    maxPlayers: [],
-  });
-
   readonly inviteUrl$ = this.sessionStore.inviteUrl$;
-  readonly SessionLanguage = SessionLanguage;
-  readonly faFlag = faFlag;
-  readonly faClock = faClock;
-  readonly faHistory = faHistory;
-  readonly faUsers = faUsers;
   readonly players$ = this.sessionStore.players$;
 
-  constructor(private readonly router: Router, private readonly formBuilder: FormBuilder, private readonly sessionStore: SessionStore) {
+  isConfigurationFormDisabled = false;
+  sessionConfiguration: SessionConfiguration;
+
+  constructor(private readonly router: Router, private readonly sessionStore: SessionStore) {
     super();
   }
 
@@ -38,21 +27,12 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sessionStore.configuration$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(configuration => this.form.setValue(configuration, { emitEvent: false }));
+    this.sessionStore.configuration$.pipe(takeUntil(this.destroy$)).subscribe(configuration => (this.sessionConfiguration = configuration));
 
-    this.form.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(sessionConfiguration => this.sessionStore.changeSessionConfiguration(sessionConfiguration));
+    this.sessionStore.isHost$.pipe(takeUntil(this.destroy$)).subscribe(isHost => (this.isConfigurationFormDisabled = !isHost));
+  }
 
-    this.sessionStore.isHost$.pipe(takeUntil(this.destroy$)).subscribe(isHost => {
-      if (isHost) {
-        this.form.enable();
-        return;
-      }
-
-      this.form.disable();
-    });
+  changeSessionConfiguration(sessionConfiguration: SessionConfiguration): void {
+    this.sessionStore.changeSessionConfiguration(sessionConfiguration);
   }
 }

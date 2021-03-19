@@ -10,9 +10,10 @@ import { LobbyComponent } from './components/lobby/lobby.component';
 import { SessionComponent } from './components/session/session.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { InviteComponent } from './components/invite/invite.component';
+import { SessionConfigurationFormComponent } from './components/session-configuration-form/session-configuration-form.component';
 
 @NgModule({
-  declarations: [LobbyComponent, UserListComponent, SessionComponent, InviteComponent],
+  declarations: [LobbyComponent, UserListComponent, SessionComponent, InviteComponent, SessionConfigurationFormComponent],
   exports: [LobbyComponent, UserListComponent],
   imports: [
     CommonModule,
