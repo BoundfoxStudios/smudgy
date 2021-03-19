@@ -1,1 +1,1 @@
-<fa-icon [icon]="faWifi" [classes]="stateClass$ | async"></fa-icon>
+<fa-icon *ngIf="stateClass$ | async as stateClass" [icon]="faWifi" [classes]="stateClass"></fa-icon>

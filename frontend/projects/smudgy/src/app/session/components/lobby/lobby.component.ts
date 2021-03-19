@@ -16,7 +16,7 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit {
   readonly players$ = this.sessionStore.players$;
 
   isConfigurationFormDisabled = false;
-  sessionConfiguration: SessionConfiguration;
+  sessionConfiguration?: SessionConfiguration;
 
   constructor(private readonly router: Router, private readonly sessionStore: SessionStore) {
     super();

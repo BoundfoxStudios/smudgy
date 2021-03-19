@@ -14,8 +14,8 @@ import { ConnectionState } from '../../store/connection.state';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConnectionStateComponent implements OnInit {
-  state$: Observable<NetworkState>;
-  stateClass$: Observable<string[]>;
+  state$?: Observable<NetworkState>;
+  stateClass$?: Observable<string[]>;
   readonly faWifi = faWifi;
 
   constructor(private readonly hubService: HubService, private readonly store: Store<ConnectionState>) {}

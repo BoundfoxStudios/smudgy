@@ -14,11 +14,11 @@ interface ColorViewModel {
 })
 export class ColorSelectorComponent {
   @Output() selectColor = new EventEmitter<Colors>();
-  colorViewModel: ColorViewModel;
+  colorViewModel: ColorViewModel = { color: Colors.Black, hex: colorToCSSHex(Colors.Black) };
   colors: ColorViewModel[] = Object.keys(Colors)
-    .filter((key) => !isNaN(Number(Colors[key])))
-    .map((key) => Colors[key])
-    .map((color) => ({ color, hex: colorToCSSHex(color) } as ColorViewModel));
+    .filter((key: any) => !isNaN(Number(Colors[key])))
+    .map((key: any) => (Colors[key] as unknown) as Colors)
+    .map(color => ({ color, hex: colorToCSSHex(color) } as ColorViewModel));
 
   @Input() set selectedColor(color: Colors) {
     this.colorViewModel = { color, hex: colorToCSSHex(color) };

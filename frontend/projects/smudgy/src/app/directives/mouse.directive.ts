@@ -7,7 +7,7 @@ const LEFT_MOUSE_BUTTON = 0;
   selector: 'canvas[appMouse]',
 })
 export class MouseDirective {
-  private isDrawing: boolean;
+  private isDrawing = false;
 
   constructor(private readonly drawService: DrawService) {}
 

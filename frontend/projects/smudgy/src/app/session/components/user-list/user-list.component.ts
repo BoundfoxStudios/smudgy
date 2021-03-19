@@ -8,5 +8,5 @@ import { Player } from '../session/session.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserListComponent {
-  @Input() players: Player[];
+  @Input() players: Player[] = [];
 }

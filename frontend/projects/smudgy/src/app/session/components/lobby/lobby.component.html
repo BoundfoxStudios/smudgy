@@ -2,6 +2,7 @@
   <app-card class="flex-1">
     <h2 translate>LOBBY.SETTINGS.TITLE</h2>
     <app-settings-form
+      *ngIf="sessionConfiguration"
       [sessionConfiguration]="sessionConfiguration"
       (sessionConfigurationChange)="changeSessionConfiguration($event)"
     ></app-settings-form>
@@ -10,8 +11,8 @@
 
   <app-card class="flex-1">
     <h2 translate>LOBBY.USER_LIST.TITLE</h2>
-    <app-user-list [players]="players$ | async"></app-user-list>
+    <app-user-list *ngIf="players$ | async as players" [players]="players"></app-user-list>
   </app-card>
 </div>
 
-<app-invite [inviteUrl]="inviteUrl$ | async" class="mt-8"></app-invite>
+<app-invite *ngIf="inviteUrl$ | async as inviteUrl" [inviteUrl]="inviteUrl" class="mt-8"></app-invite>

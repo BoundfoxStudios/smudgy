@@ -14,11 +14,11 @@ interface BrushSizeViewModel {
 })
 export class BrushSelectorComponent {
   @Output() selectBrushSize = new EventEmitter<BrushSizes>();
-  brushSizeViewModel: BrushSizeViewModel;
+  brushSizeViewModel: BrushSizeViewModel = { brushSize: BrushSizes.M, size: brushSizeToNumber(BrushSizes.M) };
   brushSizes: BrushSizeViewModel[] = Object.keys(BrushSizes)
-    .filter((key) => !isNaN(Number(BrushSizes[key])))
-    .map((key) => BrushSizes[key])
-    .map((brushSize) => ({ brushSize, size: brushSizeToNumber(brushSize) } as BrushSizeViewModel));
+    .filter((key: any) => !isNaN(Number(BrushSizes[key])))
+    .map((key: any) => (BrushSizes[key] as unknown) as BrushSizes)
+    .map(brushSize => ({ brushSize, size: brushSizeToNumber(brushSize) } as BrushSizeViewModel));
 
   @Input() set selectedBrushSize(brushSize: BrushSizes) {
     this.brushSizeViewModel = { brushSize, size: brushSizeToNumber(brushSize) };
