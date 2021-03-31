@@ -19,11 +19,15 @@ export class HasPlayerGuard implements CanActivate {
       take(1),
       map(([isLoggedIn, playerName]) => {
         if (!isLoggedIn && !playerName) {
-          return this.router.createUrlTree(['/']);
+          return this.routeToHome(route.queryParamMap.get('sessionId'));
         }
 
         return true;
       }),
     );
+  }
+
+  private routeToHome(sessionId: string | null): UrlTree {
+    return this.router.createUrlTree(['/'], { queryParams: { sessionId } });
   }
 }

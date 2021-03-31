@@ -37,6 +37,7 @@ gebeten, um ein Wort zu <strong>malen</strong>, was von den anderen Mitspielern 
   USER_INFORMATION: {
     PLAYER_NAME: 'Spielername',
     PLAY: 'Jetzt spielen!',
+    JOIN: 'Jetzt beitreten!',
   },
   FOOTER: {
     A_GAME_BY: 'Smudgy ist ein Spiel von',

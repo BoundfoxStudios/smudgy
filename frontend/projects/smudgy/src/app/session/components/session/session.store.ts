@@ -16,7 +16,6 @@ export interface SessionState {
   inviteUrl: string;
   players: Player[];
   isHost: boolean;
-  isReady: boolean;
 }
 
 const defaultConfiguration: SessionConfiguration = {
@@ -31,16 +30,6 @@ export class SessionStore extends ComponentStore<SessionState> {
   readonly createSession = this.effect((stream$: Observable<void>) =>
     stream$.pipe(
       switchMap(() => this.hubService.invoke<string>('CreateSession', defaultConfiguration)),
-      tap((sessionId: string) =>
-        this.setState({
-          id: sessionId,
-          inviteUrl: this.createInviteUrl(sessionId),
-          configuration: { ...defaultConfiguration },
-          players: [],
-          isHost: true,
-          isReady: false,
-        }),
-      ),
       tap((sessionId: string) => this.joinSession(sessionId)),
     ),
   );
@@ -49,13 +38,19 @@ export class SessionStore extends ComponentStore<SessionState> {
     sessionId$.pipe(
       switchMap(sessionId => zip(of(sessionId), this.hubService.invoke<SessionConfiguration>('JoinSession', sessionId))),
       tap(([sessionId, sessionConfiguration]) => {
+        this.setState({
+          id: sessionId,
+          inviteUrl: this.createInviteUrl(sessionId),
+          configuration: { ...defaultConfiguration },
+          players: [],
+          isHost: true,
+        });
+
         this.updateSessionConfiguration(sessionConfiguration);
         this.requestPlayerList(sessionId);
         this.receiveConfigurationUpdates();
         this.receivePlayerJoinSession();
         this.receivePlayerLeaveSession();
-
-        this.patchState({ isReady: true });
       }),
     ),
   );
@@ -103,7 +98,6 @@ export class SessionStore extends ComponentStore<SessionState> {
   readonly inviteUrl$ = this.select(state => state.inviteUrl);
   readonly players$ = this.select(state => state.players);
   readonly isHost$ = this.select(state => state.isHost);
-  readonly isReady$ = this.select(state => state.isReady);
 
   private readonly updateSessionConfiguration = this.updater((state, sessionConfiguration: SessionConfiguration) => ({
     ...state,

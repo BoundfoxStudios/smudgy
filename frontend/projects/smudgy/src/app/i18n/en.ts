@@ -32,6 +32,7 @@ export const TRANSLATIONS_EN: Translations = {
   USER_INFORMATION: {
     PLAYER_NAME: 'Player name',
     PLAY: 'Start playing!',
+    JOIN: 'Join now!',
   },
   FOOTER: {
     A_GAME_BY: 'Smudgy is a game by',

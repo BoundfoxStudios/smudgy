@@ -49,7 +49,7 @@ export class PlayerEffects implements OnInitEffects {
     () =>
       this.actions$.pipe(
         ofType(playerRegisterSuccess),
-        switchMap(() => this.router.navigate([`${this.configuration.startGameUrl}`])),
+        switchMap(() => this.router.navigate([`${this.configuration.startGameUrl}`], { queryParamsHandling: 'preserve' })),
       ),
     { dispatch: false },
   );

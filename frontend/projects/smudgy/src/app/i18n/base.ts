@@ -2,6 +2,7 @@ export interface Translations {
   USER_INFORMATION: {
     PLAYER_NAME: string;
     PLAY: string;
+    JOIN: string;
   };
   WELCOME: {
     TITLE: string;
