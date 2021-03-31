@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PlayComponent } from './components/game/play/play.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { LobbyComponent } from './session/components/lobby/lobby.component';
-import { SessionComponent } from './session/components/session/session.component';
-import { HasPlayerGuard } from './session/guards/has-player.guard';
+import { LobbyComponent } from './modules/session/components/lobby/lobby.component';
+import { SessionComponent } from './modules/session/components/session/session.component';
+import { HasPlayerGuard } from './modules/session/guards/has-player.guard';
 
 const routes: Routes = [
   {

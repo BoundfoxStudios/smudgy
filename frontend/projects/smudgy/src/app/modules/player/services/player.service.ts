@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { mapTo, switchMap } from 'rxjs/operators';
 import { HubService } from '../../connection/services/hub.service';
 import { IdService } from './id.service';
-import { StorageService } from '../../services/storage.service';
+import { StorageService } from '../../../services/storage.service';
 import { Player } from '../state/player.state';
 
 const PLAYER_STORAGE_KEY = 'player';

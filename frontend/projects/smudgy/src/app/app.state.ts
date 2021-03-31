@@ -1,7 +1,7 @@
-import { connectionFeatureKey } from './connection/store/connection.selectors';
-import { ConnectionState } from './connection/store/connection.state';
-import { playerFeatureKey } from './player/state/player.selectors';
-import { PlayerState } from './player/state/player.state';
+import { connectionFeatureKey } from './modules/connection/store/connection.selectors';
+import { ConnectionState } from './modules/connection/store/connection.state';
+import { playerFeatureKey } from './modules/player/state/player.selectors';
+import { PlayerState } from './modules/player/state/player.state';
 
 export interface AppState {
   [connectionFeatureKey]: ConnectionState;

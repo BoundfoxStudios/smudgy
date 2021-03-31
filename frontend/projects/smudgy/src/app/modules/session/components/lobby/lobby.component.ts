@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { AbstractDestroyable } from '../../../components/abstract-destroyable';
+import { AbstractDestroyable } from '../../../utils/abstract-destroyable';
 import { SessionConfiguration } from '../../session.model';
 import { SessionStore } from '../session/session.store';
 
