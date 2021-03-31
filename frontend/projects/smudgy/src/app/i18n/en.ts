@@ -19,6 +19,9 @@ export const TRANSLATIONS_EN: Translations = {
     },
     START: 'Start',
   },
+  SESSION: {
+    JOINING: 'Joining session',
+  },
   WELCOME: {
     DESCRIPTION: `MISSING TRANSLATION`,
     TITLE: 'Welcome!',

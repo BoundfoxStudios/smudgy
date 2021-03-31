@@ -14,6 +14,9 @@ export interface Translations {
     A_GAME_BY: string;
     DISCLAIMER: string;
   };
+  SESSION: {
+    JOINING: string;
+  };
   LOBBY: {
     SETTINGS: {
       TITLE: string;

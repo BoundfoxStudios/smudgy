@@ -19,6 +19,9 @@ export const TRANSLATIONS_DE: Translations = {
     },
     START: 'Starten',
   },
+  SESSION: {
+    JOINING: 'Trete der Session bei...',
+  },
   WELCOME: {
     DESCRIPTION: `<p><strong>Smudgy</strong> ist ein kostenfreies Multiplayer <strong>Montagsmaler</strong> Spiel.
 Spiele es <strong>zusammen</strong> mit Deinen <strong>Freunden</strong>!

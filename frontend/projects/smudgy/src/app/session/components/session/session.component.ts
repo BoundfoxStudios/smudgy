@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStore } from './session.store';
+import { startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-session',
-  template: '<router-outlet></router-outlet>',
+  templateUrl: './session.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SessionStore],
 })
 export class SessionComponent implements OnInit {
+  readonly isReady$ = this.sessionStore.isReady$.pipe(startWith(false));
+
   constructor(
     private readonly sessionStore: SessionStore,
     private readonly activatedRoute: ActivatedRoute,

@@ -1,0 +1,10 @@
+<div *ngIf="isReady$ | async; else loading">
+  <router-outlet></router-outlet>
+</div>
+
+<ng-template #loading>
+  <app-card class="max-w-xl mx-auto">
+    <h2 translate>SESSION.JOINING</h2>
+    <app-spinner class="mx-auto w-16 h-16"></app-spinner>
+  </app-card>
+</ng-template>
