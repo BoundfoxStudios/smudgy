@@ -1,0 +1,16 @@
+:host {
+  @apply flex;
+}
+
+.user-list {
+  @apply flex-1;
+}
+
+.guess {
+  @apply flex-1;
+}
+
+.drawing-board {
+  @apply flex-1 mx-8 box-content;
+  min-width: 800px;
+}

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractDestroyable } from '../../../utils/abstract-destroyable';
 import { SessionConfiguration } from '../../session.model';
@@ -18,12 +18,16 @@ export class LobbyComponent extends AbstractDestroyable implements OnInit {
   isConfigurationFormDisabled = false;
   sessionConfiguration?: SessionConfiguration;
 
-  constructor(private readonly router: Router, private readonly sessionStore: SessionStore) {
+  constructor(
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly sessionStore: SessionStore,
+  ) {
     super();
   }
 
   startGame(): void {
-    // TODO: Start game
+    void this.router.navigate(['..', 'play'], { relativeTo: this.activatedRoute });
   }
 
   ngOnInit(): void {

@@ -11,9 +11,12 @@ import { SessionComponent } from './components/session/session.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { InviteComponent } from './components/invite/invite.component';
 import { SessionConfigurationFormComponent } from './components/session-configuration-form/session-configuration-form.component';
+import { PlayComponent } from './components/play/play.component';
+import { DrawingBoardModule } from '../drawing-board/drawing-board.module';
+import { GuessModule } from '../guess/guess.module';
 
 @NgModule({
-  declarations: [LobbyComponent, UserListComponent, SessionComponent, InviteComponent, SessionConfigurationFormComponent],
+  declarations: [LobbyComponent, UserListComponent, SessionComponent, InviteComponent, SessionConfigurationFormComponent, PlayComponent],
   exports: [LobbyComponent, UserListComponent],
   imports: [
     CommonModule,
@@ -23,8 +26,8 @@ import { SessionConfigurationFormComponent } from './components/session-configur
     UiModule,
     ClipboardModule,
     RouterModule,
-    /*StoreModule.forFeature(sessionFeatureKey, sessionReducer),
-    EffectsModule.forFeature([SessionEffects]),*/
+    DrawingBoardModule,
+    GuessModule,
   ],
 })
 export class SessionModule {}

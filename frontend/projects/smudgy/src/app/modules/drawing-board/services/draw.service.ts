@@ -1,11 +1,11 @@
 import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil, tap, throttleTime } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { brushSizeToNumber } from '../models/brush-sizes';
-import { colorToCSSHex } from '../models/colors';
-import { DrawCommand } from '../models/draw-command';
-import { Point } from '../models/point';
+import { environment } from '../../../../environments/environment';
+import { brushSizeToNumber } from '../../../models/brush-sizes';
+import { colorToCSSHex } from '../../../models/colors';
+import { DrawCommand } from '../../../models/draw-command';
+import { Point } from '../../../models/point';
 import { NetworkDrawService } from './network-draw.service';
 import { ToolbarService } from './toolbar.service';
 
@@ -30,6 +30,7 @@ export class DrawService implements OnDestroy {
     }
 
     this.canvasContext = canvasContext;
+    this.prepareDrawingArea();
   }
 
   get context(): CanvasRenderingContext2D {
@@ -82,5 +83,15 @@ export class DrawService implements OnDestroy {
     context.fillStyle = colorToCSSHex(drawCommand.color);
     context.fill();
     context.closePath();
+  }
+
+  private prepareDrawingArea(): void {
+    // We need to wait for the current task queue to be resolved before we can prepare the drawing area.
+    void Promise.resolve().then(() => {
+      const context = this.canvasContext;
+
+      context.fillStyle = '#ffffff';
+      context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    });
   }
 }

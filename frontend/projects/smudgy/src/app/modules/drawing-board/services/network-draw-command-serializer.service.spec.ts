@@ -1,7 +1,7 @@
-import { BrushSizes } from '../models/brush-sizes';
-import { Colors } from '../models/colors';
-import { DrawCommand } from '../models/draw-command';
-import { Tools } from '../models/tools';
+import { BrushSizes } from '../../../models/brush-sizes';
+import { Colors } from '../../../models/colors';
+import { DrawCommand } from '../../../models/draw-command';
+import { Tools } from '../../../models/tools';
 import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
 
 function createDrawCommand(color: Colors, brushSize: BrushSizes, tool: Tools, x: number, y: number): DrawCommand {

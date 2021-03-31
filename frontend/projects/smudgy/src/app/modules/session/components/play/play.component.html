@@ -1,0 +1,14 @@
+<app-card class="user-list">
+  <h2 translate>PLAY.USER_LIST.TITLE</h2>
+  <app-user-list *ngIf="players$ | async as players" [players]="players"></app-user-list>
+</app-card>
+
+<app-card class="drawing-board">
+  <h2 translate>PLAY.DRAWING_BOARD.TITLE</h2>
+  <app-drawing-board></app-drawing-board>
+</app-card>
+
+<app-card class="guess">
+  <h2 translate>PLAY.GUESS.TITLE</h2>
+  <app-guess></app-guess>
+</app-card>

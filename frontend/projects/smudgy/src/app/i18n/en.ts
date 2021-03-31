@@ -1,6 +1,17 @@
 import { Translations } from './base';
 
 export const TRANSLATIONS_EN: Translations = {
+  PLAY: {
+    DRAWING_BOARD: {
+      TITLE: 'Room for creativity',
+    },
+    GUESS: {
+      TITLE: 'Guessing',
+    },
+    USER_LIST: {
+      TITLE: 'Mitspieler',
+    },
+  },
   LOBBY: {
     SETTINGS: {
       TITLE: 'Settings',

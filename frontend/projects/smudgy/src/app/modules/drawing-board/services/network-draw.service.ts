@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { merge, Subject } from 'rxjs';
 import { bufferCount, bufferWhen, filter } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { DrawCommand } from '../models/draw-command';
+import { environment } from '../../../../environments/environment';
+import { DrawCommand } from '../../../models/draw-command';
 import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
 
 @Injectable()

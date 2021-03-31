@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BrushSizes } from '../../../models/brush-sizes';
 import { Colors } from '../../../models/colors';
-import { ToolbarService } from '../../../services/toolbar.service';
+import { ToolbarService } from '../../../modules/drawing-board/services/toolbar.service';
 
 @Component({
   selector: 'app-toolbar',

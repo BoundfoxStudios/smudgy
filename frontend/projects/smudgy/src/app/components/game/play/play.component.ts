@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NetworkDrawService } from '../../../services/network-draw.service';
-import { ToolbarService } from '../../../services/toolbar.service';
+import { NetworkDrawService } from '../../../modules/drawing-board/services/network-draw.service';
+import { ToolbarService } from '../../../modules/drawing-board/services/toolbar.service';
 
 @Component({
   selector: 'app-play',

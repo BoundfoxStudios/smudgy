@@ -36,4 +36,15 @@ export interface Translations {
     };
     START: string;
   };
+  PLAY: {
+    USER_LIST: {
+      TITLE: string;
+    };
+    DRAWING_BOARD: {
+      TITLE: string;
+    };
+    GUESS: {
+      TITLE: string;
+    };
+  };
 }
