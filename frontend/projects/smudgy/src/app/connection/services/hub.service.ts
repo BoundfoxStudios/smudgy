@@ -5,7 +5,6 @@ import { IDebugger } from 'debug';
 import { BehaviorSubject, defer, EMPTY, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { DebugService } from '../../debug/debug.service';
-import { isDefined } from '../../utils/is-defined';
 import { HubConnectionBuilderService } from './hub-connection-builder.service';
 import { changeConnectionState } from '../store/connection.actions';
 import { ConnectionState } from '../store/connection.state';
@@ -17,7 +16,9 @@ export type NetworkState = HubConnectionState.Disconnected | HubConnectionState.
 })
 export class HubService {
   private hubConnection = new BehaviorSubject<HubConnection | undefined>(undefined);
-  private readonly hubConnection$ = this.hubConnection.asObservable().pipe(filter(isDefined));
+  private readonly hubConnection$ = this.hubConnection
+    .asObservable()
+    .pipe(filter((hubConnection): hubConnection is HubConnection => !!hubConnection));
 
   private readonly debug: IDebugger;
 
