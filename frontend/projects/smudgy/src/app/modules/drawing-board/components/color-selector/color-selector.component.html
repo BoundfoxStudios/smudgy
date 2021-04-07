@@ -1,0 +1,2 @@
+<div class="active-color" [style.backgroundColor]="viewModel.hex"></div>
+<div class="color" *ngFor="let color of colors" [style.backgroundColor]="color.hex" (click)="colorChange.emit(color.color)"></div>

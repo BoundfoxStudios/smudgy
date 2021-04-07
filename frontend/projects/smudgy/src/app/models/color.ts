@@ -1,5 +1,5 @@
-export enum Colors {
-  White,
+export enum Color {
+  White = 1,
   Black,
   Yellow,
   Green,
@@ -8,21 +8,21 @@ export enum Colors {
   Purple,
 }
 
-export function colorToCSSHex(color: Colors): string {
+export function colorToCSSHex(color: Color): string {
   switch (color) {
-    case Colors.White:
+    case Color.White:
       return '#ffffff';
-    case Colors.Yellow:
+    case Color.Yellow:
       return '#ffff00';
-    case Colors.Green:
+    case Color.Green:
       return '#00ff00';
-    case Colors.Red:
+    case Color.Red:
       return '#ff0000';
-    case Colors.Blue:
+    case Color.Blue:
       return '#0000ff';
-    case Colors.Purple:
+    case Color.Purple:
       return '#ff00ed';
-    case Colors.Black:
+    case Color.Black:
       return '#000000';
     default:
       return '#ffffff';

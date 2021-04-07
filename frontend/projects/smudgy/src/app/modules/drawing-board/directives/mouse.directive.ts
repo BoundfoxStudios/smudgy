@@ -1,5 +1,5 @@
-import { Directive, HostListener } from '@angular/core';
-import { DrawService } from '../services/draw.service';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { Point } from '../../../models/point';
 
 const LEFT_MOUSE_BUTTON = 0;
 
@@ -9,7 +9,9 @@ const LEFT_MOUSE_BUTTON = 0;
 export class MouseDirective {
   private isDrawing = false;
 
-  constructor(private readonly drawService: DrawService) {}
+  @Output() startDraw = new EventEmitter<void>();
+  @Output() endDraw = new EventEmitter<void>();
+  @Output() draw = new EventEmitter<Point>();
 
   @HostListener('contextmenu')
   contextMenu(): boolean {
@@ -23,14 +25,14 @@ export class MouseDirective {
       return;
     }
 
-    this.drawService.startDrawing();
     this.isDrawing = true;
+    this.startDraw.emit();
   }
 
   @HostListener('mouseup')
   mouseUp(): void {
     this.isDrawing = false;
-    this.drawService.stopDrawing();
+    this.endDraw.emit();
   }
 
   @HostListener('mousemove', ['$event'])
@@ -39,6 +41,6 @@ export class MouseDirective {
       return;
     }
 
-    this.drawService.draw({ x, y });
+    this.draw.emit({ x, y });
   }
 }

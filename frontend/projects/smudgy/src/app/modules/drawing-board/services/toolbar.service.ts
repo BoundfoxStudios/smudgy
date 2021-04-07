@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BrushSizes } from '../../../models/brush-sizes';
-import { Colors } from '../../../models/colors';
-import { Tools } from '../../../models/tools';
+import { BrushSize } from '../../../models/brush-size';
+import { Color } from '../../../models/color';
+import { Tool } from '../../../models/tool';
 
 @Injectable()
 export class ToolbarService {
-  public color: Colors = Colors.Black;
-  public brushSize: BrushSizes = BrushSizes.M;
-  public tool: Tools = Tools.Pen;
+  public color: Color = Color.Black;
+  public brushSize: BrushSize = BrushSize.M;
+  public tool: Tool = Tool.Pen;
 }

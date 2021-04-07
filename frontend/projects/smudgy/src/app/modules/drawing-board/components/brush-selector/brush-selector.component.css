@@ -1,0 +1,15 @@
+:host {
+  @apply grid grid-rows-1 grid-cols-3 h-8 w-24;
+}
+
+.brush-size {
+  @apply box-border bg-white flex items-center justify-center cursor-pointer;
+}
+
+.active {
+  @apply border-2 border-yellow-400;
+}
+
+.brush {
+  @apply bg-black;
+}

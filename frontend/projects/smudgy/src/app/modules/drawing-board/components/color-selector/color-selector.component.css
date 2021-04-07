@@ -1,0 +1,11 @@
+:host {
+  @apply grid grid-cols-6 grid-rows-2 w-48 h-16;
+}
+
+.color {
+  @apply cursor-pointer;
+}
+
+.active-color {
+  @apply row-span-2 col-span-2;
+}

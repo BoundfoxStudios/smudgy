@@ -1,11 +1,11 @@
-import { BrushSizes } from './brush-sizes';
-import { Colors } from './colors';
+import { BrushSize } from './brush-size';
+import { Color } from './color';
 import { Point } from './point';
-import { Tools } from './tools';
+import { Tool } from './tool';
 
 export interface DrawCommand {
-  color: Colors;
-  tool: Tools;
-  brushSize: BrushSizes;
+  color: Color;
+  tool: Tool;
+  brushSize: BrushSize;
   point: Point;
 }

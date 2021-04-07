@@ -1,8 +1,8 @@
 <div
   class="brush-size"
   *ngFor="let brushSize of brushSizes"
-  (click)="select(brushSize)"
-  [class.active]="brushSize.brushSize === brushSizeViewModel.brushSize"
+  (click)="brushChange.next(brushSize.brushSize)"
+  [class.active]="brushSize.brushSize === activeBrush"
 >
   <div class="brush" [style.width.px]="brushSize.size" [style.height.px]="brushSize.size"></div>
 </div>

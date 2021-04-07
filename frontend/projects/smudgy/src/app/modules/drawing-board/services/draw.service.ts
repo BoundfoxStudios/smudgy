@@ -2,12 +2,12 @@ import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { brushSizeToNumber } from '../../../models/brush-sizes';
-import { colorToCSSHex } from '../../../models/colors';
+import { BrushSize, brushSizeToNumber } from '../../../models/brush-size';
 import { DrawCommand } from '../../../models/draw-command';
 import { Point } from '../../../models/point';
 import { NetworkDrawService } from './network-draw.service';
-import { ToolbarService } from './toolbar.service';
+import { Color, colorToCSSHex } from '../../../models/color';
+import { Tool } from '../../../models/tool';
 
 @Injectable()
 export class DrawService implements OnDestroy {
@@ -16,11 +16,7 @@ export class DrawService implements OnDestroy {
   private readonly drawStream$ = new Subject<Point>();
   private readonly stopStream$ = new Subject<void>();
 
-  constructor(
-    elementRef: ElementRef<HTMLCanvasElement>,
-    private readonly networkDrawService: NetworkDrawService,
-    private readonly toolbarService: ToolbarService,
-  ) {
+  constructor(elementRef: ElementRef<HTMLCanvasElement>, private readonly networkDrawService: NetworkDrawService) {
     this.canvas = elementRef.nativeElement;
 
     const canvasContext = this.canvas.getContext('2d');
@@ -48,9 +44,9 @@ export class DrawService implements OnDestroy {
           point =>
             ({
               point,
-              color: this.toolbarService.color,
-              brushSize: this.toolbarService.brushSize,
-              tool: this.toolbarService.tool,
+              color: Color.Black,
+              brushSize: BrushSize.M,
+              tool: Tool.Pen,
             } as DrawCommand),
         ),
         tap(drawCommand => this.internalDraw(drawCommand)),

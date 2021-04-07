@@ -1,0 +1,3 @@
+<div class="tool-container" *ngFor="let tool of tools" (click)="toolChange.next(tool.tool)" [class.active]="tool.tool === activeTool">
+  <fa-icon [icon]="tool.icon"></fa-icon>
+</div>

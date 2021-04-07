@@ -1,1 +1,18 @@
 <canvas appDrawServiceProvider appMouse appCanvasRetina [retinaHeight]="height" [retinaWidth]="width"></canvas>
+
+<div class="toolbar">
+  <app-color-selector
+    *ngIf="store.color$ | async as color"
+    (colorChange)="store.changeColor($event)"
+    [activeColor]="color"
+  ></app-color-selector>
+
+  <div class="brush-and-tool">
+    <app-brush-selector
+      *ngIf="store.brushSize$ | async as brushSize"
+      (brushChange)="store.changeBrushSize($event)"
+      [activeBrush]="brushSize"
+    ></app-brush-selector>
+    <app-tool-selector *ngIf="store.tool$ | async as tool" (toolChange)="store.changeTool($event)" [activeTool]="tool"></app-tool-selector>
+  </div>
+</div>
