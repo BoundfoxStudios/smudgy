@@ -1,13 +1,14 @@
 import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { distinctUntilChanged, map, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { distinctUntilChanged, map, pairwise, takeUntil, tap, throttleTime, withLatestFrom } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { BrushSize, brushSizeToNumber } from '../../../models/brush-size';
+import { brushSizeToNumber } from '../../../models/brush-size';
 import { DrawCommand } from '../../../models/draw-command';
 import { Point } from '../../../models/point';
 import { NetworkDrawService } from './network-draw.service';
-import { Color, colorToCSSHex } from '../../../models/color';
-import { Tool } from '../../../models/tool';
+import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
+import { line } from 'bresenham-zingl';
+import { colorToCSSHex } from '../../../models/color';
 
 @Injectable()
 export class DrawService implements OnDestroy {
@@ -16,7 +17,11 @@ export class DrawService implements OnDestroy {
   private readonly drawStream$ = new Subject<Point>();
   private readonly stopStream$ = new Subject<void>();
 
-  constructor(elementRef: ElementRef<HTMLCanvasElement>, private readonly networkDrawService: NetworkDrawService) {
+  constructor(
+    elementRef: ElementRef<HTMLCanvasElement>,
+    private readonly networkDrawService: NetworkDrawService,
+    private readonly drawingBoardStore: DrawingBoardStore,
+  ) {
     this.canvas = elementRef.nativeElement;
 
     const canvasContext = this.canvas.getContext('2d');
@@ -40,17 +45,19 @@ export class DrawService implements OnDestroy {
       .pipe(
         distinctUntilChanged((a, b) => a.x === b.x && a.y === b.y),
         throttleTime(environment.gameConfiguration.canvasThrottleTime),
+        withLatestFrom(this.drawingBoardStore.color$, this.drawingBoardStore.brushSize$, this.drawingBoardStore.tool$),
         map(
-          point =>
+          ([point, color, brushSize, tool]) =>
             ({
               point,
-              color: Color.Black,
-              brushSize: BrushSize.M,
-              tool: Tool.Pen,
+              color,
+              brushSize,
+              tool,
             } as DrawCommand),
         ),
-        tap(drawCommand => this.internalDraw(drawCommand)),
-        tap(drawCommand => this.networkDrawService.draw(drawCommand)),
+        pairwise(),
+        tap(([previousCommand, nextCommand]) => this.internalDraw(previousCommand, nextCommand)),
+        // tap(drawCommand => this.networkDrawService.draw(drawCommand)),
         takeUntil(this.stopStream$),
       )
       .subscribe({
@@ -70,15 +77,17 @@ export class DrawService implements OnDestroy {
     this.stopDrawing();
   }
 
-  private internalDraw(drawCommand: DrawCommand): void {
+  private internalDraw(previousCommand: DrawCommand, nextCommand: DrawCommand): void {
     const context = this.canvasContext;
-    const { x, y } = drawCommand.point;
+    const { x: beforeX, y: beforeY } = previousCommand.point;
+    const { x, y } = nextCommand.point;
+    const drawSize = Math.floor(brushSizeToNumber(nextCommand.brushSize) / 2);
 
-    context.beginPath();
-    context.arc(x, y, brushSizeToNumber(drawCommand.brushSize), 0, Math.PI * 2);
-    context.fillStyle = colorToCSSHex(drawCommand.color);
-    context.fill();
-    context.closePath();
+    context.fillStyle = colorToCSSHex(nextCommand.color);
+
+    line(beforeX, beforeY, x, y, (nextX: number, nextY: number) => {
+      context.fillRect(nextX - drawSize, nextY - drawSize, drawSize, drawSize);
+    });
   }
 
   private prepareDrawingArea(): void {
