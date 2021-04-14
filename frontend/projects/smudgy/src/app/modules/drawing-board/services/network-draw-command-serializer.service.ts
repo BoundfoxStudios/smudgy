@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DrawCommand } from '../../../models/draw-command';
+import { DrawCommand } from '../models/draw-command';
 
 /**
  * Per game play mechanic, within a draw command array, there can only be one tool,

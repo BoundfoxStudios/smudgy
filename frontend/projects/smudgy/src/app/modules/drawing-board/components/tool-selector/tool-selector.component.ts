@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { Tool, toolToIcon } from '../../../../models/tool';
+import { Tool, toolToIcon } from '../../models/tool';
 
 interface ViewModel {
   tool: Tool;

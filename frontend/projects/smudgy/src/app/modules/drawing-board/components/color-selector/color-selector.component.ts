@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Color, colorToCSSHex } from '../../../../models/color';
+import { Color, colorToCSSHex } from '../../models/color';
 
 interface ViewModel {
   color: Color;

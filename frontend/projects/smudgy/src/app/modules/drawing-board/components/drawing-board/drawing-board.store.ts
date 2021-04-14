@@ -1,12 +1,12 @@
 import { ComponentStore } from '@ngrx/component-store';
 import { Injectable } from '@angular/core';
-import { BrushSize } from '../../../../models/brush-size';
-import { Color } from '../../../../models/color';
+import { BrushSize } from '../../models/brush-size';
+import { Color } from '../../models/color';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, pairwise, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { Tool } from '../../../../models/tool';
-import { DrawCommand } from '../../../../models/draw-command';
-import { Point } from '../../../../models/point';
+import { Tool } from '../../models/tool';
+import { DrawCommand } from '../../models/draw-command';
+import { Point } from '../../models/point';
 
 export interface DrawingBoardState {
   brushSize: BrushSize;

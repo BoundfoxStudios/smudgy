@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
-import { Point } from '../../../models/point';
+import { Point } from '../models/point';
 
 const LEFT_MOUSE_BUTTON = 0;
 

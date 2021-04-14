@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { BrushSize, brushSizeToNumber } from '../../../../models/brush-size';
+import { BrushSize, brushSizeToNumber } from '../../models/brush-size';
 
 interface ViewModel {
   brushSize: BrushSize;

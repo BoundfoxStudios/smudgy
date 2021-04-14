@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BrushSize } from '../../../models/brush-size';
-import { Color } from '../../../models/color';
-import { Tool } from '../../../models/tool';
+import { BrushSize } from '../models/brush-size';
+import { Color } from '../models/color';
+import { Tool } from '../models/tool';
 
 @Injectable()
 export class ToolbarService {

@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { merge, Subscription } from 'rxjs';
 import { buffer, bufferCount, filter, switchMap } from 'rxjs/operators';
-import { DrawCommand } from '../../../models/draw-command';
+import { DrawCommand } from '../models/draw-command';
 import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
 import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
 import { environment } from '../../../../environments/environment';
