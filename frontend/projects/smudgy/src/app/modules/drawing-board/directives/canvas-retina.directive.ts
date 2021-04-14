@@ -1,17 +1,14 @@
-import { Directive, HostBinding, Input } from '@angular/core';
-import { DrawService } from '../services/draw.service';
+import { AfterViewInit, Directive, ElementRef, HostBinding, Input } from '@angular/core';
 
 @Directive({
   selector: 'canvas[appCanvasRetina]',
 })
-export class CanvasRetinaDirective {
+export class CanvasRetinaDirective implements AfterViewInit {
   @Input() retinaWidth = 800;
   @Input() retinaHeight = 600;
   private readonly devicePixelRatio = window.devicePixelRatio || 1;
 
-  constructor(private readonly drawService: DrawService) {
-    this.drawService.context.scale(this.devicePixelRatio, this.devicePixelRatio);
-  }
+  constructor(private readonly elementRef: ElementRef<HTMLCanvasElement>) {}
 
   @HostBinding('style.width.px')
   get cssWidth(): number {
@@ -31,5 +28,13 @@ export class CanvasRetinaDirective {
   @HostBinding('width')
   get canvasWidth(): number {
     return this.retinaWidth * this.devicePixelRatio;
+  }
+
+  ngAfterViewInit(): void {
+    const context = this.elementRef.nativeElement.getContext('2d');
+
+    if (context) {
+      context.scale(this.devicePixelRatio, this.devicePixelRatio);
+    }
   }
 }

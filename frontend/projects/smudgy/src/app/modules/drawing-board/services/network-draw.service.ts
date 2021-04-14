@@ -1,40 +1,49 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { merge, Subject } from 'rxjs';
-import { bufferCount, bufferWhen, filter } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { merge, Subscription } from 'rxjs';
+import { buffer, bufferCount, filter, switchMap } from 'rxjs/operators';
 import { DrawCommand } from '../../../models/draw-command';
 import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
+import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
+import { environment } from '../../../../environments/environment';
+import { HubService } from '../../connection/services/hub.service';
 
 @Injectable()
 export class NetworkDrawService implements OnDestroy {
-  private readonly drawStream$ = new Subject<DrawCommand>();
-  private readonly stopStream$ = new Subject<void>();
+  private drawingStreamSubscription = Subscription.EMPTY;
 
-  constructor(private readonly networkDrawCommandSerializer: NetworkDrawCommandSerializerService) {
-    this.drawStream$
-      .pipe(
-        bufferWhen(() =>
-          merge(this.stopStream$, this.drawStream$.pipe(bufferCount(environment.gameConfiguration.networkDrawCommandBuffer))),
-        ),
-        filter(drawCommands => !!drawCommands.length),
-      )
-      .subscribe(drawCommands => this.send(drawCommands));
-  }
+  constructor(
+    private readonly store: DrawingBoardStore,
+    private readonly networkDrawCommandSerializer: NetworkDrawCommandSerializerService,
+    private readonly hubService: HubService,
+  ) {}
 
-  draw(drawCommand: DrawCommand): void {
-    this.drawStream$.next(drawCommand);
-  }
-
-  stopDrawing(): void {
-    this.stopStream$.next();
+  initialize(): void {
+    this.subscribeToDrawingStream();
   }
 
   ngOnDestroy(): void {
-    this.stopDrawing();
+    this.drawingStreamSubscription.unsubscribe();
   }
 
-  private send(drawCommands: DrawCommand[]): void {
+  private send(drawCommands: [DrawCommand, DrawCommand][]): void {
     const serializedDrawCommands = this.networkDrawCommandSerializer.serialize(drawCommands);
-    // TODO: Set via network
+
+    this.hubService.invoke('draw', serializedDrawCommands).subscribe();
+  }
+
+  private subscribeToDrawingStream(): void {
+    const releaseBuffer$ = merge(
+      this.store.drawStop$,
+      this.store.drawStop$.pipe(
+        switchMap(() => this.store.nextDrawCommandPair$.pipe(bufferCount(environment.gameConfiguration.networkDrawCommandBuffer))),
+      ),
+    );
+
+    this.drawingStreamSubscription = this.store.nextDrawCommandPair$
+      .pipe(
+        buffer(releaseBuffer$),
+        filter(bufferedCommandPairs => bufferedCommandPairs.length > 0),
+      )
+      .subscribe(bufferedCommandPairs => this.send(bufferedCommandPairs));
   }
 }

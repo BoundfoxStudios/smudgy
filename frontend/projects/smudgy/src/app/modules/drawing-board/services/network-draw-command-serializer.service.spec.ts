@@ -29,23 +29,20 @@ describe('DrawCommandSerializerService', () => {
     });
 
     it('serializes an array with a single entry', () => {
-      expect(sut.serialize([createDrawCommand(Color.Black, BrushSize.XL, Tool.Fill, 1, 2)])).toEqual([
-        Color.Black,
-        BrushSize.XL,
-        Tool.Fill,
-        1,
-        2,
-      ]);
+      const previousCommand = createDrawCommand(Color.Black, BrushSize.L, Tool.Fill, 1, 2);
+      const nextCommand = createDrawCommand(Color.Black, BrushSize.L, Tool.Fill, 2, 3);
+
+      expect(sut.serialize([[previousCommand, nextCommand]])).toEqual([Color.Black, BrushSize.L, Tool.Fill, 1, 2, 2, 3]);
     });
 
     it('serializes an array with multiple entries', () => {
       expect(
         sut.serialize([
-          createDrawCommand(Color.Black, BrushSize.XL, Tool.Eraser, 1, 2),
-          createDrawCommand(Color.Black, BrushSize.XL, Tool.Eraser, 3, 4),
-          createDrawCommand(Color.Black, BrushSize.XL, Tool.Eraser, 5, 6),
+          [createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 1, 2), createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 3, 4)],
+          [createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 3, 4), createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 5, 6)],
+          [createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 5, 6), createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 7, 8)],
         ]),
-      ).toEqual([Color.Black, BrushSize.XL, Tool.Eraser, 1, 2, 3, 4, 5, 6]);
+      ).toEqual([Color.Black, BrushSize.L, Tool.Eraser, 1, 2, 3, 4, 3, 4, 5, 6, 5, 6, 7, 8]);
     });
   });
 
@@ -55,21 +52,21 @@ describe('DrawCommandSerializerService', () => {
     });
 
     it('throws when the array does not contain the amount of items to construct a single draw command', () => {
-      const action = () => sut.deserialize([1, 2, 3, 4]); // needs 5
+      const action = () => sut.deserialize([1, 2, 3, 4, 5, 6]); // needs 7
       expect(action).toThrow();
     });
 
     it('deserializes an array with a single draw command', () => {
-      expect(sut.deserialize([Color.White, BrushSize.XL, Tool.Pen, 1, 2])).toEqual([
-        createDrawCommand(Color.White, BrushSize.XL, Tool.Pen, 1, 2),
+      expect(sut.deserialize([Color.White, BrushSize.L, Tool.Pen, 1, 2, 3, 5])).toEqual([
+        [createDrawCommand(Color.White, BrushSize.L, Tool.Pen, 1, 2), createDrawCommand(Color.White, BrushSize.L, Tool.Pen, 3, 5)],
       ]);
     });
 
     it('deserializes an array with multiple draw commands', () => {
-      expect(sut.deserialize([Color.Black, BrushSize.L, Tool.Eraser, 1, 2, 3, 4, 5, 6])).toEqual([
-        createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 1, 2),
-        createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 3, 4),
-        createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 5, 6),
+      expect(sut.deserialize([Color.Black, BrushSize.L, Tool.Eraser, 1, 2, 3, 4, 3, 4, 5, 6, 5, 6, 7, 8])).toEqual([
+        [createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 1, 2), createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 3, 4)],
+        [createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 3, 4), createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 5, 6)],
+        [createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 5, 6), createDrawCommand(Color.Black, BrushSize.L, Tool.Eraser, 7, 8)],
       ]);
     });
   });

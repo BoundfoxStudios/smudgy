@@ -1,4 +1,13 @@
-<canvas appDrawServiceProvider appMouse appCanvasRetina [retinaHeight]="height" [retinaWidth]="width"></canvas>
+<canvas
+  #canvas
+  appMouse
+  (drawingStart)="drawingStart()"
+  (drawingStop)="drawingStop()"
+  (drawing)="drawing($event)"
+  appCanvasRetina
+  [retinaHeight]="height"
+  [retinaWidth]="width"
+></canvas>
 
 <div class="toolbar">
   <app-color-selector

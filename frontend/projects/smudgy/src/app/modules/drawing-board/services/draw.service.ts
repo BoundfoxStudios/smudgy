@@ -1,28 +1,28 @@
 import { ElementRef, Injectable, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
-import { distinctUntilChanged, map, pairwise, takeUntil, tap, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { brushSizeToNumber } from '../../../models/brush-size';
 import { DrawCommand } from '../../../models/draw-command';
-import { Point } from '../../../models/point';
-import { NetworkDrawService } from './network-draw.service';
 import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
 import { line } from 'bresenham-zingl';
 import { colorToCSSHex } from '../../../models/color';
 
 @Injectable()
 export class DrawService implements OnDestroy {
-  private readonly canvas: HTMLCanvasElement;
-  private readonly canvasContext: CanvasRenderingContext2D;
-  private readonly drawStream$ = new Subject<Point>();
-  private readonly stopStream$ = new Subject<void>();
+  // TODO: This should be ? rather than !
+  private canvas!: HTMLCanvasElement;
+  private canvasContext!: CanvasRenderingContext2D;
+  private drawingSubscription = Subscription.EMPTY;
 
-  constructor(
-    elementRef: ElementRef<HTMLCanvasElement>,
-    private readonly networkDrawService: NetworkDrawService,
-    private readonly drawingBoardStore: DrawingBoardStore,
-  ) {
-    this.canvas = elementRef.nativeElement;
+  constructor(private readonly drawingBoardStore: DrawingBoardStore) {}
+
+  get context(): CanvasRenderingContext2D {
+    return this.canvasContext;
+  }
+
+  initialize(canvasElement: HTMLCanvasElement): void {
+    this.canvas = canvasElement;
 
     const canvasContext = this.canvas.getContext('2d');
 
@@ -32,61 +32,18 @@ export class DrawService implements OnDestroy {
 
     this.canvasContext = canvasContext;
     this.prepareDrawingArea();
+    this.subscribeToDrawingStream();
   }
 
-  get context(): CanvasRenderingContext2D {
-    return this.canvasContext;
-  }
-
-  startDrawing(): void {
-    this.stopDrawing();
-
-    this.drawStream$
-      .pipe(
-        distinctUntilChanged((a, b) => a.x === b.x && a.y === b.y),
-        throttleTime(environment.gameConfiguration.canvasThrottleTime),
-        withLatestFrom(this.drawingBoardStore.color$, this.drawingBoardStore.brushSize$, this.drawingBoardStore.tool$),
-        map(
-          ([point, color, brushSize, tool]) =>
-            ({
-              point,
-              color,
-              brushSize,
-              tool,
-            } as DrawCommand),
-        ),
-        pairwise(),
-        tap(([previousCommand, nextCommand]) => this.internalDraw(previousCommand, nextCommand)),
-        // tap(drawCommand => this.networkDrawService.draw(drawCommand)),
-        takeUntil(this.stopStream$),
-      )
-      .subscribe({
-        complete: () => this.networkDrawService.stopDrawing(),
-      });
-  }
-
-  stopDrawing(): void {
-    this.stopStream$.next();
-  }
-
-  draw(point: Point): void {
-    this.drawStream$.next(point);
-  }
-
-  ngOnDestroy(): void {
-    this.stopDrawing();
-  }
-
-  private internalDraw(previousCommand: DrawCommand, nextCommand: DrawCommand): void {
-    const context = this.canvasContext;
+  draw([previousCommand, nextCommand]: [DrawCommand, DrawCommand]): void {
     const { x: beforeX, y: beforeY } = previousCommand.point;
     const { x, y } = nextCommand.point;
     const drawSize = Math.floor(brushSizeToNumber(nextCommand.brushSize) / 2);
 
-    context.fillStyle = colorToCSSHex(nextCommand.color);
+    this.context.fillStyle = colorToCSSHex(nextCommand.color);
 
     line(beforeX, beforeY, x, y, (nextX: number, nextY: number) => {
-      context.fillRect(nextX - drawSize, nextY - drawSize, drawSize, drawSize);
+      this.context.fillRect(nextX - drawSize, nextY - drawSize, drawSize, drawSize);
     });
   }
 
@@ -98,5 +55,15 @@ export class DrawService implements OnDestroy {
       context.fillStyle = '#ffffff';
       context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     });
+  }
+
+  private subscribeToDrawingStream(): void {
+    this.drawingSubscription = this.drawingBoardStore.nextDrawCommandPair$
+      .pipe(throttleTime(environment.gameConfiguration.canvasThrottleTime))
+      .subscribe(pair => this.draw(pair));
+  }
+
+  ngOnDestroy(): void {
+    this.drawingSubscription.unsubscribe();
   }
 }

@@ -11,14 +11,16 @@ import { DrawCommand } from '../../../models/draw-command';
   providedIn: 'root',
 })
 export class NetworkDrawCommandSerializerService {
-  serialize(drawCommands: DrawCommand[]): number[] {
+  serialize(drawCommands: [DrawCommand, DrawCommand][]): number[] {
     if (!drawCommands || !drawCommands.length) {
       return [];
     }
 
     const result: number[] = [];
 
-    const [first, ...otherDrawCommands] = drawCommands;
+    const flat = ([] as DrawCommand[]).concat(...drawCommands);
+
+    const [first, ...otherDrawCommands] = flat;
 
     result.push(first.color, first.brushSize, first.tool, first.point.x, first.point.y);
 
@@ -27,40 +29,41 @@ export class NetworkDrawCommandSerializerService {
     return result;
   }
 
-  deserialize(commandBuffer: number[]): DrawCommand[] {
+  deserialize(commandBuffer: number[]): [DrawCommand, DrawCommand][] {
     if (!commandBuffer || !commandBuffer.length) {
       return [];
     }
 
-    if (commandBuffer.length < 5) {
+    if (commandBuffer.length < 7) {
       throw new Error('not a single draw command can be deserialized point the given command buffer');
     }
 
-    const [color, brushSize, tool, x, y, ...otherCommandBuffer] = commandBuffer;
+    const [color, brushSize, tool, ...pointBuffer] = commandBuffer;
 
-    const firstCommand: DrawCommand = {
-      color,
-      brushSize,
-      tool,
-      point: {
-        x,
-        y,
-      },
-    };
+    const result: [DrawCommand, DrawCommand][] = [];
 
-    const result: DrawCommand[] = [firstCommand];
-
-    for (let i = 0; i < otherCommandBuffer.length; i = i + 2) {
-      const previousCommand = result[result.length - 1];
-      result.push({
-        color: previousCommand.color,
-        brushSize: previousCommand.brushSize,
-        tool: previousCommand.tool,
+    for (let i = 0; i < pointBuffer.length; i = i + 4) {
+      const previousCommand: DrawCommand = {
+        color,
+        brushSize,
+        tool,
         point: {
-          x: otherCommandBuffer[i],
-          y: otherCommandBuffer[i + 1],
+          x: pointBuffer[i],
+          y: pointBuffer[i + 1],
         },
-      });
+      };
+
+      const nextCommand: DrawCommand = {
+        color,
+        brushSize,
+        tool,
+        point: {
+          x: pointBuffer[i + 2],
+          y: pointBuffer[i + 3],
+        },
+      };
+
+      result.push([previousCommand, nextCommand]);
     }
 
     return result;
