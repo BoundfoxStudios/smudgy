@@ -15,6 +15,7 @@ export class LobbyComponent {
   readonly players$ = this.sessionStore.players$;
   readonly sessionConfiguration$ = this.sessionStore.configuration$;
   readonly isConfigurationFormDisabled$ = this.sessionStore.isHost$.pipe(map(isHost => !isHost));
+  readonly isStarting$ = this.sessionStore.isStarting$;
 
   constructor(
     private readonly router: Router,
@@ -23,7 +24,7 @@ export class LobbyComponent {
   ) {}
 
   startGame(): void {
-    void this.router.navigate(['..', 'play'], { relativeTo: this.activatedRoute });
+    this.sessionStore.startGame();
   }
 
   changeSessionConfiguration(sessionConfiguration: SessionConfiguration): void {

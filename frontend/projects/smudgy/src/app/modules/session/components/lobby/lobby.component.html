@@ -7,7 +7,10 @@
       [sessionConfiguration]="sessionConfiguration"
       (sessionConfigurationChange)="changeSessionConfiguration($event)"
     ></app-settings-form>
-    <button class="mt-3 ml-auto" type="submit" translate (click)="startGame()">LOBBY.START</button>
+    <button class="mt-3 ml-auto" type="submit" translate (click)="startGame()">
+      <span *ngIf="!(isStarting$ | async)" translate>LOBBY.START</span>
+      <app-spinner *ngIf="isStarting$ | async" class="mx-auto w-6 h-6"></app-spinner>
+    </button>
   </app-card>
 
   <app-card class="flex-1">

@@ -107,7 +107,8 @@ namespace BoundfoxStudios.Smudgy.Services
     public async Task UpdateSessionConfigurationAsync(Guid sessionId, string playerId, SessionConfiguration sessionConfiguration,
       CancellationToken cancellationToken = default)
     {
-      _logger.LogInformation("Receiving new session configuration from {Player} for {Session}: {@SessionConfiguration}", playerId, playerId,
+      _logger.LogInformation("Receiving new session configuration from {Player} for {Session}: {@SessionConfiguration}", playerId,
+        sessionId,
         sessionConfiguration);
 
       var player = await _context.Players.SingleOrDefaultAsync(p => p.SocketId == playerId, cancellationToken);
@@ -133,6 +134,34 @@ namespace BoundfoxStudios.Smudgy.Services
         RoundsToPlay = session.RoundsToPlay,
         RoundTimeInSeconds = session.RoundTimeInSeconds
       }, cancellationToken);
+    }
+
+    public async Task<bool> StartGameAsync(Guid sessionId, string playerId, CancellationToken cancellationToken)
+    {
+      _logger.LogInformation("Receiving start game request from {Player} for {Session}.", playerId, sessionId);
+
+      var player = await _context.Players.SingleOrDefaultAsync(p => p.SocketId == playerId, cancellationToken);
+      var session = await _context.Sessions.SingleOrDefaultAsync(p => p.HostPlayerId == player.Id && p.Id == sessionId, cancellationToken);
+
+      if (session == null)
+      {
+        _logger.LogWarning("Session {Session} not found for player {Player}", sessionId, player.Id);
+        return false;
+      }
+
+      if (session.State != SessionState.Lobby)
+      {
+        _logger.LogWarning("Session {Session} is not in state lobby, but {State}. Can not start anymore.", sessionId, session.State);
+        return false;
+      }
+
+      session.State = SessionState.InGame;
+
+      await _context.SaveChangesAsync(cancellationToken);
+
+      await _clients.Group(sessionId.ToString()).SendAsync("startGame", cancellationToken);
+
+      return true;
     }
   }
 }

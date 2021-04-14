@@ -31,7 +31,7 @@ export class SessionComponent implements OnInit {
 
     this.removeSessionIdFromQueryParameters();
 
-    this.sessionStore.joinSession(sessionId);
+    this.sessionStore.joinSession({ sessionId, isHost: false });
   }
 
   private removeSessionIdFromQueryParameters(): void {

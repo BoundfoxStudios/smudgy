@@ -4,6 +4,7 @@ import { Observable, of, zip } from 'rxjs';
 import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { HubService } from '../../../connection/services/hub.service';
 import { SessionConfiguration, SessionLanguage } from '../../session.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export interface Player {
   id: string;
@@ -16,6 +17,7 @@ export interface SessionState {
   inviteUrl: string;
   players: Player[];
   isHost: boolean;
+  isStarting: boolean;
 }
 
 const defaultConfiguration: SessionConfiguration = {
@@ -30,20 +32,23 @@ export class SessionStore extends ComponentStore<SessionState> {
   readonly createSession = this.effect((stream$: Observable<void>) =>
     stream$.pipe(
       switchMap(() => this.hubService.invoke<string>('CreateSession', defaultConfiguration)),
-      tap((sessionId: string) => this.joinSession(sessionId)),
+      tap((sessionId: string) => this.joinSession({ sessionId, isHost: true })),
     ),
   );
 
-  readonly joinSession = this.effect((sessionId$: Observable<string>) =>
-    sessionId$.pipe(
-      switchMap(sessionId => zip(of(sessionId), this.hubService.invoke<SessionConfiguration>('JoinSession', sessionId))),
-      tap(([sessionId, sessionConfiguration]) => {
+  readonly joinSession = this.effect((configuration$: Observable<{ sessionId: string; isHost: boolean }>) =>
+    configuration$.pipe(
+      switchMap(configuration =>
+        zip(of(configuration), this.hubService.invoke<SessionConfiguration>('JoinSession', configuration.sessionId)),
+      ),
+      tap(([{ sessionId, isHost }, sessionConfiguration]) => {
         this.setState({
           id: sessionId,
           inviteUrl: this.createInviteUrl(sessionId),
           configuration: { ...defaultConfiguration },
           players: [],
-          isHost: true,
+          isHost,
+          isStarting: false,
         });
 
         this.updateSessionConfiguration(sessionConfiguration);
@@ -63,6 +68,15 @@ export class SessionStore extends ComponentStore<SessionState> {
           .invoke('UpdateSessionConfiguration', id, configuration)
           .pipe(tap(() => this.updateSessionConfiguration(configuration))),
       ),
+    ),
+  );
+
+  readonly startGame = this.effect((startGame$: Observable<void>) =>
+    startGame$.pipe(
+      withLatestFrom(this.select(state => state.id)),
+      tap(() => this.patchState({ isStarting: true })),
+      switchMap(([, id]) => this.hubService.invoke('StartGame', id)),
+      tap(() => void this.router.navigate(['play'], { relativeTo: this.activatedRoute })),
     ),
   );
 
@@ -98,13 +112,14 @@ export class SessionStore extends ComponentStore<SessionState> {
   readonly inviteUrl$ = this.select(state => state.inviteUrl);
   readonly players$ = this.select(state => state.players);
   readonly isHost$ = this.select(state => state.isHost);
+  readonly isStarting$ = this.select(state => state.isStarting);
 
   private readonly updateSessionConfiguration = this.updater((state, sessionConfiguration: SessionConfiguration) => ({
     ...state,
     configuration: { ...sessionConfiguration },
   }));
 
-  constructor(private readonly hubService: HubService) {
+  constructor(private readonly hubService: HubService, private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {
     super();
   }
 

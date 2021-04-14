@@ -19,5 +19,9 @@ namespace BoundfoxStudios.Smudgy.Hubs.Hubs
 
     [UsedImplicitly]
     public async Task UpdateSessionConfiguration(Guid sessionId, SessionConfiguration configuration) => await _sessionService.UpdateSessionConfigurationAsync(sessionId, Context.ConnectionId, configuration, Context.ConnectionAborted);
+
+    [UsedImplicitly]
+    public async Task<bool> StartGame(Guid sessionId) =>
+      await _sessionService.StartGameAsync(sessionId, Context.ConnectionId, Context.ConnectionAborted);
   }
 }
