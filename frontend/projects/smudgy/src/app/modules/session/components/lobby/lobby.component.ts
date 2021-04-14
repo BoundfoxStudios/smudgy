@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
-import { AbstractDestroyable } from '../../../utils/abstract-destroyable';
+import { map } from 'rxjs/operators';
 import { SessionConfiguration } from '../../session.model';
 import { SessionStore } from '../session/session.store';
 
@@ -11,29 +10,20 @@ import { SessionStore } from '../session/session.store';
   styleUrls: ['./lobby.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LobbyComponent extends AbstractDestroyable implements OnInit {
+export class LobbyComponent {
   readonly inviteUrl$ = this.sessionStore.inviteUrl$;
   readonly players$ = this.sessionStore.players$;
-
-  isConfigurationFormDisabled = false;
-  sessionConfiguration?: SessionConfiguration;
+  readonly sessionConfiguration$ = this.sessionStore.configuration$;
+  readonly isConfigurationFormDisabled$ = this.sessionStore.isHost$.pipe(map(isHost => !isHost));
 
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly sessionStore: SessionStore,
-  ) {
-    super();
-  }
+  ) {}
 
   startGame(): void {
     void this.router.navigate(['..', 'play'], { relativeTo: this.activatedRoute });
-  }
-
-  ngOnInit(): void {
-    this.sessionStore.configuration$.pipe(takeUntil(this.destroy$)).subscribe(configuration => (this.sessionConfiguration = configuration));
-
-    this.sessionStore.isHost$.pipe(takeUntil(this.destroy$)).subscribe(isHost => (this.isConfigurationFormDisabled = !isHost));
   }
 
   changeSessionConfiguration(sessionConfiguration: SessionConfiguration): void {

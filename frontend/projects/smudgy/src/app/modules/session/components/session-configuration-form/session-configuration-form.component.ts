@@ -32,7 +32,7 @@ export class SessionConfigurationFormComponent implements OnInit, OnDestroy {
   }
 
   @Input()
-  set isDisabled(value: boolean) {
+  set isDisabled(value: boolean | null) {
     if (value) {
       this.form.enable();
     } else {

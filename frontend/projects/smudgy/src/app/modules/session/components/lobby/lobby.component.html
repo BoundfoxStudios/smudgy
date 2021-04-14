@@ -2,7 +2,8 @@
   <app-card class="flex-1">
     <h2 translate>LOBBY.SETTINGS.TITLE</h2>
     <app-settings-form
-      *ngIf="sessionConfiguration"
+      *ngIf="sessionConfiguration$ | async as sessionConfiguration"
+      [isDisabled]="isConfigurationFormDisabled$ | async"
       [sessionConfiguration]="sessionConfiguration"
       (sessionConfigurationChange)="changeSessionConfiguration($event)"
     ></app-settings-form>
