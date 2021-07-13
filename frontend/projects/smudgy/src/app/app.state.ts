@@ -4,7 +4,7 @@ import { playerFeatureKey } from './modules/player/state/player.selectors';
 import { PlayerState } from './modules/player/state/player.state';
 
 export interface AppState {
-  [connectionFeatureKey]: ConnectionState;
-  [playerFeatureKey]: PlayerState;
+  [connectionFeatureKey]?: ConnectionState;
+  [playerFeatureKey]?: PlayerState;
   // [sessionFeatureKey]: SessionState;
 }

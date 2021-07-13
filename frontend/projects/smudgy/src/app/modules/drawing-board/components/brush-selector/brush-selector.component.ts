@@ -18,7 +18,7 @@ export class BrushSelectorComponent {
 
   readonly brushSizes: ViewModel[] = Object.keys(BrushSize)
     .filter((key: string | number): key is string => isNaN(Number(key)))
-    .map((key: any) => (BrushSize[key] as unknown) as BrushSize)
+    .map((key: string) => BrushSize[key] as unknown as BrushSize)
     .map(brushSize => ({ brushSize, size: brushSizeToNumber(brushSize) }))
     .sort((a, b) => (a.size > b.size ? -1 : 1));
 }

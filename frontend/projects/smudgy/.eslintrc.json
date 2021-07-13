@@ -5,7 +5,7 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["projects/smudgy/tsconfig.app.json"],
+        "project": ["projects/smudgy/tsconfig.app.json", "projects/smudgy/tsconfig.spec.json"],
         "createDefaultProgram": true
       }
     }

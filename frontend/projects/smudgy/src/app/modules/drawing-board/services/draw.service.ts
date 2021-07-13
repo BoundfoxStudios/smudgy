@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { line } from 'bresenham-zingl';
 import { Subscription } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';

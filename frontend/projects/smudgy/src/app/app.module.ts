@@ -32,7 +32,7 @@ import { UiModule } from './modules/ui/ui.module';
     FontAwesomeModule,
     SessionModule,
     DebugModule.forRoot({ baseNamespace: 'smudgy' }),
-    StoreModule.forRoot<AppState>({} as any), // TODO: can we make this better?
+    StoreModule.forRoot<AppState>({}), // TODO: can we make this better?
     EffectsModule.forRoot(),
     ConnectionModule.forRoot({
       hubUrl: environment.gameConfiguration.hubsBaseUrl,

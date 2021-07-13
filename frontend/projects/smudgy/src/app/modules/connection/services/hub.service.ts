@@ -72,7 +72,7 @@ export class HubService {
       switchMap(
         connection =>
           new Observable<T>(observer => {
-            const callback = (...args: any[]) => observer.next(...args);
+            const callback = (...args: any[]): void => observer.next(...args);
 
             connection.on(methodName, callback);
 
