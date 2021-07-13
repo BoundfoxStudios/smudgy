@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-input-group',
@@ -6,8 +6,4 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./input-group.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputGroupComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class InputGroupComponent {}

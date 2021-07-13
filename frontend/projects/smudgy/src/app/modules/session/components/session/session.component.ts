@@ -22,7 +22,7 @@ export class SessionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const { sessionId } = this.activatedRoute.snapshot.queryParams;
+    const sessionId = this.activatedRoute.snapshot.queryParamMap.get('sessionId');
 
     if (!sessionId) {
       this.sessionStore.createSession();

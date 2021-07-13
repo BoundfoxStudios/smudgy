@@ -12,7 +12,7 @@ export class HasPlayerGuard implements CanActivate {
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
+    _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.playerStore.select(selectLoggedIn).pipe(
       withLatestFrom(this.playerStore.select(selectPlayerName)),
