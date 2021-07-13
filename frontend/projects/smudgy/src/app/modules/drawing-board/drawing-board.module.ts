@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DrawingBoardComponent } from './components/drawing-board/drawing-board.component';
-import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
-import { MouseDirective } from './directives/mouse.directive';
+import { NgModule } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrushSelectorComponent } from './components/brush-selector/brush-selector.component';
 import { ColorSelectorComponent } from './components/color-selector/color-selector.component';
+import { DrawingBoardComponent } from './components/drawing-board/drawing-board.component';
 import { ToolSelectorComponent } from './components/tool-selector/tool-selector.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CanvasRetinaDirective } from './directives/canvas-retina.directive';
+import { MouseDirective } from './directives/mouse.directive';
 
 @NgModule({
   declarations: [

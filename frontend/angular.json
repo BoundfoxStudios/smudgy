@@ -104,14 +104,16 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": ["projects/smudgy/tsconfig.app.json", "projects/smudgy/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": ["projects/smudgy/**/*.ts", "projects/smudgy/**/*.html"]
           }
         }
       }
     }
   },
-  "defaultProject": "smudgy"
+  "defaultProject": "smudgy",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

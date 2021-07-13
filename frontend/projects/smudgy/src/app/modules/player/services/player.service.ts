@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { mapTo, switchMap } from 'rxjs/operators';
-import { HubService } from '../../connection/services/hub.service';
-import { IdService } from './id.service';
 import { StorageService } from '../../../services/storage.service';
+import { HubService } from '../../connection/services/hub.service';
 import { Player } from '../state/player.state';
+import { IdService } from './id.service';
 
 const PLAYER_STORAGE_KEY = 'player';
 
@@ -20,11 +20,7 @@ export class PlayerService {
     const id = possibleId ?? this.idService.generate();
 
     return this.login({ id, name }).pipe(
-      switchMap(success =>
-        this.storageService
-          .set$<Player>(PLAYER_STORAGE_KEY, { id, name })
-          .pipe(mapTo({ id, name, success })),
-      ),
+      switchMap(success => this.storageService.set$<Player>(PLAYER_STORAGE_KEY, { id, name }).pipe(mapTo({ id, name, success }))),
     );
   }
 

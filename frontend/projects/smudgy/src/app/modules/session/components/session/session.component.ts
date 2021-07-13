@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SessionStore } from './session.store';
 import { map, startWith } from 'rxjs/operators';
+import { SessionStore } from './session.store';
 
 @Component({
   selector: 'app-session',

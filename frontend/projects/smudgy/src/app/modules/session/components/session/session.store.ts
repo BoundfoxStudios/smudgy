@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable, of, zip } from 'rxjs';
 import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { HubService } from '../../../connection/services/hub.service';
 import { SessionConfiguration, SessionLanguage } from '../../session.model';
-import { ActivatedRoute, Router } from '@angular/router';
 
 export interface Player {
   id: string;

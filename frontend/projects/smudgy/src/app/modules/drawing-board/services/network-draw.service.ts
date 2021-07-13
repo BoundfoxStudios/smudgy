@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { merge, Subscription } from 'rxjs';
 import { buffer, bufferCount, filter, switchMap } from 'rxjs/operators';
-import { DrawCommand } from '../models/draw-command';
-import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
-import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
 import { environment } from '../../../../environments/environment';
 import { HubService } from '../../connection/services/hub.service';
+import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
+import { DrawCommand } from '../models/draw-command';
+import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
 
 @Injectable()
 export class NetworkDrawService implements OnDestroy {

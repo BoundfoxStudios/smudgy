@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { PlayComponent } from './modules/session/components/play/play.component';
 import { LobbyComponent } from './modules/session/components/lobby/lobby.component';
+import { PlayComponent } from './modules/session/components/play/play.component';
 import { SessionComponent } from './modules/session/components/session/session.component';
 import { HasPlayerGuard } from './modules/session/guards/has-player.guard';
 

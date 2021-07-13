@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
-import { NetworkDrawService } from '../../services/network-draw.service';
-import { DrawingBoardStore } from './drawing-board.store';
 import { Point } from '../../models/point';
 import { DrawService } from '../../services/draw.service';
+import { NetworkDrawService } from '../../services/network-draw.service';
+import { DrawingBoardStore } from './drawing-board.store';
 
 @Component({
   selector: 'app-drawing-board',

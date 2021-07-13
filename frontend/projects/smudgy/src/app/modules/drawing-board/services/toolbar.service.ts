@@ -5,7 +5,7 @@ import { Tool } from '../models/tool';
 
 @Injectable()
 export class ToolbarService {
-  public color: Color = Color.Black;
-  public brushSize: BrushSize = BrushSize.M;
-  public tool: Tool = Tool.Pen;
+  color: Color = Color.Black;
+  brushSize: BrushSize = BrushSize.M;
+  tool: Tool = Tool.Pen;
 }

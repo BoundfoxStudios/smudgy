@@ -1,12 +1,12 @@
 import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { line } from 'bresenham-zingl';
 import { Subscription } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { brushSizeToNumber } from '../models/brush-size';
-import { DrawCommand } from '../models/draw-command';
 import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
-import { line } from 'bresenham-zingl';
+import { brushSizeToNumber } from '../models/brush-size';
 import { colorToCSSHex } from '../models/color';
+import { DrawCommand } from '../models/draw-command';
 
 @Injectable()
 export class DrawService implements OnDestroy {
