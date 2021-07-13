@@ -23,9 +23,7 @@
         "@schematics/angular:guard": {
           "skipTests": true
         },
-        "@schematics/angular:module": {
-          "skipTests": true
-        },
+        "@schematics/angular:module": {},
         "@schematics/angular:pipe": {
           "skipTests": true
         },
@@ -45,12 +43,17 @@
             "main": "projects/smudgy/src/main.ts",
             "polyfills": "projects/smudgy/src/polyfills.ts",
             "tsConfig": "projects/smudgy/tsconfig.app.json",
-            "aot": true,
             "preserveSymlinks": true,
             "assets": ["projects/smudgy/src/favicon.ico", "projects/smudgy/src/assets"],
             "styles": ["projects/smudgy/src/styles.css"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["debug"]
+            "allowedCommonJsDependencies": ["debug"],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -80,7 +83,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

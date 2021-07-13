@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:prod": "cross-env NODE_ENV=production ng build --prod"
+    "build:prod": "cross-env NODE_ENV=production ng build --configuration production"
   },
   "husky": {
     "hooks": {
@@ -17,26 +17,35 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~11.2.6",
-    "@angular/common": "~11.2.6",
-    "@angular/compiler": "~11.2.6",
-    "@angular/core": "~11.2.6",
-    "@angular/forms": "~11.2.6",
-    "@angular/platform-browser": "~11.2.6",
-    "@angular/platform-browser-dynamic": "~11.2.6",
-    "@angular/router": "~11.2.6",
+    "@angular/animations": "~12.1.1",
+    "@angular/cdk": "~12.1.1",
+    "@angular/common": "~12.1.1",
+    "@angular/compiler": "~12.1.1",
+    "@angular/core": "~12.1.1",
+    "@angular/forms": "~12.1.1",
+    "@angular/platform-browser": "~12.1.1",
+    "@angular/platform-browser-dynamic": "~12.1.1",
+    "@angular/router": "~12.1.1",
+    "@fortawesome/angular-fontawesome": "~0.9.0",
+    "@fortawesome/fontawesome-svg-core": "~1.2.35",
+    "@fortawesome/free-solid-svg-icons": "~5.15.3",
     "@microsoft/signalr": "~5.0.4",
+    "@ngrx/component-store": "~12.2.0",
+    "@ngrx/effects": "~12.2.0",
+    "@ngrx/store": "~12.2.0",
+    "@ngx-translate/core": "~13.0.0",
     "bresenham-zingl": "~0.1.1",
     "debug": "~4.3.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "uuid": "~8.3.1",
-    "zone.js": "~0.11.3"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1102.5",
-    "@angular/cli": "~11.2.5",
-    "@angular/compiler-cli": "~11.2.6",
+    "@angular-devkit/build-angular": "~12.1.1",
+    "@angular/cli": "~12.1.1",
+    "@angular/compiler-cli": "~12.1.1",
+    "@ngrx/store-devtools": "~12.2.0",
     "@types/debug": "^4.1.5",
     "@types/node": "^12.11.1",
     "@types/uuid": "~8.3.0",
@@ -46,7 +55,7 @@
     "prettier": "~2.3.2",
     "tailwindcss": "~2.2.4",
     "ts-node": "~8.3.0",
-    "typescript": "~4.1.5"
+    "typescript": "~4.3.5"
   },
   "lint-staged": {
     "**/*.{ts,json,html,scss}": [
