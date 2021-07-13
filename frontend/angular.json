@@ -103,21 +103,6 @@
             "browserTarget": "smudgy:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/smudgy/src/test.ts",
-            "polyfills": "projects/smudgy/src/polyfills.ts",
-            "tsConfig": "projects/smudgy/tsconfig.spec.json",
-            "karmaConfig": "projects/smudgy/karma.conf.js",
-            "assets": ["projects/smudgy/src/favicon.ico", "projects/smudgy/src/assets"],
-            "styles": ["projects/smudgy/src/styles.css"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["projects/smudgy/src/styles"]
-            },
-            "scripts": []
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
