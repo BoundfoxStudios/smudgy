@@ -1,5 +1,9 @@
 @layer components {
   button {
-    @apply p-3 bg-smudgy-red text-smudgy-white rounded-2xl shadow-xl focus:outline-none hover:bg-opacity-75 transition;
+    @apply p-3 text-smudgy-white rounded-2xl shadow-xl focus:outline-none hover:bg-opacity-75 transition;
+  }
+
+  button[type="submit"] {
+    @apply bg-smudgy-red;
   }
 }
