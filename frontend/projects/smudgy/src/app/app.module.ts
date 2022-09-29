@@ -48,6 +48,6 @@ export class AppModule {
     translateService.setTranslation('de', TRANSLATIONS_DE);
 
     translateService.setDefaultLang('en');
-    translateService.use(environment.production ? translateService.getBrowserLang() : 'de');
+    translateService.use(environment.production ? translateService.getBrowserLang() || 'de' : 'de');
   }
 }

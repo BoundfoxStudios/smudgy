@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -22,7 +22,11 @@ export class PlayerInformationComponent implements OnInit, OnDestroy {
 
   private playerNameSubscription = Subscription.EMPTY;
 
-  constructor(private readonly store: Store, private readonly formBuilder: FormBuilder, private readonly activatedRoute: ActivatedRoute) {}
+  constructor(
+    private readonly store: Store,
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly activatedRoute: ActivatedRoute,
+  ) {}
 
   submit(): void {
     this.store.dispatch(playerRegister({ name: this.form.value.name }));

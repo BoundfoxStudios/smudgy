@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { faClock, faFlag, faHistory, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { SessionConfiguration, SessionLanguage } from '../../session.model';
@@ -43,7 +43,7 @@ export class SessionConfigurationFormComponent implements OnInit, OnDestroy {
   @Output()
   sessionConfigurationChange = new EventEmitter<SessionConfiguration>();
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(private readonly formBuilder: UntypedFormBuilder) {}
 
   ngOnDestroy(): void {
     this.formChangeSubscription.unsubscribe();
