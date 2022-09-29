@@ -16,6 +16,7 @@ export class DatabaseConfigurationService implements TypeOrmOptionsFactory {
         database: database,
         synchronize: true,
         entities: [],
+        autoLoadEntities: true,
       };
     }
 

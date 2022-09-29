@@ -9,7 +9,7 @@ import { PlayerManagementModule } from './modules/player-management/player-manag
       envFilePath: ['.env.development', '.env'],
     }),
     DatabaseModule.forRoot(),
-    PlayerManagementModule,
+    PlayerManagementModule.forRoot(),
   ],
 })
 export class AppModule {}

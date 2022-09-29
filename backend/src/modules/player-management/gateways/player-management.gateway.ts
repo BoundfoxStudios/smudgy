@@ -11,11 +11,14 @@ import {
 } from '@nestjs/websockets';
 import { from, map, Observable } from 'rxjs';
 import { Server, Socket } from 'socket.io';
+import { PlayerManagementService } from '../services/player-management.service';
 import { createPlayerManagementGatewayMeta } from '../utils';
 
 @WebSocketGateway(createPlayerManagementGatewayMeta)
 export class PlayerManagementGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(PlayerManagementGateway.name);
+
+  constructor(private readonly playerManagementService: PlayerManagementService) {}
 
   @SubscribeMessage('login')
   handleLogin(
@@ -25,8 +28,8 @@ export class PlayerManagementGateway implements OnGatewayInit, OnGatewayConnecti
       id: string;
       name: string;
     },
-  ): Observable<WsResponse<number>> {
-    return from([1, 2, 3]).pipe(map(d => ({ event: 'login2', data: d })));
+  ): Observable<WsResponse<boolean>> {
+    return from(this.playerManagementService.login(payload.id, payload.name, socket.id)).pipe(map(() => ({ event: 'login', data: true })));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
