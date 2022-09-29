@@ -1,0 +1,21 @@
+{
+  "name": "@smudgy",
+  "version": "0.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BoundfoxStudios/smudgy.git"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "author": "Manuel Rauber <manuel.rauber@boundfoxstudios.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BoundfoxStudios/smudgy/issues"
+  },
+  "homepage": "https://github.com/BoundfoxStudios/smudgy#readme",
+  "devDependencies": {
+    "husky": "~8.0.1"
+  }
+}

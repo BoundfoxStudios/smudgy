@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+frontendStagedFiles=$(git diff --name-only --cached --diff-filter=d frontend)
+backendStagedFiles=$(git diff --name-only --cached --diff-filter=d backend)
+
+if [[ ! -z "$frontendStagedFiles" ]]; then
+	(cd frontend && npx --no-install lint-staged)
+fi
+
+if [[ ! -z "$backendStagedFiles" ]]; then
+	(cd backend && npx --no-install lint-staged)
+fi
