@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { PlayerEntity } from '../entities/player.entity';
 
 @Injectable()
-export class PlayerManagementService {
-  private readonly logger = new Logger(PlayerManagementService.name);
+export class PlayerService {
+  private readonly logger = new Logger(PlayerService.name);
 
   constructor(
     @InjectRepository(PlayerEntity)

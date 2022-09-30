@@ -1,10 +1,9 @@
-import { HubConnectionState } from '@microsoft/signalr';
-import { NetworkState } from '../services/hub.service';
+import { NetworkState } from '../models/network-state';
 
 export interface ConnectionState {
-  state: NetworkState;
+  sockets: { [key: string]: NetworkState };
 }
 
 export const initialState: ConnectionState = {
-  state: HubConnectionState.Disconnected,
+  sockets: {},
 };

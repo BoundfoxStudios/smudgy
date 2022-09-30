@@ -11,6 +11,8 @@ import { PlayerService } from './services/player.service';
 import { PlayerEffects } from './state/player.effects';
 import { playerReducer } from './state/player.reducers';
 import { playerFeatureKey } from './state/player.selectors';
+import { PlayerSocketService } from './services/player-socket.service';
+import { SOCKET_SERVICE } from '../connection/services/socket.service';
 
 @NgModule({
   declarations: [PlayerInformationComponent],
@@ -29,7 +31,11 @@ export class PlayerModule {
   static forRoot(configuration: PlayerModuleConfiguration): ModuleWithProviders<PlayerModule> {
     return {
       ngModule: PlayerModule,
-      providers: [{ provide: CONFIGURATION, useValue: configuration }],
+      providers: [
+        PlayerSocketService,
+        { provide: SOCKET_SERVICE, useExisting: PlayerSocketService, multi: true },
+        { provide: CONFIGURATION, useValue: configuration },
+      ],
     };
   }
 }

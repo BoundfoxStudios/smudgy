@@ -1,5 +1,10 @@
-import { createAction, props } from '@ngrx/store';
-import { NetworkState } from '../services/hub.service';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { NetworkState } from '../models/network-state';
 
-export const initConnection = createAction('[Connection] Init');
-export const changeConnectionState = createAction('[Connection] Change State', props<{ state: NetworkState }>());
+export const connectionActions = createActionGroup({
+  source: 'Connection',
+  events: {
+    Init: emptyProps(),
+    'Change State': props<{ namespace: string; state: NetworkState }>(),
+  },
+});

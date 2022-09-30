@@ -20,6 +20,7 @@ import { DebugModule } from './modules/debug/debug.module';
 import { PlayerModule } from './modules/player/player.module';
 import { SessionModule } from './modules/session/session.module';
 import { UiModule } from './modules/ui/ui.module';
+import { DrawingBoardModule } from './modules/drawing-board/drawing-board.module';
 
 @NgModule({
   declarations: [RootComponent, HeaderComponent, FooterComponent, WelcomeComponent],
@@ -35,9 +36,11 @@ import { UiModule } from './modules/ui/ui.module';
     StoreModule.forRoot<AppState>({}), // TODO: can we make this better?
     EffectsModule.forRoot(),
     ConnectionModule.forRoot({
-      hubUrl: environment.gameConfiguration.hubsBaseUrl,
+      url: environment.gameConfiguration.hubsBaseUrl,
     }),
     PlayerModule.forRoot({ startGameUrl: '/game' }),
+    DrawingBoardModule.forRoot(),
+    SessionModule.forRoot(),
     environment.production ? [] : StoreDevtoolsModule.instrument(),
   ],
   bootstrap: [RootComponent],

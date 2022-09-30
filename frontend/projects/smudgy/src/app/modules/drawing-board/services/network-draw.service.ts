@@ -2,9 +2,9 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { merge, Subscription } from 'rxjs';
 import { buffer, bufferCount, filter, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { HubService } from '../../connection/services/hub.service';
 import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
 import { DrawCommand } from '../models/draw-command';
+import { DrawingBoardSocketService } from './drawing-board-socket.service';
 import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class NetworkDrawService implements OnDestroy {
   constructor(
     private readonly store: DrawingBoardStore,
     private readonly networkDrawCommandSerializer: NetworkDrawCommandSerializerService,
-    private readonly hubService: HubService,
+    private readonly drawingBoardSocketService: DrawingBoardSocketService,
   ) {}
 
   initialize(): void {
@@ -28,7 +28,7 @@ export class NetworkDrawService implements OnDestroy {
   private send(drawCommands: [DrawCommand, DrawCommand][]): void {
     const serializedDrawCommands = this.networkDrawCommandSerializer.serialize(drawCommands);
 
-    this.hubService.invoke('draw', serializedDrawCommands).subscribe();
+    this.drawingBoardSocketService.invoke('draw', serializedDrawCommands).subscribe();
   }
 
   private subscribeToDrawingStream(): void {

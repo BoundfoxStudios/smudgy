@@ -3,9 +3,9 @@ import { faWifi } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HubService, NetworkState } from '../../services/hub.service';
 import { selectConnectionState } from '../../store/connection.selectors';
 import { ConnectionState } from '../../store/connection.state';
+import { NetworkState } from '../../models/network-state';
 
 @Component({
   selector: 'app-connection-state',
@@ -18,7 +18,7 @@ export class ConnectionStateComponent implements OnInit {
   stateClass$?: Observable<string[]>;
   readonly faWifi = faWifi;
 
-  constructor(private readonly hubService: HubService, private readonly store: Store<ConnectionState>) {}
+  constructor(private readonly store: Store<ConnectionState>) {}
 
   ngOnInit(): void {
     this.state$ = this.store.select(selectConnectionState);

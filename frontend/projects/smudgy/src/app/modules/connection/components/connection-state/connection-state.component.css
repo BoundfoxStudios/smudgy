@@ -1,15 +1,15 @@
-.Connected {
+.connected {
   @apply text-gray-400;
 }
 
-::ng-deep .Connecting {
+::ng-deep .partial {
   @apply text-smudgy-blue;
 }
 
-::ng-deep .Connected {
+::ng-deep .connected {
   @apply text-smudgy-green;
 }
 
-::ng-deep .Disconnected {
+::ng-deep .disconnected {
   @apply text-smudgy-red;
 }

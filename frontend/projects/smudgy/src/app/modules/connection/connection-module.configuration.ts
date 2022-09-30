@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 export interface ConnectionModuleConfiguration {
-  hubUrl: string;
+  url: string;
   reconnectRetryDelays?: number[];
 }
 

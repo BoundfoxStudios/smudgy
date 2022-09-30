@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { mapTo, switchMap } from 'rxjs/operators';
 import { StorageService } from '../../../services/storage.service';
-import { HubService } from '../../connection/services/hub.service';
 import { Player } from '../state/player.state';
 import { IdService } from './id.service';
+import { PlayerSocketService } from './player-socket.service';
 
 const PLAYER_STORAGE_KEY = 'player';
 
@@ -12,7 +12,7 @@ const PLAYER_STORAGE_KEY = 'player';
 export class PlayerService {
   constructor(
     private readonly storageService: StorageService,
-    private readonly hubService: HubService,
+    private readonly playerSocketService: PlayerSocketService,
     private readonly idService: IdService,
   ) {}
 
@@ -25,7 +25,7 @@ export class PlayerService {
   }
 
   login({ id, name }: Player): Observable<boolean> {
-    return this.hubService.invoke('register', id, name); // due to shitty API register === login :)
+    return this.playerSocketService.invoke('login', { id, name });
   }
 
   load(): Observable<Player | undefined> {

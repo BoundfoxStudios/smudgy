@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { changeConnectionState } from './connection.actions';
 import { initialState } from './connection.state';
+import { connectionActions } from './connection.actions';
 
 export const connectionReducer = createReducer(
   initialState,
-  on(changeConnectionState, (state, payload) => ({
+  on(connectionActions.changeState, (state, payload) => ({
     ...state,
-    state: payload.state,
+    sockets: { ...state.sockets, [payload.namespace]: payload.state },
   })),
 );
