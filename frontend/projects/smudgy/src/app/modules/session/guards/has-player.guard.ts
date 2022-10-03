@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
-import { selectLoggedIn, selectPlayerName } from '../../player/state/player.selectors';
+import { Observable, of, timeout } from 'rxjs';
+import { filter, map, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { selectLoggedIn, selectPlayerId, selectPlayerName } from '../../player/state/player.selectors';
 import { PlayerState } from '../../player/state/player.state';
 
 @Injectable({ providedIn: 'root' })
@@ -15,14 +15,23 @@ export class HasPlayerGuard implements CanActivate {
     _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.playerStore.select(selectLoggedIn).pipe(
-      withLatestFrom(this.playerStore.select(selectPlayerName)),
+      withLatestFrom(this.playerStore.select(selectPlayerName), this.playerStore.select(selectPlayerId)),
       take(1),
-      map(([isLoggedIn, playerName]) => {
-        if (!isLoggedIn && !playerName) {
-          return this.routeToHome(route.queryParamMap.get('sessionId'));
+      switchMap(([isLoggedIn, playerName, playerId]) => {
+        if (isLoggedIn) {
+          return of(true);
         }
 
-        return true;
+        // If we are not logged in yet, but we have a player id and a player name, then a login is possible, so we just wait for it a bit.
+        if (!isLoggedIn && playerName && playerId) {
+          return this.playerStore.select(selectLoggedIn).pipe(
+            filter(loggedIn => loggedIn),
+            timeout(2500), // TODO: make configurable
+            map(() => true),
+          );
+        }
+
+        return of(this.routeToHome(route.queryParamMap.get('sessionId')));
       }),
     );
   }
