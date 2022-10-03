@@ -39,9 +39,17 @@ export class SessionStore extends ComponentStore<SessionState> {
   readonly joinSession = this.effect((configuration$: Observable<{ sessionId: string; isHost: boolean }>) =>
     configuration$.pipe(
       switchMap(configuration =>
-        zip(of(configuration), this.socketService.invoke<SessionConfiguration>('JoinSession', configuration.sessionId)),
+        zip(
+          of(configuration),
+          this.socketService.invoke<SessionConfiguration | undefined>('join-session', { id: configuration.sessionId }),
+        ),
       ),
       tap(([{ sessionId, isHost }, sessionConfiguration]) => {
+        if (!sessionConfiguration) {
+          // TODO: Error handling
+          throw new Error('Session not found on the server');
+        }
+
         this.setState({
           id: sessionId,
           inviteUrl: this.createInviteUrl(sessionId),
@@ -65,7 +73,7 @@ export class SessionStore extends ComponentStore<SessionState> {
       withLatestFrom(this.select(state => state.id)),
       switchMap(([configuration, id]) =>
         this.socketService
-          .invoke('UpdateSessionConfiguration', { id, configuration })
+          .invoke('update-session-configuration', { id, configuration })
           .pipe(tap(() => this.updateSessionConfiguration(configuration))),
       ),
     ),
@@ -75,35 +83,35 @@ export class SessionStore extends ComponentStore<SessionState> {
     startGame$.pipe(
       withLatestFrom(this.select(state => state.id)),
       tap(() => this.patchState({ isStarting: true })),
-      switchMap(([, id]) => this.socketService.invoke('StartGame', id)),
+      switchMap(([, id]) => this.socketService.invoke('start-game', id)),
       tap(() => void this.router.navigate(['play'], { relativeTo: this.activatedRoute })),
     ),
   );
 
   private readonly requestPlayerList = this.effect((stream$: Observable<string>) =>
     stream$.pipe(
-      switchMap(sessionId => this.socketService.invoke<Player[]>('PlayerList', sessionId)),
+      switchMap(id => this.socketService.invoke<Player[]>('player-list', { id })),
       tap((players: Player[]) => this.patchState({ players })),
     ),
   );
 
   private readonly receivePlayerJoinSession = this.effect((stream$: Observable<void>) =>
     stream$.pipe(
-      switchMap(() => this.socketService.on<Player>('playerJoinSession')),
+      switchMap(() => this.socketService.on<Player>('player-join-session')),
       tap((player: Player) => this.patchState(state => ({ ...state, players: [...state.players, player] }))),
     ),
   );
 
   private readonly receivePlayerLeaveSession = this.effect((stream$: Observable<void>) =>
     stream$.pipe(
-      switchMap(() => this.socketService.on<Player>('playerLeaveSession')),
+      switchMap(() => this.socketService.on<Player>('player-leave-session')),
       tap((player: Player) => this.patchState(state => ({ ...state, players: state.players.filter(p => p.id !== player.id) }))),
     ),
   );
 
   private readonly receiveConfigurationUpdates = this.effect((stream$: Observable<void>) =>
     stream$.pipe(
-      switchMap(() => this.socketService.on<SessionConfiguration>('updateSessionConfiguration')),
+      switchMap(() => this.socketService.on<SessionConfiguration>('update-session-configuration')),
       tap((sessionConfiguration: SessionConfiguration) => this.updateSessionConfiguration(sessionConfiguration)),
     ),
   );

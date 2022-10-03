@@ -7,7 +7,7 @@ export class PlayerEntity extends BaseEntity {
   @Column()
   name!: string;
 
-  @Column()
+  @Column({ unique: true })
   socketId?: string;
 
   @ManyToMany(() => SessionEntity, session => session.players)
