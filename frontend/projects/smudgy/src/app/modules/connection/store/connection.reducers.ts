@@ -6,6 +6,6 @@ export const connectionReducer = createReducer(
   initialState,
   on(connectionActions.changeState, (state, payload) => ({
     ...state,
-    sockets: { ...state.sockets, [payload.namespace]: payload.state },
+    state: payload.state,
   })),
 );

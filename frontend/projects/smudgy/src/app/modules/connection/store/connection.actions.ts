@@ -5,6 +5,6 @@ export const connectionActions = createActionGroup({
   source: 'Connection',
   events: {
     Init: emptyProps(),
-    'Change State': props<{ namespace: string; state: NetworkState }>(),
+    'Change State': props<{ state: NetworkState }>(),
   },
 });

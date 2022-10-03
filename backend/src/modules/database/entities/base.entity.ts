@@ -1,11 +1,12 @@
-import { Column, CreateDateColumn, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Guid } from '../../../models/guid';
 
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn()
   clusterId!: number;
 
   @Column({ unique: true })
-  id!: string;
+  id!: Guid;
 
   @CreateDateColumn()
   createdAt!: Date;

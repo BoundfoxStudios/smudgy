@@ -4,8 +4,8 @@ import { buffer, bufferCount, filter, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { DrawingBoardStore } from '../components/drawing-board/drawing-board.store';
 import { DrawCommand } from '../models/draw-command';
-import { DrawingBoardSocketService } from './drawing-board-socket.service';
 import { NetworkDrawCommandSerializerService } from './network-draw-command-serializer.service';
+import { SocketService } from '../../connection/services/socket.service';
 
 @Injectable()
 export class NetworkDrawService implements OnDestroy {
@@ -14,7 +14,7 @@ export class NetworkDrawService implements OnDestroy {
   constructor(
     private readonly store: DrawingBoardStore,
     private readonly networkDrawCommandSerializer: NetworkDrawCommandSerializerService,
-    private readonly drawingBoardSocketService: DrawingBoardSocketService,
+    private readonly socketService: SocketService,
   ) {}
 
   initialize(): void {
@@ -28,7 +28,7 @@ export class NetworkDrawService implements OnDestroy {
   private send(drawCommands: [DrawCommand, DrawCommand][]): void {
     const serializedDrawCommands = this.networkDrawCommandSerializer.serialize(drawCommands);
 
-    this.drawingBoardSocketService.invoke('draw', serializedDrawCommands).subscribe();
+    this.socketService.invoke('draw', serializedDrawCommands).subscribe();
   }
 
   private subscribeToDrawingStream(): void {

@@ -1,7 +1,4 @@
-export enum SessionLanguage {
-  German = 'german',
-  English = 'english',
-}
+import { SessionLanguage } from '../models';
 
 export interface SessionConfiguration {
   language: SessionLanguage;

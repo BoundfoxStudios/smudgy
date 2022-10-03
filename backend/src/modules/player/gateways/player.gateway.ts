@@ -11,18 +11,19 @@ import {
 import { IsString, IsUUID } from 'class-validator';
 import { Server, Socket } from 'socket.io';
 import { GatewayValidationPipe } from '../../../pipes/gateway-validation.pipe';
+import { Guid } from '../../../models/guid';
+import { createGatewayMetadata } from '../../../utils/gateway';
 import { PlayerService } from '../services/player.service';
-import { createPlayerGatewayMeta } from '../utils';
 
 class LoginDto {
   @IsUUID()
-  id!: string;
+  id!: Guid;
 
   @IsString()
   name!: string;
 }
 
-@WebSocketGateway(createPlayerGatewayMeta)
+@WebSocketGateway(createGatewayMetadata())
 @UsePipes(GatewayValidationPipe)
 export class PlayerGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(PlayerGateway.name);
@@ -30,11 +31,7 @@ export class PlayerGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   constructor(private readonly playerService: PlayerService) {}
 
   @SubscribeMessage('login')
-  async handleLogin(
-    @ConnectedSocket() socket: Socket,
-    @MessageBody()
-    payload: LoginDto,
-  ): Promise<boolean> {
+  async handleLogin(@ConnectedSocket() socket: Socket, @MessageBody() payload: LoginDto): Promise<boolean> {
     await this.playerService.login(payload.id, payload.name, socket.id);
     return true;
   }
