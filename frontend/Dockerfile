@@ -2,6 +2,8 @@
 FROM node:alpine AS build-env
 WORKDIR /app
 
+ARG BUILD_COMMAND
+
 COPY package.json ./
 COPY package-lock.json ./
 
@@ -13,7 +15,7 @@ COPY angular.json ./
 COPY tsconfig.json ./
 COPY tailwind.config.js ./
 
-RUN npm run build:prod
+RUN npm run $BUILD_COMMAND
 
 # Prod Env
 FROM nginx:alpine

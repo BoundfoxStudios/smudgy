@@ -1,0 +1,11 @@
+import { Environment } from './environment.model';
+
+export const environment: Environment = {
+  production: true,
+  gameConfiguration: {
+    socketBaseUrl: 'https://smudgy-api-staging.onrender.com',
+    canvasThrottleTime: 0,
+    networkDrawCommandBuffer: 10,
+    connectionTimeout: 5000,
+  },
+};
