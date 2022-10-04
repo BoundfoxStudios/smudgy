@@ -1,0 +1,25 @@
+name: Render Deployment
+
+on:
+  workflow_call:
+    inputs:
+      service-id:
+        type: string
+        required: true
+    secrets:
+      RENDER_EMAIL:
+        required: true
+      RENDER_PASSWORD:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Wait for ${{ inputs.service-id }} deployment
+    steps:
+      - uses: bounceapp/render-action@0.3.0
+        with: 
+          email: ${{ secrets.RENDER_EMAIL }}
+          password: ${{ secrets.RENDER_PASSWORD }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          service-id: ${{ inputs.service-id }}
