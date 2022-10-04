@@ -1,4 +1,4 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IDebugger } from 'debug';
 import { BehaviorSubject, defer, EMPTY, Observable, of, tap } from 'rxjs';
@@ -9,8 +9,6 @@ import { CONFIGURATION, ConnectionModuleConfiguration } from '../connection-modu
 import { NetworkState } from '../models/network-state';
 import { connectionActions } from '../store/connection.actions';
 import { ConnectionState } from '../store/connection.state';
-
-export const SOCKET_SERVICE = new InjectionToken<SocketService>('Socket Service');
 
 @Injectable({
   providedIn: 'root',
