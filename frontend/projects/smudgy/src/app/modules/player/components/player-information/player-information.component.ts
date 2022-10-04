@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { playerRegister } from '../../state/player.actions';
 import { selectPlayerName } from '../../state/player.selectors';
+import { playerActions } from '../../state/player.actions';
 
 @Component({
   selector: 'app-player-information',
@@ -29,7 +29,7 @@ export class PlayerInformationComponent implements OnInit, OnDestroy {
   ) {}
 
   submit(): void {
-    this.store.dispatch(playerRegister({ name: this.form.value.name }));
+    this.store.dispatch(playerActions.register({ name: this.form.value.name }));
   }
 
   ngOnInit(): void {

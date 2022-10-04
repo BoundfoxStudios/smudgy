@@ -5,50 +5,40 @@ import { Action, Store } from '@ngrx/store';
 import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { CONFIGURATION, PlayerModuleConfiguration } from '../player-module.configuration';
 import { PlayerService } from '../services/player.service';
-import {
-  playerLoad,
-  playerLoadFail,
-  playerLoadSuccess,
-  playerLogin,
-  playerLoginFail,
-  playerLoginSuccess,
-  playerRegister,
-  playerRegisterFail,
-  playerRegisterSuccess,
-} from './player.actions';
 import { selectPlayerId } from './player.selectors';
+import { playerActions } from './player.actions';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
   readonly loadPlayerFromStorage$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(playerLoad),
+      ofType(playerActions.load),
       switchMap(() => this.playerService.load()),
-      map(player => (player ? playerLoadSuccess({ player }) : playerLoadFail())),
+      map(player => (player ? playerActions.loadSuccess({ player }) : playerActions.loadFail())),
     ),
   );
 
   readonly login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(playerLogin, playerLoadSuccess),
+      ofType(playerActions.login, playerActions.loadSuccess),
       switchMap(({ player }) => this.playerService.login(player)),
-      map(loginSuccessful => (loginSuccessful ? playerLoginSuccess() : playerLoginFail())),
+      map(loginSuccessful => (loginSuccessful ? playerActions.loginSuccess() : playerActions.loginFail())),
     ),
   );
 
   readonly register$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(playerRegister),
+      ofType(playerActions.register),
       withLatestFrom(this.store.select(selectPlayerId)),
       switchMap(([{ name }, possibleId]) => this.playerService.register(name, possibleId)),
-      map(({ id, name, success }) => (success ? playerRegisterSuccess({ player: { id, name } }) : playerRegisterFail())),
+      map(({ id, name, success }) => (success ? playerActions.registerSuccess({ player: { id, name } }) : playerActions.registerFail())),
     ),
   );
 
   readonly redirectToGameStartUrl$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(playerRegisterSuccess),
+        ofType(playerActions.registerSuccess),
         switchMap(() => this.router.navigate([`${this.configuration.startGameUrl}`], { queryParamsHandling: 'preserve' })),
       ),
     { dispatch: false },
@@ -63,6 +53,6 @@ export class PlayerEffects implements OnInitEffects {
   ) {}
 
   ngrxOnInitEffects(): Action {
-    return playerLoad();
+    return playerActions.load();
   }
 }
