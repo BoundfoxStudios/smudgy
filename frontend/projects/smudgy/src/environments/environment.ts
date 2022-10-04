@@ -8,7 +8,7 @@ export const environment: Environment = {
   production: false,
   gameConfiguration: {
     canvasThrottleTime: 0,
-    hubsBaseUrl: 'http://localhost:3000',
+    socketBaseUrl: 'http://localhost:3000',
     networkDrawCommandBuffer: 10,
     connectionTimeout: 2000,
   },

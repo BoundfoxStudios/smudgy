@@ -35,7 +35,7 @@ import { UiModule } from './modules/ui/ui.module';
     StoreModule.forRoot<AppState>({}), // TODO: can we make this better?
     EffectsModule.forRoot(),
     ConnectionModule.forRoot({
-      url: environment.gameConfiguration.hubsBaseUrl,
+      url: environment.gameConfiguration.socketBaseUrl,
     }),
     PlayerModule.forRoot({ startGameUrl: '/game' }),
     environment.production ? [] : StoreDevtoolsModule.instrument(),
