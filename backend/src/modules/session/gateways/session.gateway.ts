@@ -92,4 +92,18 @@ export class SessionGateway implements OnGatewayInit {
 
     return true;
   }
+
+  @SubscribeMessage<ClientToServerEvents>('start-game')
+  async handleStartGame(
+    @ConnectedSocket() socket: Socket<any, ServerToClientEvents>,
+    @MessageBody() payload: SessionIdDto,
+  ): Promise<boolean> {
+    const result = await this.sessionService.startGame(payload.id, socket.id);
+
+    if (result) {
+      socket.to(payload.id).emit('start-game');
+    }
+
+    return result;
+  }
 }

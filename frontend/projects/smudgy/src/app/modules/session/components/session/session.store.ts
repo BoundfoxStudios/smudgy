@@ -83,7 +83,7 @@ export class SessionStore extends ComponentStore<SessionState> {
     startGame$.pipe(
       withLatestFrom(this.select(state => state.id)),
       tap(() => this.patchState({ isStarting: true })),
-      switchMap(([, id]) => this.socketService.invoke('start-game', id)),
+      switchMap(([, id]) => this.socketService.invoke('start-game', { id })),
       tap(() => void this.router.navigate(['play'], { relativeTo: this.activatedRoute })),
     ),
   );

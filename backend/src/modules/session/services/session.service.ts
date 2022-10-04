@@ -88,6 +88,7 @@ export class SessionService {
     return (session?.players ?? []).map(player => ({ id: player.id, name: player.name }));
   }
 
+  // TODO: Change from Promise<bool> to <void> and throw an error when something is not right here.
   async updateSessionConfiguration(sessionId: Guid, socketId: string, sessionConfiguration: SessionConfiguration): Promise<boolean> {
     this.logger.log(`Receiving new session configuration from ${socketId} for ${sessionId}: ${JSON.stringify(sessionConfiguration)}`);
 
@@ -110,6 +111,37 @@ export class SessionService {
     session.maxPlayers = sessionConfiguration.maxPlayers;
     session.roundTimeInSeconds = sessionConfiguration.roundTimeInSeconds;
     session.roundsToPlay = sessionConfiguration.roundsToPlay;
+
+    await this.sessionEntitiesRepository.save(session);
+
+    return true;
+  }
+
+  // TODO: Change from Promise<bool> to <void> and throw an error when something is not right here.
+  async startGame(sessionId: Guid, socketId: string): Promise<boolean> {
+    this.logger.log(`Receiving start game request from ${socketId} for ${sessionId}`);
+
+    const session = await this.sessionEntitiesRepository.findOne({
+      where: { id: sessionId },
+      relations: { hostPlayer: true },
+    });
+
+    if (!session) {
+      this.logger.warn(`Session ${sessionId} not found.`);
+      return false;
+    }
+
+    if (session.hostPlayer.socketId !== socketId) {
+      this.logger.warn(`Player (SocketId ${socketId}) tried to start the game, but its not the host player`);
+      return false;
+    }
+
+    if (session.sessionState !== SessionState.Lobby) {
+      this.logger.warn(`Session ${sessionId} is not in state ${SessionState.Lobby}`);
+      return false;
+    }
+
+    session.sessionState = SessionState.InGame;
 
     await this.sessionEntitiesRepository.save(session);
 
