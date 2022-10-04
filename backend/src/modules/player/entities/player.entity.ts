@@ -1,15 +1,23 @@
-import { Column, Entity, ManyToMany } from 'typeorm';
-import { BaseEntity } from '../../database/entities/base.entity';
-import { SessionEntity } from '../../session/entities/session.entity';
+import { EntitySchema } from 'typeorm';
+import { BaseEntity, BaseEntityColumnScheme } from '../../database/entities/base.entity';
+import { Session } from '../../session/entities/session.entity';
 
-@Entity()
-export class PlayerEntity extends BaseEntity {
-  @Column()
-  name!: string;
-
-  @Column({ unique: true })
+export interface Player extends BaseEntity {
+  name: string;
   socketId?: string;
-
-  @ManyToMany(() => SessionEntity, session => session.players)
-  sessions!: SessionEntity[];
+  sessions?: Session[];
 }
+
+export const PlayerEntitySchema: EntitySchema<Player> = new EntitySchema<Player>({
+  name: 'player',
+  columns: {
+    ...BaseEntityColumnScheme,
+    name: {
+      type: String,
+    },
+    socketId: {
+      type: String,
+      nullable: true,
+    },
+  },
+});

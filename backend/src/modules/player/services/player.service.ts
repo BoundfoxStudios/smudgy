@@ -1,15 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PlayerEntity } from '../entities/player.entity';
+import { Player, PlayerEntitySchema } from '../entities/player.entity';
 
 @Injectable()
 export class PlayerService {
   private readonly logger = new Logger(PlayerService.name);
 
   constructor(
-    @InjectRepository(PlayerEntity)
-    private readonly playersRepository: Repository<PlayerEntity>,
+    @InjectRepository(PlayerEntitySchema)
+    private readonly playersRepository: Repository<Player>,
   ) {}
 
   async login(id: string, name: string, socketId: string): Promise<void> {

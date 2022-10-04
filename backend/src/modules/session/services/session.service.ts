@@ -3,20 +3,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Guid } from '../../../models/guid';
 import { newUuid } from '../../../utils/uuid';
-import { PlayerEntity } from '../../player/entities/player.entity';
-import { SessionEntity } from '../entities/session.entity';
+import { Player, PlayerEntitySchema } from '../../player/entities/player.entity';
+import { Session, SessionEntitySchema } from '../entities/session.entity';
 import { PlayerListItem } from '../models/player-list-item';
 import { SessionConfiguration } from '../models/session-configuration';
+import { SessionState } from '../models/session-state';
 
 @Injectable()
 export class SessionService {
   private readonly logger = new Logger(SessionService.name);
 
   constructor(
-    @InjectRepository(SessionEntity)
-    private readonly sessionEntitiesRepository: Repository<SessionEntity>,
-    @InjectRepository(PlayerEntity)
-    private readonly playerEntitiesRepository: Repository<PlayerEntity>,
+    @InjectRepository(SessionEntitySchema)
+    private readonly sessionEntitiesRepository: Repository<Session>,
+    @InjectRepository(PlayerEntitySchema)
+    private readonly playerEntitiesRepository: Repository<Player>,
   ) {}
 
   async createSession(configuration: SessionConfiguration, hostPlayerSocketId: string): Promise<Guid> {
@@ -36,6 +37,7 @@ export class SessionService {
       maxPlayers: configuration.maxPlayers,
       roundsToPlay: configuration.roundsToPlay,
       roundTimeInSeconds: configuration.roundTimeInSeconds,
+      sessionState: SessionState.Lobby,
       players: [],
     });
 
@@ -46,7 +48,7 @@ export class SessionService {
     return id;
   }
 
-  async joinSession(sessionId: Guid, socketId: string): Promise<{ session: SessionEntity; player: PlayerEntity } | undefined> {
+  async joinSession(sessionId: Guid, socketId: string): Promise<{ session: Session; player: Player } | undefined> {
     this.logger.log(`PlayerSocketId ${socketId} wants to join session ${sessionId}`);
 
     const session = await this.sessionEntitiesRepository.findOne({
@@ -65,7 +67,7 @@ export class SessionService {
       return;
     }
 
-    if (session.players.every(player => player.id !== socketId)) {
+    if (session.players && session.players.every(player => player.id !== socketId)) {
       session.players.push(player);
       await this.sessionEntitiesRepository.save(session);
     }
@@ -87,7 +89,7 @@ export class SessionService {
   }
 
   async updateSessionConfiguration(sessionId: Guid, socketId: string, sessionConfiguration: SessionConfiguration): Promise<boolean> {
-    this.logger.log(`Receiving new session configuration from ${socketId} for ${sessionId}: ${sessionConfiguration}`);
+    this.logger.log(`Receiving new session configuration from ${socketId} for ${sessionId}: ${JSON.stringify(sessionConfiguration)}`);
 
     const session = await this.sessionEntitiesRepository.findOne({
       where: { id: sessionId },
