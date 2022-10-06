@@ -64,6 +64,7 @@ export class SessionStore extends ComponentStore<SessionState> {
         this.receiveConfigurationUpdates();
         this.receivePlayerJoinSession();
         this.receivePlayerLeaveSession();
+        this.receiveStartGame();
       }),
     ),
   );
@@ -84,7 +85,7 @@ export class SessionStore extends ComponentStore<SessionState> {
       withLatestFrom(this.select(state => state.id)),
       tap(() => this.patchState({ isStarting: true })),
       switchMap(([, id]) => this.socketService.invoke('start-game', { id })),
-      tap(() => void this.router.navigate(['play'], { relativeTo: this.activatedRoute })),
+      tap(() => void this.navigateToGame()),
     ),
   );
 
@@ -116,6 +117,13 @@ export class SessionStore extends ComponentStore<SessionState> {
     ),
   );
 
+  private readonly receiveStartGame = this.effect((stream$: Observable<void>) =>
+    stream$.pipe(
+      switchMap(() => this.socketService.on('start-game')),
+      tap(() => void this.navigateToGame()),
+    ),
+  );
+
   readonly configuration$ = this.select(state => state.configuration);
   readonly inviteUrl$ = this.select(state => state.inviteUrl);
   readonly players$ = this.select(state => state.players);
@@ -137,5 +145,9 @@ export class SessionStore extends ComponentStore<SessionState> {
 
   private createInviteUrl(sessionId: string): string {
     return `${window.location.origin}/game/lobby?sessionId=${sessionId}`;
+  }
+
+  private navigateToGame(): Promise<boolean> {
+    return this.router.navigate(['play'], { relativeTo: this.activatedRoute });
   }
 }
