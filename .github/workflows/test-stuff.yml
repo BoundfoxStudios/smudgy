@@ -1,0 +1,19 @@
+name: Project Management
+
+concurrency: 
+  group: ${{ github.event.issue.number || github.ref }}
+  cancel-in-progress: false
+
+on:
+  workflow_dispatch: 
+
+jobs: 
+  unassign-issues-labeled-waiting-for-contributor-after-7-days-of-inactivity:
+    name: Unassign issues labeled "Wartet auf Contributor" after 7 days of inactivity.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest 
+    steps:
+      - uses: boundfoxstudios/action-unassign-contributor-after-days-of-inactivity@main
+        with:
+          last-activity: 9
+
