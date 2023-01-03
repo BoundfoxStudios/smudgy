@@ -4,6 +4,6 @@
   }
 
   button[type="submit"] {
-    @apply bg-smudgy-red;
+    @apply bg-smudgy-red hover:bg-smudgy-red/75;
   }
 }
