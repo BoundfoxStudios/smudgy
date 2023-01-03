@@ -38,6 +38,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "~15.0.0",
     "@angular-devkit/build-angular": "^15.0.4",
     "@angular-eslint/builder": "15.1.0",
     "@angular-eslint/eslint-plugin": "15.1.0",
@@ -66,6 +67,7 @@
     "karma-jasmine-html-reporter": "^1.7.0",
     "lint-staged": "~13.1.0",
     "postcss": "~8.4.20",
+    "postcss-import": "~15.1.0",
     "prettier": "~2.8.1",
     "tailwindcss": "~3.2.4",
     "ts-node": "~8.3.0",
