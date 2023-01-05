@@ -1,5 +1,7 @@
+import { ConfigurableModuleBuilder } from '@nestjs/common';
+
 export interface SessionConfiguration {
   sessionTimeoutInMinutes: number;
 }
 
-export const SESSION_CONFIGURATION = Symbol('SessionConfiguration');
+export const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<SessionConfiguration>().build();

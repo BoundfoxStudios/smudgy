@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Backend" type="NodeJSConfigurationType" node-parameters="-r ts-node/register -r tsconfig-paths/register" path-to-js-file="src/main.ts" working-dir="$PROJECT_DIR$">
+  <configuration default="false" name="Backend" type="NodeJSConfigurationType" path-to-node="$USER_HOME$/.nvm/versions/node/v18.11.0/bin/node" node-parameters="-r ts-node/register -r tsconfig-paths/register" path-to-js-file="src/main.ts" working-dir="$PROJECT_DIR$">
     <method v="2" />
   </configuration>
 </component>

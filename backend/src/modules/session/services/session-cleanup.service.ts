@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import { In, LessThanOrEqual, Not, Repository } from 'typeorm';
 import { Session, SessionEntitySchema } from '../entities/session.entity';
 import { SessionState } from '../models/session-state';
-import { SESSION_CONFIGURATION, SessionConfiguration } from '../session.configuration';
+import { MODULE_OPTIONS_TOKEN, SessionConfiguration } from '../session.configuration';
 
 @Injectable()
 export class SessionCleanupService {
@@ -14,7 +14,7 @@ export class SessionCleanupService {
   constructor(
     @InjectRepository(SessionEntitySchema)
     private readonly sessionEntitiesRepository: Repository<Session>,
-    @Inject(SESSION_CONFIGURATION)
+    @Inject(MODULE_OPTIONS_TOKEN)
     private readonly configuration: SessionConfiguration,
   ) {
     this.logger.log('Ready');

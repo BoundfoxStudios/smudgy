@@ -1,10 +1,11 @@
 import { Logger, UsePipes } from '@nestjs/common';
-import { ConnectedSocket, MessageBody, OnGatewayInit, SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { ConnectedSocket, MessageBody, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { IsEnum, IsNumber, IsUUID } from 'class-validator';
 import { Server, Socket } from 'socket.io';
 import { Guid } from '../../../models/guid';
 import { GatewayValidationPipe } from '../../../pipes/gateway-validation.pipe';
 import { createGatewayMetadata } from '../../../utils/gateway';
+import { PlayerService } from '../../player/services/player.service';
 import { SessionLanguage } from '../models';
 import { ClientToServerEvents, ServerToClientEvents } from '../models/events';
 import { PlayerListItem } from '../models/player-list-item';
@@ -32,10 +33,10 @@ class SessionIdDto {
 
 @WebSocketGateway(createGatewayMetadata())
 @UsePipes(GatewayValidationPipe)
-export class SessionGateway implements OnGatewayInit {
+export class SessionGateway implements OnGatewayInit, OnGatewayDisconnect {
   private readonly logger = new Logger(SessionGateway.name);
 
-  constructor(private readonly sessionService: SessionService) {}
+  constructor(private readonly sessionService: SessionService, private readonly playerService: PlayerService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterInit(server: Server): void {
@@ -105,5 +106,19 @@ export class SessionGateway implements OnGatewayInit {
     }
 
     return result;
+  }
+
+  async handleDisconnect(socket: Socket): Promise<void> {
+    await this.disconnectPlayerFromAllSessions(socket);
+  }
+
+  private async disconnectPlayerFromAllSessions(socket: Socket<any, ServerToClientEvents>) {
+    const disconnectInfo = await this.sessionService.disconnectPlayerFromAllSessions(socket.id);
+
+    if (!disconnectInfo) {
+      return;
+    }
+
+    disconnectInfo.sessions.forEach(sessionId => socket.to(sessionId).emit('player-leave-session', disconnectInfo.player));
   }
 }

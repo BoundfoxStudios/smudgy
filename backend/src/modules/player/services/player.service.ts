@@ -35,4 +35,8 @@ export class PlayerService {
 
     this.logger.log(`Registered new player ${name} (${id})`);
   }
+
+  async findBySocketId(socketId: string): Promise<Player | null> {
+    return await this.playersRepository.findOneBy({ socketId });
+  }
 }

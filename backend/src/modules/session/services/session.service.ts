@@ -1,9 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Guid } from '../../../models/guid';
 import { newUuid } from '../../../utils/uuid';
-import { Player, PlayerEntitySchema } from '../../player/entities/player.entity';
+import { Player } from '../../player/entities/player.entity';
+import { PlayerService } from '../../player/services/player.service';
 import { Session, SessionEntitySchema } from '../entities/session.entity';
 import { PlayerListItem } from '../models/player-list-item';
 import { SessionConfiguration } from '../models/session-configuration';
@@ -16,14 +17,13 @@ export class SessionService {
   constructor(
     @InjectRepository(SessionEntitySchema)
     private readonly sessionEntitiesRepository: Repository<Session>,
-    @InjectRepository(PlayerEntitySchema)
-    private readonly playerEntitiesRepository: Repository<Player>,
+    private readonly playerService: PlayerService,
   ) {}
 
   async createSession(configuration: SessionConfiguration, hostPlayerSocketId: string): Promise<Guid> {
     this.logger.log(`Creating new session for ${hostPlayerSocketId}`);
 
-    const hostPlayer = await this.playerEntitiesRepository.findOneBy({ socketId: hostPlayerSocketId });
+    const hostPlayer = await this.playerService.findBySocketId(hostPlayerSocketId);
 
     if (!hostPlayer) {
       // TODO: Error handling
@@ -60,7 +60,7 @@ export class SessionService {
       },
     });
 
-    const player = await this.playerEntitiesRepository.findOneBy({ socketId: socketId });
+    const player = await this.playerService.findBySocketId(socketId);
 
     if (!session || !player) {
       this.logger.warn(`PlayerId ${socketId} can not join session ${sessionId}. Either player or session was not found.`);
@@ -86,6 +86,31 @@ export class SessionService {
     });
 
     return (session?.players ?? []).map(player => ({ id: player.id, name: player.name }));
+  }
+
+  async disconnectPlayerFromAllSessions(socketId: string): Promise<{ sessions: Guid[]; player: PlayerListItem } | undefined> {
+    const player = await this.playerService.findBySocketId(socketId);
+
+    if (!player) {
+      this.logger.warn(`PlayerId ${socketId} was not found.`);
+      return;
+    }
+
+    const sessions = await this.findSessionWherePlayerParticipates(player);
+
+    for (const session of sessions) {
+      session.players = (session.players ?? []).filter(sessionPlayer => sessionPlayer.id !== player.id);
+    }
+
+    await this.sessionEntitiesRepository.save(sessions);
+
+    return {
+      player: {
+        name: player.name,
+        id: player.id,
+      },
+      sessions: sessions.map(session => session.id),
+    };
   }
 
   // TODO: Change from Promise<bool> to <void> and throw an error when something is not right here.
@@ -146,5 +171,17 @@ export class SessionService {
     await this.sessionEntitiesRepository.save(session);
 
     return true;
+  }
+
+  async findSessionWherePlayerParticipates(player: Player): Promise<Session[]> {
+    const sessionState = In([SessionState.Lobby, SessionState.InGame]);
+    const sessions = await this.sessionEntitiesRepository.find({
+      select: { id: true },
+      where: { players: { id: player.id }, sessionState },
+    });
+
+    const sessionIds = sessions.map(session => session.id);
+
+    return this.sessionEntitiesRepository.find({ where: { id: In(sessionIds) }, relations: { players: true } });
   }
 }

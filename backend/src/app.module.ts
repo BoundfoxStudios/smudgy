@@ -12,8 +12,8 @@ import { SessionModule } from './modules/session/session.module';
     }),
     ScheduleModule.forRoot(),
     DatabaseModule.forRoot(),
-    PlayerModule.forRoot(),
-    SessionModule.forRoot({
+    PlayerModule,
+    SessionModule.register({
       sessionTimeoutInMinutes: 10,
     }),
   ],

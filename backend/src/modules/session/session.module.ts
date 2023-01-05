@@ -1,28 +1,14 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PlayerEntitySchema } from '../player/entities/player.entity';
+import { PlayerModule } from '../player/player.module';
 import { SessionEntitySchema } from './entities/session.entity';
 import { SessionGateway } from './gateways/session.gateway';
 import { SessionCleanupService } from './services/session-cleanup.service';
 import { SessionService } from './services/session.service';
-import { SESSION_CONFIGURATION, SessionConfiguration } from './session.configuration';
+import { ConfigurableModuleClass } from './session.configuration';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SessionEntitySchema, PlayerEntitySchema])],
+  imports: [TypeOrmModule.forFeature([SessionEntitySchema]), PlayerModule],
+  providers: [SessionGateway, SessionService, SessionCleanupService],
 })
-export class SessionModule {
-  static forRoot(sessionConfiguration: SessionConfiguration): DynamicModule {
-    return {
-      module: SessionModule,
-      providers: [
-        {
-          provide: SESSION_CONFIGURATION,
-          useValue: sessionConfiguration,
-        },
-        SessionGateway,
-        SessionService,
-        SessionCleanupService,
-      ],
-    };
-  }
-}
+export class SessionModule extends ConfigurableModuleClass {}
